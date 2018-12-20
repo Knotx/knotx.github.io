@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Knot.x Website">
+  <meta name="keywords" content="knotx, vertx, reactive, asynchronous, templating, java, polyglot, cms, tutorial">
+  <title>Getting Started with Knot.x Stack</title>
+
+  <meta property="og:title" content="Getting Started with Knot.x Stack"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="http://knotx.io/tutorials/getting-started-with-knotx-stack/edge/"/>
+  <meta property="og:site_name" content="Knot.x Website"/>
+  <meta property="og:description" content="Knot.x Website"/>
+  <meta property="og:image" content="http://knotx.io/img/logo-240x240.png"/>
+
+  <link rel="apple-touch-icon" sizes="57x57" href="/img/favicons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/img/favicons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/img/favicons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/img/favicons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/img/favicons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/img/favicons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/img/favicons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/favicons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicons/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/img/favicons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicons/favicon-16x16.png">
+  <link rel="manifest" href="/img/favicons/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/img/favicons/ms-icon-144x144.png">
+  <meta name="theme-color" content="#9f136c">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Montserrat:200,300,400,500,700|Ubuntu:300,400,500,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link  rel="stylesheet" href="/styles/bootstrap.css" /><link  rel="stylesheet" href="/styles/github.css" /><link  rel="stylesheet" href="/styles/knotx.css" />
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+  <body >
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-92165781-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    <!-- Header -->
+<header class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/img/logo-knotx.png" class="navbar-brand-logo" alt="Knot.x Logo"/>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        
+        <li><a href="/download/">Download</a></li>
+        
+        <li><a href="/business/">Business</a></li>
+        
+        <li><a href="/tutorials/">Tutorials</a></li>
+        
+        <li><a href="https://github.com/Cognifide/knotx/issues">Issues</a></li>
+        
+        <li><a href="https://github.com/Cognifide/knotx/wiki">Wiki</a></li>
+        
+        <li><a href="/community/">Community</a></li>
+        
+        <li><a href="/blog/">Blog</a></li>
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</header>
+
+    <!-- Content Header -->
+<div class="content-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>Getting Started with Knot.x Stack</h1>
+      </div>
+    </div>    
+  </div>
+  
+    <div class="row edge">
+      <div class="container">
+        <h5>This post may be changed. It referes to development version.</h5>
+      </div>
+    </div>
+  
+</div>
+
+<div class="container flex blog">
+    <div class="row">
+      <div class="col-sm-12">
+        <article>
+          <header class="meta">
+  <a class="meta-item" href="https://github.com/skejven">Maciej Laskowski</a>
+  <time class="meta-item date"
+        datetime="2018-12-20">December 20th, 2018
+  </time>
+
+  <div class="post-versions">    
+    
+      <a class="post-btn" href="/tutorials/getting-started-with-knotx-stack/1_3/">1.3.0</a>
+    
+      <a class="post-btn" href="/tutorials/getting-started-with-knotx-stack/1_4/">1.4.0</a>
+    
+      <a class="post-btn" href="/tutorials/getting-started-with-knotx-stack/1_5/">1.5.0</a>
+    
+      <a class="post-btn" href="/tutorials/getting-started-with-knotx-stack/edge/">edge</a>
+    
+  </div>
+</header>
+
+          <section class="post">
+            <h2 id="overview">Overview</h2>
+<p>We start this tutorial with the great news! Finally <a href="https://github.com/Knotx/knotx-stack">Knot.x Stack</a> is available.</p>
+<p>Let&#39;s just cut to the point. In this tutorial we will configure Knot.x instance with a simple page that
+uses an external datasource (Google API Books) to fetch the dynamic data and display it on our page.</p>
+<p>What you’re going to learn:</p>
+<ul>
+<li>How to setup Knot.x instance using <a href="https://github.com/Knotx/knotx-stack">Knot.x Stack</a></li>
+<li>How to transform a static HTML into the dynamic content and configure Knot.x to use REST services to get data</li>
+<li>How to use the data from such services to dynamically populate HTML</li>
+</ul>
+<h2 id="setup-basic-knot-x-instance">Setup basic Knot.x instance</h2>
+<p><strong>Prerequisites</strong>
+You will need following things to use Knot.x stack:</p>
+<ul>
+<li>JDK 8</li>
+<li>Linux or OSX bash console (for Windows users we recommend using e.g. Ubuntu with <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">Windows Subsystem for Linux</a>).</li>
+</ul>
+<p>Download <a href="https://oss.sonatype.org/content/repositories/snapshots/io/knotx/knotx-stack-manager/1.5.0-SNAPSHOT/">Latest SNAPSHOT Knot.x distribution</a> 
+and unzip it.</p>
+<p>For the purpose of this tutorial let&#39;s call the structure of unzipped stack <code>KNOTX_HOME</code>.
+<code>KNOTX_HOME</code> which is Knot.x instance with all configuration files and dependencies has following structure:</p>
+<pre class="highlight"><code class="hljs smali">├── bin
+│   └── knotx                     // shell script used to resolve<span class="hljs-built_in"> and </span>run knotx<span class="hljs-built_in"> instance
+</span>├── conf                          // contains application<span class="hljs-built_in"> and </span>logger configuration files
+│   ├── application.conf          // defines all modules that Knot.x<span class="hljs-built_in"> instance </span>is running, provides configuration for Knot.x Core<span class="hljs-built_in"> and </span>global variables for other config files
+│   ├── bootstrap.json            // config retriever options, defines application configuration stores (e.g. points to `application.conf` - the main configuration)
+│   ├── default-cluster.xml       // basic configuration of Knot.x<span class="hljs-built_in"> instance </span>cluster
+│   ├── includes                  // additional modules configuration which are included in `application.conf`
+│   │   ├── dataBridge.conf
+│   │   ├── dataSourceHttp.conf
+│   │   ├── forms.conf
+│   │   ├── httpRepo.conf
+│   │   ├── server.conf
+│   │   ├── templateEngine.conf
+│   └── logback.xml          // logger configuration
+├── knotx-stack.json         // stack descriptor, defines<span class="hljs-built_in"> instance </span>libraries<span class="hljs-built_in"> and </span>dependencies
+├── lib                      // contains<span class="hljs-built_in"> instance </span>libraries<span class="hljs-built_in"> and </span>dependencies,<span class="hljs-built_in"> instance </span>classpath
+│   ├── list of project dependency libraries
+│   ├── ...</code></pre><p>Now, run</p>
+<pre class="highlight"><code class="hljs cmd">bin/knotx run-knotx</code></pre>
+<p>to start the Knot.x instance. You should see that the instance is running with all deployed modules. Following entries should appear in the <code>logs/knotx.log</code> file:</p>
+<pre class="highlight"><code class="hljs stylus"><span class="hljs-number">2018</span>-<span class="hljs-number">11</span>-<span class="hljs-number">29</span> <span class="hljs-number">14</span>:<span class="hljs-number">00</span>:<span class="hljs-number">34.956</span> [vert.x-eventloop-thread-<span class="hljs-number">0</span>] INFO  <span class="hljs-selector-tag">i</span><span class="hljs-selector-class">.k</span><span class="hljs-selector-class">.launcher</span><span class="hljs-selector-class">.KnotxStarterVerticle</span> - Knot<span class="hljs-selector-class">.x</span> STARTED 
+    Deployed httpRepo=java:io<span class="hljs-selector-class">.knotx</span><span class="hljs-selector-class">.repository</span><span class="hljs-selector-class">.http</span><span class="hljs-selector-class">.HttpRepositoryConnectorVerticle</span> [da4cfa69-<span class="hljs-number">04</span>f2-<span class="hljs-number">4</span>a79-<span class="hljs-number">9</span>c63-<span class="hljs-number">39</span>b27785c1e3]
+    Deployed assembler=java:io<span class="hljs-selector-class">.knotx</span><span class="hljs-selector-class">.assembler</span><span class="hljs-selector-class">.FragmentAssemblerVerticle</span> [b77754bc-b762-<span class="hljs-number">454</span>a-b5bc-<span class="hljs-number">0</span>a446c3db0d4]
+    Deployed dataBridge=java:io<span class="hljs-selector-class">.knotx</span><span class="hljs-selector-class">.databridge</span><span class="hljs-selector-class">.core</span><span class="hljs-selector-class">.DataBridgeKnot</span> [e7aabad7-<span class="hljs-number">44</span>a7-<span class="hljs-number">412</span>f-ba69-dc82d6931409]
+    Deployed splitter=java:io<span class="hljs-selector-class">.knotx</span><span class="hljs-selector-class">.splitter</span><span class="hljs-selector-class">.FragmentSplitterVerticle</span> [fd9eee48-e6ae-<span class="hljs-number">407</span>c-<span class="hljs-number">87</span>e1-f3393f727ed3]
+    Deployed templateEngine=java:io<span class="hljs-selector-class">.knotx</span><span class="hljs-selector-class">.te</span><span class="hljs-selector-class">.core</span><span class="hljs-selector-class">.TemplateEngineKnot</span> [<span class="hljs-number">606151</span>e2-<span class="hljs-number">3971</span>-<span class="hljs-number">4732</span>-<span class="hljs-number">9</span>eb9-<span class="hljs-number">60</span>beff83ef1f]
+    Deployed dataSourceHttp=java:io<span class="hljs-selector-class">.knotx</span><span class="hljs-selector-class">.databridge</span><span class="hljs-selector-class">.http</span><span class="hljs-selector-class">.HttpDataSourceAdapter</span> [<span class="hljs-number">17</span>a6c160-<span class="hljs-number">2421</span>-<span class="hljs-number">46</span>d2-aca7-<span class="hljs-number">1</span>d7f2e0ca71d]
+    Deployed server=java:io<span class="hljs-selector-class">.knotx</span><span class="hljs-selector-class">.server</span><span class="hljs-selector-class">.KnotxServerVerticle</span> [<span class="hljs-number">644</span>ca0e5-<span class="hljs-number">1</span>df6-<span class="hljs-number">49</span>a7-a26f-d2f123f777f2]</code></pre><p>Congratulation! That&#39;s it. You have your own basic Knot.x instance running.</p>
+<h2 id="hello-service-configuration">Hello Service configuration</h2>
+<p>Lets now configure Knot.x to do the magic for us.
+We need to do following things:</p>
+<ul>
+<li>provide the page template, for the tutorial purpose we will use <code>fileSystemRepo</code>,</li>
+<li>provide the datasource, we will use the Google Books API.</li>
+</ul>
+<blockquote>
+<p>All configuration options and default values, such as address fields, for each Knot.x module are
+described directly in the configuration files of those modules in <code>conf</code>.</p>
+</blockquote>
+<h3 id="templates-repository-configuration">Templates repository configuration</h3>
+<p>By default <code>fileSystemRepo</code> is not enabled in Knot.x Stack, because its purposes are purely academical.
+It is not designed to be used as a production ready solution (you should use <code>httpRepo</code> there).</p>
+<p>Edit the <code>conf/application.conf</code> file and</p>
+<ul>
+<li><p>add the following entry to <code>modules</code></p>
+<pre class="highlight"><code class="hljs ruby"><span class="hljs-string">"fileSystemRepo=io.knotx.repository.fs.FilesystemRepositoryConnectorVerticle"</span></code></pre>
+<p>By doing that you let Knot.x instance to start <code>FilesystemRepositoryConnector</code> with the name <code>fileSystemRepo</code>. 
+It will be later referenced by this name in configurations.</p>
+</li>
+<li><p>uncomment <code>fileSystemRepo</code> in the <code>global.address</code> section to define the Event Bus address of Filesystem Repository.</p>
+<pre class="highlight"><code class="hljs ruby">fileSystemRepo = knotx.core.repository.filesystem</code></pre>
+</li>
+</ul>
+<ul>
+<li>Save the changes in <code>conf/application.conf</code>.
+You may see that Knot.x instance reloaded modules and <code>fileSystemRepo</code> is now one of available modules. <strong>No restart required!</strong></li>
+</ul>
+<pre class="highlight"><code class="hljs stylus">    Deployed httpRepo=java:io<span class="hljs-selector-class">.knotx</span><span class="hljs-selector-class">.repository</span><span class="hljs-selector-class">.http</span><span class="hljs-selector-class">.HttpRepositoryConnectorVerticle</span> [da4cfa69-<span class="hljs-number">04</span>f2-<span class="hljs-number">4</span>a79-<span class="hljs-number">9</span>c63-<span class="hljs-number">39</span>b27785c1e3]
+    Deployed assembler=java:io<span class="hljs-selector-class">.knotx</span><span class="hljs-selector-class">.assembler</span><span class="hljs-selector-class">.FragmentAssemblerVerticle</span> [b77754bc-b762-<span class="hljs-number">454</span>a-b5bc-<span class="hljs-number">0</span>a446c3db0d4]
+    Deployed dataBridge=java:io<span class="hljs-selector-class">.knotx</span><span class="hljs-selector-class">.databridge</span><span class="hljs-selector-class">.core</span><span class="hljs-selector-class">.DataBridgeKnot</span> [e7aabad7-<span class="hljs-number">44</span>a7-<span class="hljs-number">412</span>f-ba69-dc82d6931409]
+    Deployed splitter=java:io<span class="hljs-selector-class">.knotx</span><span class="hljs-selector-class">.splitter</span><span class="hljs-selector-class">.FragmentSplitterVerticle</span> [fd9eee48-e6ae-<span class="hljs-number">407</span>c-<span class="hljs-number">87</span>e1-f3393f727ed3]
+    Deployed templateEngine=java:io<span class="hljs-selector-class">.knotx</span><span class="hljs-selector-class">.te</span><span class="hljs-selector-class">.core</span><span class="hljs-selector-class">.TemplateEngineKnot</span> [<span class="hljs-number">606151</span>e2-<span class="hljs-number">3971</span>-<span class="hljs-number">4732</span>-<span class="hljs-number">9</span>eb9-<span class="hljs-number">60</span>beff83ef1f]
+    Deployed dataSourceHttp=java:io<span class="hljs-selector-class">.knotx</span><span class="hljs-selector-class">.databridge</span><span class="hljs-selector-class">.http</span><span class="hljs-selector-class">.HttpDataSourceAdapter</span> [<span class="hljs-number">17</span>a6c160-<span class="hljs-number">2421</span>-<span class="hljs-number">46</span>d2-aca7-<span class="hljs-number">1</span>d7f2e0ca71d]
+    Deployed server=java:io<span class="hljs-selector-class">.knotx</span><span class="hljs-selector-class">.server</span><span class="hljs-selector-class">.KnotxServerVerticle</span> [<span class="hljs-number">644</span>ca0e5-<span class="hljs-number">1</span>df6-<span class="hljs-number">49</span>a7-a26f-d2f123f777f2]
+    Deployed fileSystemRepo=java:io<span class="hljs-selector-class">.knotx</span><span class="hljs-selector-class">.repository</span><span class="hljs-selector-class">.fs</span><span class="hljs-selector-class">.FilesystemRepositoryConnectorVerticle</span> [<span class="hljs-number">0879</span>f874-<span class="hljs-number">1276</span>-<span class="hljs-number">44</span>b9-b746-<span class="hljs-number">585</span>ab19f7d25]</code></pre><p>Now, let&#39;s configure <code>fileSystemRepo</code> to read files from the local filesystem.</p>
+<p>Create <code>content</code> directory in <code>KNOTX_HOME</code> and put there following page template with Knot.x snippet (<code>&lt;script data-knotx-knots=&quot;databridge,te&quot;&gt;...</code>):</p>
+<p><em>books.html</em></p>
+<pre class="highlight"><code class="hljs xml"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"utf-8"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"X-UA-Compatible"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"IE=edge"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Knot.x<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://bootswatch.com/4/superhero/bootstrap.min.css"</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span>/&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container-fluid"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-sm-12"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"panel panel-default"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"panel-heading"</span>&gt;</span>Books list<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"panel-body"</span>&gt;</span>
+          This page lists Java related books provided by <span class="hljs-tag">&lt;<span class="hljs-name">a</span>
+            <span class="hljs-attr">href</span>=<span class="hljs-string">"https://www.googleapis.com/books/v1/volumes?q=java"</span>&gt;</span>Googleapis book service<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>.
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">data-knotx-knots</span>=<span class="hljs-string">"databridge,te"</span>
+            <span class="hljs-attr">data-knotx-databridge-name</span>=<span class="hljs-string">"bookslist"</span>
+            <span class="hljs-attr">type</span>=<span class="hljs-string">"text/knotx-snippet"</span>&gt;</span><span class="handlebars"><span class="xml">
+      </span><span class="hljs-template-tag">{{#<span class="hljs-name"><span class="hljs-builtin-name">each</span></span> _result.items}}</span><span class="xml">
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-sm-3"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card"</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-img-top"</span>
+             <span class="hljs-attr">src</span>=<span class="hljs-string">"</span></span></span><span class="hljs-template-variable">{{volumeInfo.imageLinks.thumbnail}}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span>
+             <span class="hljs-attr">alt</span>=<span class="hljs-string">"</span></span></span><span class="hljs-template-variable">{{volumeInfo.title}}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-block"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">h4</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-title"</span>&gt;</span></span><span class="hljs-template-variable">{{volumeInfo.title}}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-text"</span>&gt;</span>
+              </span><span class="hljs-template-tag">{{#<span class="hljs-name"><span class="hljs-builtin-name">each</span></span> volumeInfo.authors as |author|}}</span><span class="xml">
+                </span><span class="hljs-template-variable">{{author}}</span><span class="xml"></span><span class="hljs-template-tag">{{#<span class="hljs-name"><span class="hljs-builtin-name">unless</span></span> @last}}</span><span class="xml">, </span><span class="hljs-template-tag">{{/<span class="hljs-name"><span class="hljs-builtin-name">unless</span></span>}}</span><span class="xml">
+              </span><span class="hljs-template-tag">{{/<span class="hljs-name"><span class="hljs-builtin-name">each</span></span>}}</span><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">br</span> /&gt;</span>
+              Published: </span><span class="hljs-template-variable">{{volumeInfo.publishedDate}}</span><span class="xml">
+            <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+          <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+         <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+         <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+      </span><span class="hljs-template-tag">{{/<span class="hljs-name"><span class="hljs-builtin-name">each</span></span>}}</span><span class="xml">
+    </span></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+<p>Create <code>conf/includes/fileSystemRepo.conf</code> file with the following:</p>
+<pre class="highlight"><code class="hljs ruby"><span class="hljs-comment"># Event bus address on which the File System Repository connector listens on. Default is 'knotx.core.repository.filesystem'</span>
+<span class="hljs-comment"># Here below, we use a global constant defined in `conf/application.conf`</span>
+address = ${global.address.fileSystemRepo}
+<span class="hljs-comment"># Path to the directory on the local filesystem which will be the root for requested templates</span>
+catalogue = <span class="hljs-string">"./content/"</span></code></pre>
+<p>This way we define the <code>content</code> directory that will to be our file repository.</p>
+<p>Next we need to reference it at the end of <code>conf/application.conf</code> file by adding the following:</p>
+<pre class="highlight"><code class="hljs ruby">config.fileSystemRepo {
+  options.config {
+    <span class="hljs-keyword">include</span> required(<span class="hljs-string">"includes/fileSystemRepo.conf"</span>)
+  }
+}</code></pre>
+<p>Replace <code>httpRepo</code> with  <code>fileSystemRepo</code> in <code>conf/server.conf</code> in  <code>defaultFlow</code> section.</p>
+<pre class="highlight"><code class="hljs ruby">...
+<span class="hljs-comment"># Configuration of a default flow - aka Templating mode</span>
+defaultFlow {
+  <span class="hljs-comment"># List of the Knot.x templates repositories supported by the Server</span>
+  repositories = [
+    {
+      path = <span class="hljs-string">".*"</span>
+      address = ${global.address.fileSystemRepo}
+    }
+  ]
+...</code></pre>
+<h3 id="connecting-the-datasource">Connecting the datasource</h3>
+<p>As you probably noticed in the template snippet, <code>bookslist</code> datasource is defined (<code>data-knotx-databridge-name=&quot;bookslist&quot;</code>).
+Let&#39;s now define it in the configuration.</p>
+<p>To do so, open <code>conf/includes/dataBridge.conf</code> and add the <code>bookslist</code> data definition:</p>
+<pre class="highlight"><code class="hljs ruby"><span class="hljs-comment"># Event bus settings</span>
+address = ${global.bridge.address}
+<span class="hljs-comment"># List of mappings between data definition aliases and datasources.</span>
+<span class="hljs-comment"># You can define here as many data definitions definitions as required for your project.</span>
+dataDefinitions = [
+  <span class="hljs-comment"># Definition of the single datasource to be used in the HTML snippets.</span>
+  <span class="hljs-comment"># You can define an array of such data definitions here.</span>
+  {
+    <span class="hljs-comment"># Name of the data definition that will be used in HTML snippets</span>
+    name = bookslist
+    <span class="hljs-comment"># Arbitrary parameters to be send to datasources adapter. In this case we send the query that is part of request path to google books API</span>
+    params {
+      path= <span class="hljs-string">"/books/v1/volumes?q=java"</span>
+    }
+    <span class="hljs-comment"># Event bus address of the datasources adapter that is responsible for handling physicall communication with a data source</span>
+    adapter = ${global.bridge.dataSource.http.address}
+  }
+]</code></pre>
+<p>Now, as we have the <code>bookslist</code> data definition, let&#39;s edit <code>conf/includes/dataSourceHttp.conf</code> file and configure Adapter available
+under <code>${global.bridge.dataSource.http.address}</code> which evaluates into <code>knotx.bridge.datasource.http</code> address.</p>
+<p>Set up service entry and enable SSL by setting ssl = true in the clientOptions configuration.</p>
+<pre class="highlight"><code class="hljs ruby"><span class="hljs-comment"># Event bus address of the Basic HTTP Datasource</span>
+address = ${global.bridge.dataSource.http.address}
+
+clientOptions {
+  maxPoolSize = <span class="hljs-number">1000</span>
+  idleTimeout = <span class="hljs-number">120</span> <span class="hljs-comment"># seconds</span>
+  <span class="hljs-comment"># If your datasources are using SSL you'd need to configure here low level details on how the</span>
+  <span class="hljs-comment"># SSL connection is to be maintaned. Currently, if configured all defined in 'datasources' section</span>
+  <span class="hljs-comment"># will use SSL</span>
+  ssl = <span class="hljs-literal">true</span>
+}
+
+<span class="hljs-comment"># List of datasource services that are supported by this datasource adapter.</span>
+<span class="hljs-comment"># You can define here as many service definitions as required for your project.</span>
+services = [
+  {
+    <span class="hljs-comment"># A regexp.</span>
+    <span class="hljs-comment"># Any request to the service made by the adapter, is being made to the service with a given</span>
+    <span class="hljs-comment"># physical conenction details, only if the given path matching this path regexp</span>
+    path = <span class="hljs-string">"/books.*"</span>
+    <span class="hljs-comment"># A domain or IP of actual HTTP service the adapter will talk to</span>
+    domain =  <span class="hljs-string">"www.googleapis.com"</span>
+    <span class="hljs-comment"># HTTP port of the service, since this is SSL connection, port wourld be 443</span>
+    port = <span class="hljs-number">443</span>
+    <span class="hljs-comment"># List of request headers that will be send to the given service endpoint.</span>
+    <span class="hljs-comment"># Each header can be use wildcards '*' to generalize list, we pass all headers here.</span>
+    <span class="hljs-comment"># For the purpose of this tutorial, we deny all request headers.</span>
+    allowedRequestHeaders = [ ]
+    <span class="hljs-comment"># Additional request query parameters to be send in each request. We don't need here any.</span>
+    queryParams {}
+    <span class="hljs-comment"># Additional headers to be send in each request to the service. We don't need here any.</span>
+    additionalHeaders {}
+  }
+]
+
+<span class="hljs-comment"># Statically defined HTTP request header sent in every request to any datasource</span>
+customRequestHeader {
+  name = X-User-Agent
+  value = Knot.x
+}</code></pre>
+<p>Save the configuration file, Knot.x will reload its modules once again.</p>
+<p>The last thing left, open <a href="http://localhost:8092/books.html">http://localhost:8092/books.html</a> - Voilà!</p>
+
+          </section>
+        </article>
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_config = function () {
+        this.page.url = "http://knotx.io/tutorials/getting-started-with-knotx-stack/edge/";
+        this.page.identifier = "0a16897e708d4ed763fa77513f34bcf9";
+        };
+        (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = '//knotx-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+    </div>
+</div>
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+         <p>Knot.x is <a href="https://github.com/Cognifide/knotx">open source</a> and is licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0 License</a>.</p>
+      </div>
+      <div class="col-sm-5 col-sm-offset-1 text-right">
+        <p>Knot.x is brought to you with the support of <img src="/img/Cognified_Logo_white.png" alt="Cognifide"/></p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script defer="defer"  src="/scripts/vendor/jquery.min.js"></script><script defer="defer"  src="/scripts/vendor/bootstrap.min.js"></script><script defer="defer"  src="/scripts/vendor/highlight.pack.js"></script><script defer="defer"  src="/scripts/knotx.js"></script><script defer="defer"  src="/scripts/vendor/jquery.qtip.min.js"></script><script defer="defer"  src="/scripts/hovermap.js"></script>
+
+  </body>
+</html>

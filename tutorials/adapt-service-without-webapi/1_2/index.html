@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="The Adapt Service without Web API Tutorial is the next step on our path to learning Knot.x. Today we will deal with data that comes directly from a database (we will not use a Web API layer this time). With just one simple Service Adapter, we will fetch the data and let Knot.x inject it into an HTML template.">
+  <meta name="keywords" content="knotx, vertx, reactive, asynchronous, templating, java, polyglot, cms, tutorial">
+  <title>Adapt Service without Web API</title>
+
+  <meta property="og:title" content="Adapt Service without Web API"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="http://knotx.io/tutorials/adapt-service-without-webapi/1_2/"/>
+  <meta property="og:site_name" content="Knot.x Website"/>
+  <meta property="og:description" content="The Adapt Service without Web API Tutorial is the next step on our path to learning Knot.x. Today we will deal with data that comes directly from a database (we will not use a Web API layer this time). With just one simple Service Adapter, we will fetch the data and let Knot.x inject it into an HTML template."/>
+  <meta property="og:image" content="http://knotx.io/img/logo-240x240.png"/>
+
+  <link rel="apple-touch-icon" sizes="57x57" href="/img/favicons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/img/favicons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/img/favicons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/img/favicons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/img/favicons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/img/favicons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/img/favicons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/favicons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicons/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/img/favicons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicons/favicon-16x16.png">
+  <link rel="manifest" href="/img/favicons/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/img/favicons/ms-icon-144x144.png">
+  <meta name="theme-color" content="#9f136c">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Montserrat:200,300,400,500,700|Ubuntu:300,400,500,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link  rel="stylesheet" href="/styles/bootstrap.css" /><link  rel="stylesheet" href="/styles/github.css" /><link  rel="stylesheet" href="/styles/knotx.css" />
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+  <body >
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-92165781-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    <!-- Header -->
+<header class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/img/logo-knotx.png" class="navbar-brand-logo" alt="Knot.x Logo"/>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        
+        <li><a href="/download/">Download</a></li>
+        
+        <li><a href="/business/">Business</a></li>
+        
+        <li><a href="/tutorials/">Tutorials</a></li>
+        
+        <li><a href="https://github.com/Cognifide/knotx/issues">Issues</a></li>
+        
+        <li><a href="https://github.com/Cognifide/knotx/wiki">Wiki</a></li>
+        
+        <li><a href="/community/">Community</a></li>
+        
+        <li><a href="/blog/">Blog</a></li>
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</header>
+
+    <!-- Content Header -->
+<div class="content-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>Adapt Service without Web API</h1>
+      </div>
+    </div>    
+  </div>
+  
+</div>
+
+<div class="container flex blog">
+    <div class="row">
+      <div class="col-sm-12">
+        <article>
+          <header class="meta">
+  <a class="meta-item" href="https://github.com/skejven">Maciej Laskowski</a>
+  <time class="meta-item date"
+        datetime="2017-03-16">March 16th, 2017
+  </time>
+
+  <div class="post-versions">    
+    
+      <a class="post-btn" href="/tutorials/adapt-service-without-webapi/1_2/">1.2.0</a>
+    
+      <a class="post-btn" href="/tutorials/adapt-service-without-webapi/1_3/">1.3.0</a>
+    
+  </div>
+</header>
+
+          <section class="post">
+            <h2 id="overview">Overview</h2>
+<p>Hello <em>Knot.x</em> users!</p>
+<p>In this post we will show you how easy it is to inject data coming directly from a database into an HTML template.
+When developing advanced systems on the Web, we are often asked to integrate some external services and use
+the data our clients provide to render some information on a page. It is not a rare case when the
+data source we integrate with has no Web API or even can&#39;t have it because of security reasons.
+This is the case we will study over the course of this tutorial.</p>
+<p>What you&#39;re going to learn:</p>
+<ul>
+<li>How to implement a simple <a href="https://github.com/Cognifide/knotx/wiki/ServiceAdapter">Service Adapter</a>
+and start using it with <em>Knot.x</em>.</li>
+<li>How to use <a href="http://vertx.io/docs/vertx-jdbc-client/java/">Vert.x</a> to easily access your database
+in a very performant way.</li>
+</ul>
+<p>If you want to skip the configuration part and simply run the demo, please checkout
+<a href="https://github.com/Knotx/knotx-tutorials/tree/master/adapt-service-without-webapi">github/adapt-service-without-webapi</a>
+and follow the instructions in <code>README.md</code> to compile and run the complete code.</p>
+<h2 id="solution-architecture">Solution Architecture</h2>
+<p>So, we have a data source but no Web API to integrate with at the front-end layer.</p>
+<p>We have two options now:</p>
+<ol>
+<li><p>Implement a Web API layer to access the database and then integrate with it using e.g. AJAX or an <a href="http://knotx.io/blog/hello-rest-service/">HTTP adapter</a>.</p>
+</li>
+<li><p>Implement a <em>Knot.x</em> <a href="https://github.com/Cognifide/knotx/wiki/ServiceAdapter"><em>Service Adapter</em></a>.</p>
+</li>
+</ol>
+<p>Option (1) may be quite expensive to implement or even not possible due to security reasons.
+In this article, we will focus on option (2) and omit additional Web API layer. We are going to connect
+to the database directly from Knot.x and inject the data into an HTML template.</p>
+<p>The architecture of our system will look like this:</p>
+<p><img src="/img/blog/adapt-service-without-webapi/solution-architecture.png" alt="Solution architecture"></p>
+<h2 id="data-and-page-template">Data and page template</h2>
+<p>In this example, we create a page that lists information about books and authors retrieved from a database.
+Page markup will look like following snippet:</p>
+<pre class="highlight"><code class="hljs xml"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"utf-8"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"X-UA-Compatible"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"IE=edge"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Knot.x<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://bootswatch.com/superhero/bootstrap.min.css"</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span>/&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container-fluid"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-sm-12"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"panel panel-default"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"panel-heading"</span>&gt;</span>Books list<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"panel-body"</span>&gt;</span>
+          This section lists books from the database.
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- list all books here --&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-sm-12"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"panel panel-default"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"panel-heading"</span>&gt;</span>Authors list<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"panel-body"</span>&gt;</span>
+          This section lists authors from the database.
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- list all authors here --&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</code></pre>
+<h2 id="set-up-the-project">Set up the project</h2>
+<p>We will show you how to create a custom adapter project using <em>Maven</em> archetype - feel free to use any other favourite
+project build tool. To build and run this tutorial code you need <em>Java 8</em> and <em>Maven</em>.</p>
+<p>Follow the instructions from <a href="https://github.com/Knotx/knotx-extension-archetype"><code>here</code></a> to create a project
+structure for a custom adapter (archetype <code>knotx-adapter-archetype</code>). You can set the requested parameters to whatever you like,
+but we used these in tutorial:</p>
+<ol>
+<li>groupId: <code>io.knotx.tutorial</code></li>
+<li>artifactId: <code>custom-service-adapter</code></li>
+<li>version: <code>1.2.0</code></li>
+<li>package name: <code>io.knotx.tutorial</code></li>
+<li>project name: <code>First custom service adapter</code></li>
+</ol>
+<p>Finally the command you use to setup project may look like this:</p>
+<p><code>mvn archetype:generate -DarchetypeGroupId=io.knotx.archetypes -DarchetypeArtifactId=knotx-adapter-archetype -DarchetypeVersion=1.2.0 -DgroupId=io.knotx.tutorial -DartifactId=custom-service-adapter -Dversion=1.2.0 -DpackageName=io.knotx.tutorial -DprojectName=&quot;First custom service adapter&quot;</code></p>
+<p>Created <code>pom.xml</code> file will have dependencies on <code>knotx-core</code> and <code>knotx-adapter-common</code> with <code>scope</code>
+set to <code>provided</code>. This is because we will have those dependencies on the classpath provided by <code>knotx-standalone-1.2.0.fat.jar</code>
+(there are also other dependencies, but for the purpose of this exercise we need only those two).
+Additionally, we will use also <a href="http://vertx.io/docs/vertx-jdbc-client/java/"><code>vertx-jdbc-client</code></a> and
+<code>hsqldb</code> driver. The <code>&lt;dependencies&gt;</code> section of your project&#39;s <code>pom.xml</code> should contain the following dependencies:</p>
+<pre class="highlight"><code class="hljs xml">  <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.knotx<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>knotx-core<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>${knotx.version}<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>provided<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.knotx<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>knotx-adapter-common<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>${knotx.version}<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>provided<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+
+    <span class="hljs-comment">&lt;!-- custom adapter dependencies --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.vertx<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>vertx-jdbc-client<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>${vertx.version}<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.hsqldb<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>hsqldb<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.3.4<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    ...
+  <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span></code></pre>
+<p>You may simply download a ready <a href="https://github.com/Knotx/knotx-tutorials/tree/master/adapt-service-without-webapi/pom.xml"><code>pom.xml</code></a>
+file from the tutorial codebase.</p>
+<h2 id="implementing-the-adapter">Implementing the Adapter</h2>
+<p>In order to integrate with <em>Knot.x</em> we need to create a <a href="http://vertx.io/docs/apidocs/io/vertx/core/Verticle.html"><em>Verticle</em></a>.
+The easiest way to do it is to extend the <a href="http://vertx.io/docs/apidocs/io/vertx/rxjava/core/AbstractVerticle.html"><code>AbstractVerticle</code></a>
+class provided by RXJava <em>Vert.x</em>.</p>
+<h3 id="the-adapter-s-heart-verticle">The Adapter&#39;s Heart - Verticle</h3>
+<p>There is already ExampleServiceAdapter class created in <code>/src/main/java/io/knotx/tutorial/adapter/example/</code> which extends <code>AbstractVerticle</code>:</p>
+<pre class="highlight"><code class="hljs java"><span class="hljs-keyword">package</span> io.knotx.tutorial.adapter.example;
+
+<span class="hljs-keyword">import</span> io.knotx.proxy.AdapterProxy;
+<span class="hljs-keyword">import</span> io.vertx.core.Context;
+<span class="hljs-keyword">import</span> io.vertx.core.Vertx;
+<span class="hljs-keyword">import</span> io.vertx.core.eventbus.MessageConsumer;
+<span class="hljs-keyword">import</span> io.vertx.core.json.JsonObject;
+<span class="hljs-keyword">import</span> io.vertx.core.logging.Logger;
+<span class="hljs-keyword">import</span> io.vertx.core.logging.LoggerFactory;
+<span class="hljs-keyword">import</span> io.vertx.reactivex.core.AbstractVerticle;
+<span class="hljs-keyword">import</span> io.vertx.serviceproxy.ServiceBinder;
+
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleServiceAdapter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractVerticle</span> </span>{
+
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(ExampleServiceAdapter.class);
+
+  <span class="hljs-keyword">private</span> MessageConsumer&lt;JsonObject&gt; consumer;
+
+  <span class="hljs-keyword">private</span> ExampleServiceAdapterConfiguration configuration;
+
+  <span class="hljs-keyword">private</span> ServiceBinder serviceBinder;
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">(Vertx vertx, Context context)</span> </span>{
+    <span class="hljs-keyword">super</span>.init(vertx, context);
+    configuration = <span class="hljs-keyword">new</span> ExampleServiceAdapterConfiguration(config());
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">start</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>{
+    LOGGER.info(<span class="hljs-string">"Starting &lt;{}&gt;"</span>, <span class="hljs-keyword">this</span>.getClass().getSimpleName());
+
+    <span class="hljs-comment">//register the service proxy on event bus</span>
+    serviceBinder = <span class="hljs-keyword">new</span> ServiceBinder(getVertx());
+    consumer = serviceBinder
+        .setAddress(configuration.getAddress())
+        .register(AdapterProxy.class, <span class="hljs-keyword">new</span> ExampleServiceAdapterProxy());
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">stop</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>{
+    serviceBinder.unregister(consumer);
+  }
+}</code></pre>
+<h3 id="configuration">Configuration</h3>
+<p>Now we will need a simple configuration for our custom code. The configuration file defines a <em>Verticle</em> that
+will initialise the whole <em>Service Adapter</em> and enable us to pass properties to our custom adapter.</p>
+<p>This configuration file named <code>io.knotx.tutorial.adapter.example.ExampleServiceAdapter.json</code> already exists
+in <code>/src/main/resources/</code>:</p>
+<pre class="highlight"><code class="hljs json">{
+  <span class="hljs-attr">"main"</span>: <span class="hljs-string">"io.knotx.tutorial.adapter.example.ExampleServiceAdapter"</span>,
+  <span class="hljs-attr">"options"</span>: {
+    <span class="hljs-attr">"config"</span>: {
+      <span class="hljs-attr">"address"</span>: <span class="hljs-string">"knotx.adapter.service.example"</span>,
+      <span class="hljs-attr">"params"</span>: {
+        <span class="hljs-attr">"message"</span>: <span class="hljs-string">"Hello Knot.x"</span>
+      }
+    }
+  }
+}</code></pre>
+<p>This configuration file is prepared to run the custom <em>Service Adapter</em>, starting the
+<code>io.knotx.tutorial.adapter.example.ExampleServiceAdapter</code> <em>Verticle</em> and listening at the address <code>knotx.adapter.service.example</code>
+on the event bus.</p>
+<p>Now we will implement a Java model to read the configuration:</p>
+<pre class="highlight"><code class="hljs java"><span class="hljs-keyword">package</span> io.knotx.tutorial.adapter.example;
+
+<span class="hljs-keyword">import</span> io.vertx.core.json.JsonObject;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleServiceAdapterConfiguration</span> </span>{
+
+  <span class="hljs-keyword">private</span> String address;
+
+  <span class="hljs-keyword">private</span> JsonObject clientOptions;
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ExampleServiceAdapterConfiguration</span><span class="hljs-params">(JsonObject config)</span> </span>{
+    address = config.getString(<span class="hljs-string">"address"</span>);
+    clientOptions = config.getJsonObject(<span class="hljs-string">"clientOptions"</span>, <span class="hljs-keyword">new</span> JsonObject());
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> JsonObject <span class="hljs-title">getClientOptions</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> clientOptions;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getAddress</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> address;
+  }
+}
+</code></pre>
+<h3 id="registering-a-service-proxy">Registering a Service Proxy</h3>
+<p>The next step would be to register an <a href="https://github.com/Cognifide/knotx/wiki/Adapter#how-to-extend"><code>AdapterProxy</code></a>
+to handle incoming requests. The simplest way to achieve this is to create a class
+that extends <a href="https://github.com/Cognifide/knotx/blob/master/knotx-core/src/main/java/io/knotx/adapter/AbstractAdapterProxy.java"><code>AbstractAdapterProxy</code></a>.
+We have it already created in <code>/src/main/java/io/knotx/tutorial/adapter/example/</code>. It is called ExampleServiceAdapterProxy.</p>
+<pre class="highlight"><code class="hljs java"><span class="hljs-keyword">package</span> io.knotx.tutorial.adapter.example;
+
+<span class="hljs-keyword">import</span> io.knotx.adapter.AbstractAdapterProxy;
+<span class="hljs-keyword">import</span> io.knotx.dataobjects.AdapterRequest;
+<span class="hljs-keyword">import</span> io.knotx.dataobjects.AdapterResponse;
+<span class="hljs-keyword">import</span> io.knotx.dataobjects.ClientResponse;
+<span class="hljs-keyword">import</span> io.reactivex.Single;
+<span class="hljs-keyword">import</span> io.vertx.core.buffer.Buffer;
+<span class="hljs-keyword">import</span> io.vertx.core.logging.Logger;
+<span class="hljs-keyword">import</span> io.vertx.core.logging.LoggerFactory;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleServiceAdapterProxy</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractAdapterProxy</span> </span>{
+
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(ExampleServiceAdapterProxy.class);
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">protected</span> Single&lt;AdapterResponse&gt; <span class="hljs-title">processRequest</span><span class="hljs-params">(AdapterRequest adapterRequest)</span> </span>{
+    <span class="hljs-keyword">final</span> String message = adapterRequest.getParams().getString(<span class="hljs-string">"message"</span>);
+    LOGGER.info(<span class="hljs-string">"Processing request with message: `{}`"</span>, message);
+    <span class="hljs-comment">/**
+     * In a real scenario, one would connect to an external service here
+     */</span>
+    <span class="hljs-keyword">return</span> prepareResponse(message);
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">private</span> Single&lt;AdapterResponse&gt; <span class="hljs-title">prepareResponse</span><span class="hljs-params">(String message)</span> </span>{
+    <span class="hljs-keyword">final</span> AdapterResponse response = <span class="hljs-keyword">new</span> AdapterResponse();
+    <span class="hljs-keyword">final</span> ClientResponse clientResponse = <span class="hljs-keyword">new</span> ClientResponse();
+    clientResponse.setBody(Buffer.buffer(<span class="hljs-string">"{\"message\":\""</span> + message + <span class="hljs-string">"\"}"</span>));
+    response.setResponse(clientResponse);
+    <span class="hljs-keyword">return</span> Single.just(response);
+  }
+
+}</code></pre>
+<p>Now we should register this <code>AdapterProxy</code> in the <code>start()</code> method of our <code>ExampleServiceAdapter</code> and set it up
+with the following configuration:</p>
+<pre class="highlight"><code class="hljs java"><span class="hljs-keyword">package</span> io.knotx.tutorial.adapter.example;
+
+<span class="hljs-keyword">import</span> io.knotx.proxy.AdapterProxy;
+<span class="hljs-keyword">import</span> io.vertx.core.Context;
+<span class="hljs-keyword">import</span> io.vertx.core.Vertx;
+<span class="hljs-keyword">import</span> io.vertx.core.eventbus.MessageConsumer;
+<span class="hljs-keyword">import</span> io.vertx.core.json.JsonObject;
+<span class="hljs-keyword">import</span> io.vertx.core.logging.Logger;
+<span class="hljs-keyword">import</span> io.vertx.core.logging.LoggerFactory;
+<span class="hljs-keyword">import</span> io.vertx.reactivex.core.AbstractVerticle;
+<span class="hljs-keyword">import</span> io.vertx.reactivex.ext.jdbc.JDBCClient;
+<span class="hljs-keyword">import</span> io.vertx.serviceproxy.ServiceBinder;
+
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleServiceAdapter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractVerticle</span> </span>{
+
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(ExampleServiceAdapter.class);
+
+  <span class="hljs-keyword">private</span> MessageConsumer&lt;JsonObject&gt; consumer;
+  <span class="hljs-keyword">private</span> ExampleServiceAdapterConfiguration configuration;
+  <span class="hljs-keyword">private</span> ServiceBinder serviceBinder;
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">(Vertx vertx, Context context)</span> </span>{
+    <span class="hljs-keyword">super</span>.init(vertx, context);
+    LOGGER.debug(<span class="hljs-string">"Initializing &lt;{}&gt;"</span>, <span class="hljs-keyword">this</span>.getClass().getSimpleName());
+    <span class="hljs-comment">// using config() method from AbstractVerticle we simply pass our JSON file configuration to Java model</span>
+    configuration = <span class="hljs-keyword">new</span> ExampleServiceAdapterConfiguration(config());
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">start</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>{
+    LOGGER.info(<span class="hljs-string">"Starting &lt;{}&gt;"</span>, <span class="hljs-keyword">this</span>.getClass().getSimpleName());
+
+    <span class="hljs-comment">//create JDBC Clinet here and pass it to AdapterProxy - notice using clientOptions property here</span>
+    <span class="hljs-keyword">final</span> JDBCClient client = JDBCClient.createShared(vertx, configuration.getClientOptions());
+
+    <span class="hljs-comment">//register the service proxy on the event bus, notice using `getVertx()` here to obtain non-rx version of vertx</span>
+    serviceBinder = <span class="hljs-keyword">new</span> ServiceBinder(getVertx());
+    consumer = serviceBinder
+        .setAddress(configuration.getAddress())
+        .register(AdapterProxy.class, <span class="hljs-keyword">new</span> ExampleServiceAdapterProxy(client));
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">stop</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>{
+    <span class="hljs-comment">// unregister adapter when no longer needed</span>
+    serviceBinder.unregister(consumer);
+    LOGGER.debug(<span class="hljs-string">"Stopped &lt;{}&gt;"</span>, <span class="hljs-keyword">this</span>.getClass().getSimpleName());
+  }
+}</code></pre>
+<h3 id="fetching-data-from-the-database">Fetching Data from the Database</h3>
+<p>Now, as we have our adapter ready, we can implement the data querying logic in <code>ExampleServiceAdapterProxy</code>:</p>
+<pre class="highlight"><code class="hljs java"><span class="hljs-keyword">package</span> io.knotx.tutorial.adapter.example;
+
+<span class="hljs-keyword">import</span> io.knotx.adapter.AbstractAdapterProxy;
+<span class="hljs-keyword">import</span> io.knotx.dataobjects.AdapterRequest;
+<span class="hljs-keyword">import</span> io.knotx.dataobjects.AdapterResponse;
+<span class="hljs-keyword">import</span> io.knotx.dataobjects.ClientResponse;
+<span class="hljs-keyword">import</span> io.reactivex.Single;
+<span class="hljs-keyword">import</span> io.vertx.core.buffer.Buffer;
+<span class="hljs-keyword">import</span> io.vertx.core.json.JsonArray;
+<span class="hljs-keyword">import</span> io.vertx.core.logging.Logger;
+<span class="hljs-keyword">import</span> io.vertx.core.logging.LoggerFactory;
+<span class="hljs-keyword">import</span> io.vertx.ext.sql.ResultSet;
+<span class="hljs-keyword">import</span> io.vertx.reactivex.ext.jdbc.JDBCClient;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleServiceAdapterProxy</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractAdapterProxy</span> </span>{
+
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(ExampleServiceAdapterProxy.class);
+
+  <span class="hljs-comment">//we will need JDBC Client here to perform DB queries</span>
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> JDBCClient client;
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ExampleServiceAdapterProxy</span><span class="hljs-params">(JDBCClient client)</span> </span>{
+    <span class="hljs-keyword">this</span>.client = client;
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">protected</span> Single&lt;AdapterResponse&gt; <span class="hljs-title">processRequest</span><span class="hljs-params">(AdapterRequest adapterRequest)</span> </span>{
+    <span class="hljs-keyword">final</span> String query = adapterRequest.getParams().getString(<span class="hljs-string">"query"</span>);
+    LOGGER.debug(<span class="hljs-string">"Processing request with query: `{}`"</span>, query);
+    <span class="hljs-keyword">return</span> client.rxGetConnection()
+        .flatMap(
+            sqlConnection -&gt; sqlConnection.rxQuery(query)
+        )
+        .map(<span class="hljs-keyword">this</span>::toAdapterResponse);
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">private</span> AdapterResponse <span class="hljs-title">toAdapterResponse</span><span class="hljs-params">(ResultSet rs)</span> </span>{
+    <span class="hljs-keyword">final</span> AdapterResponse adapterResponse = <span class="hljs-keyword">new</span> AdapterResponse();
+    <span class="hljs-keyword">final</span> ClientResponse clientResponse = <span class="hljs-keyword">new</span> ClientResponse();
+    clientResponse.setBody(Buffer.buffer(<span class="hljs-keyword">new</span> JsonArray(rs.getRows()).encode()));
+    adapterResponse.setResponse(clientResponse);
+    <span class="hljs-keyword">return</span> adapterResponse;
+  }
+}</code></pre>
+<p>What we do here is:</p>
+<ul>
+<li>When there is a request in <code>processRequest</code>, the first thing we do is to get the <code>query</code> from the request object.</li>
+<li>Then we create a <a href="http://reactivex.io/documentation/single.html"><code>Single</code></a> from the previously configured JDBC Client,
+which gives us a <code>SQLConnection</code> object that will be used to perform the next operation asynchronously.</li>
+<li>Next we perform a <a href="http://reactivex.io/documentation/operators/flatmap.html"><code>flatMap</code></a> operation on the <code>SQLConnection</code>
+and execute the query.</li>
+<li>The last thing to do is to perform <a href="http://reactivex.io/documentation/operators/map.html"><code>map</code></a> a <code>ResultSet</code>
+obtained from the query execution to an <code>AdapterResponse</code>, as required by the <code>processRequest</code> method&#39;s contract.
+To do this, we simply put all query results in the body of the <code>ClientResponse</code>.</li>
+</ul>
+<h2 id="integration">Integration</h2>
+<p>We have our custom Adapter. Now it&#39;s time to integrate it with <em>Knot.x</em> and the database.</p>
+<h3 id="set-up-the-database">Set up the Database</h3>
+<p>For the purpose of demonstration, we&#39;re going to use an HSQL database in this example.</p>
+<p>Follow <a href="http://o7planning.org/en/10287/installing-and-configuring-hsqldb-database">this tutorial</a>
+in order to set up the database.
+To create tables with data, use the script provided in the <a href="https://github.com/Knotx/knotx-tutorials/tree/master/adapt-service-without-webapi/db"><code>db</code></a>
+folder of this tutorial.</p>
+<p>When you have your database configured, update the <code>clientOptions</code> property in <code>io.knotx.tutorial.adapter.example.ExampleServiceAdapter.json</code>
+to point at the database. If you followed the tutorial and your database runs at port <code>9001</code>, the configuration
+file should look like configuration shown below:</p>
+<pre class="highlight"><code class="hljs json">{
+  <span class="hljs-attr">"main"</span>: <span class="hljs-string">"io.knotx.tutorial.adapter.example.ExampleServiceAdapter"</span>,
+  <span class="hljs-attr">"options"</span>: {
+    <span class="hljs-attr">"config"</span>: {
+      <span class="hljs-attr">"address"</span>: <span class="hljs-string">"knotx.adapter.service.example"</span>,
+      <span class="hljs-attr">"clientOptions"</span>: {
+        <span class="hljs-attr">"url"</span>: <span class="hljs-string">"jdbc:hsqldb:hsql://localhost:9001/"</span>,
+        <span class="hljs-attr">"driver_class"</span>: <span class="hljs-string">"org.hsqldb.jdbcDriver"</span>
+      }
+    }
+  }
+}</code></pre>
+<p>The last thing to do is to remove ExampleServiceAdapterTest from adapter. After that, build your custom adapter using
+the Maven command: <code>mvn clean package</code>. The build should result with a file called <code>custom-service-adapter-1.2.0-fat.jar</code>
+(fat jar is a jar which contains all project class files and resources packed together with all it&#39;s dependencies)
+being created in the <code>target</code> directory.</p>
+<h3 id="set-up-knot-x">Set up Knot.x</h3>
+<p>Create a folder where we will start <em>Knot.x</em> and the custom Adapter. It should contain the following files:</p>
+<pre class="highlight"><code class="hljs stylus">├── knotx-standalone<span class="hljs-selector-class">.json</span>  (e<span class="hljs-selector-class">.g</span>. download from Maven Central knotx-standalone-<span class="hljs-number">1.2</span>.<span class="hljs-number">0</span><span class="hljs-selector-class">.json</span>, maven archetype creates it <span class="hljs-keyword">for</span> us)
+├── logback<span class="hljs-selector-class">.xml</span> (e<span class="hljs-selector-class">.g</span>. download from Maven Central knotx-standalone-<span class="hljs-number">1.2</span>.<span class="hljs-number">0</span><span class="hljs-selector-class">.logback</span><span class="hljs-selector-class">.xml</span>, maven archetype creates it <span class="hljs-keyword">for</span> us)
+├── app
+│   ├── knotx-standalone-<span class="hljs-number">1.2</span>.<span class="hljs-number">0</span><span class="hljs-selector-class">.fat</span><span class="hljs-selector-class">.jar</span> (download from Maven Central)
+├── <span class="hljs-attribute">content</span>
+│   ├── local
+│       ├── books<span class="hljs-selector-class">.html</span> (Contains markup of <span class="hljs-selector-tag">a</span> page - see <span class="hljs-string">"Data and page template"</span> section)</code></pre><p>You may download <em>Knot.x</em> files from the Maven Central Repository</p>
+<ol>
+<li><a href="https://oss.sonatype.org/content/groups/public/io/knotx/knotx-standalone/1.2.0/knotx-standalone-1.2.0.fat.jar">Knot.x standalone fat jar</a></li>
+<li><a href="https://oss.sonatype.org/content/groups/public/io/knotx/knotx-standalone/1.2.0/knotx-standalone-1.2.0.json">JSON configuration file</a></li>
+<li><a href="https://oss.sonatype.org/content/groups/public/io/knotx/knotx-standalone/1.2.0/knotx-standalone-1.2.0.logback.xml">Log configuration file</a></li>
+</ol>
+<h3 id="plug-in-the-custom-adapter">Plug in the Custom Adapter</h3>
+<p>All you need to do now to get the adapter up and running is to copy <code>custom-service-adapter-1.2.0-fat.jar</code> to the <code>app</code>
+directory and update the <code>knotx-standalone-1.2.0.json</code> configuration file to add new <code>services</code>:</p>
+<pre class="highlight"><code class="hljs json">{
+  <span class="hljs-attr">"modules"</span>: [
+    <span class="hljs-string">"knotx:io.knotx.KnotxServer"</span>,
+    <span class="hljs-string">"knotx:io.knotx.FilesystemRepositoryConnector"</span>,
+    <span class="hljs-string">"knotx:io.knotx.FragmentSplitter"</span>,
+    <span class="hljs-string">"knotx:io.knotx.FragmentAssembler"</span>,
+    <span class="hljs-string">"knotx:io.knotx.ServiceKnot"</span>,
+    <span class="hljs-string">"knotx:io.knotx.HandlebarsKnot"</span>,
+    <span class="hljs-string">"knotx:io.knotx.tutorial.adapter.example.ExampleServiceAdapter"</span>
+  ],
+  <span class="hljs-attr">"config"</span>: {
+    <span class="hljs-attr">"knotx:io.knotx.ServiceKnot"</span>: {
+      <span class="hljs-attr">"options"</span>: {
+        <span class="hljs-attr">"config"</span>: {
+          <span class="hljs-attr">"services"</span>: [
+            {
+              <span class="hljs-attr">"name"</span>: <span class="hljs-string">"books-listing"</span>,
+              <span class="hljs-attr">"address"</span>: <span class="hljs-string">"knotx.adapter.service.example"</span>,
+              <span class="hljs-attr">"params"</span>: {
+                <span class="hljs-attr">"query"</span>: <span class="hljs-string">"SELECT * FROM books"</span>
+              }
+            },
+            {
+              <span class="hljs-attr">"name"</span>: <span class="hljs-string">"authors-listing"</span>,
+              <span class="hljs-attr">"address"</span>: <span class="hljs-string">"knotx.adapter.service.example"</span>,
+              <span class="hljs-attr">"params"</span>: {
+                <span class="hljs-attr">"query"</span>: <span class="hljs-string">"SELECT * FROM authors"</span>
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}</code></pre>
+<p>There are two services available thanks to the above configuration:</p>
+<ul>
+<li><code>books-listing</code> which will initiate service at <code>knotx.adapter.service.example</code> (our Custom Adapter)
+with additional <code>query</code> parameter: <code>SELECT * FROM books</code>. This query selects all records from the <code>books</code> table.</li>
+<li><code>authors-listing</code> that initiates the same service but passes another query: <code>SELECT * FROM authors</code>
+which selects all records from the <code>authors</code> table.</li>
+</ul>
+<h3 id="prepare-the-template">Prepare the template</h3>
+<p>The last thing left for us to build is a template configuration. We want the template to display data from <code>books-listing</code> and
+<code>authors-listing</code> services. This can be achieved by creating a couple of simple
+<a href="https://github.com/Cognifide/knotx/wiki/HandlebarsKnot">Handlebars</a> templates in <code>books.html</code>:</p>
+<pre class="highlight"><code class="hljs xml">    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">data-knotx-knots</span>=<span class="hljs-string">"services,handlebars"</span>
+            <span class="hljs-attr">data-knotx-service</span>=<span class="hljs-string">"books-listing"</span>
+            <span class="hljs-attr">type</span>=<span class="hljs-string">"text/knotx-snippet"</span>&gt;</span><span class="handlebars"><span class="xml">
+            </span><span class="hljs-template-tag">{{#<span class="hljs-name"><span class="hljs-builtin-name">each</span></span> _result}}</span><span class="xml">
+              <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-sm-4"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card"</span>&gt;</span>
+                  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-block"</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">h2</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-title"</span>&gt;</span></span><span class="hljs-template-variable">{{this.TITLE}}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">h4</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-title"</span>&gt;</span></span><span class="hljs-template-variable">{{this.ISBN}}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-text"</span>&gt;</span>
+                      </span><span class="hljs-template-variable">{{this.SYNOPSIS}}</span><span class="xml">
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+                  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+              <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            </span><span class="hljs-template-tag">{{/<span class="hljs-name"><span class="hljs-builtin-name">each</span></span>}}</span><span class="xml">
+    </span></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+<p>This tells <em>Knot.x</em> to call the <code>books-listing</code> service and make the data available in the <code>_result</code> scope.
+We iterate over <code>_result</code> since it is a list of all books fetched from the database.</p>
+<pre class="highlight"><code class="hljs xml">    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">data-knotx-knots</span>=<span class="hljs-string">"services,handlebars"</span>
+            <span class="hljs-attr">data-knotx-service</span>=<span class="hljs-string">"authors-listing"</span>
+            <span class="hljs-attr">type</span>=<span class="hljs-string">"text/knotx-snippet"</span>&gt;</span><span class="handlebars"><span class="xml">
+            </span><span class="hljs-template-tag">{{#<span class="hljs-name"><span class="hljs-builtin-name">each</span></span> _result}}</span><span class="xml">
+              <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-sm-4"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card"</span>&gt;</span>
+                  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-block"</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">h2</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-title"</span>&gt;</span></span><span class="hljs-template-variable">{{this.NAME}}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">h4</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-title"</span>&gt;</span></span><span class="hljs-template-variable">{{this.AGE}}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
+                  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+              <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            </span><span class="hljs-template-tag">{{/<span class="hljs-name"><span class="hljs-builtin-name">each</span></span>}}</span><span class="xml">
+    </span></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+<p>This makes <em>Knot.x</em> call the <code>authors-listing</code> service and expose the data in the <code>_result</code> scope.
+We iterate over the entries in <code>_result</code> since it is a list of all authors fetched from the database.</p>
+<p>The final markup of the template can be downloaded from our
+ <a href="https://github.com/Knotx/knotx-tutorials/tree/master/adapt-service-without-webapi/content/local/books.html">GitHub repository for this tutorial</a>.</p>
+<h2 id="run-the-example">Run the example</h2>
+<p>Now we have all the parts ready and can run the demo.
+The application directory should now contain the following artifacts:</p>
+<pre class="highlight"><code class="hljs css">├── <span class="hljs-selector-tag">knotx-standalone</span><span class="hljs-selector-class">.json</span>
+├── <span class="hljs-selector-tag">knotx-standalone</span><span class="hljs-selector-class">.logback</span><span class="hljs-selector-class">.xml</span>
+├── <span class="hljs-selector-tag">app</span>
+│   ├── <span class="hljs-selector-tag">custom-service-adapter-1</span><span class="hljs-selector-class">.2</span><span class="hljs-selector-class">.0-fat</span><span class="hljs-selector-class">.jar</span>
+│   ├── <span class="hljs-selector-tag">knotx-standalone-1</span><span class="hljs-selector-class">.2</span><span class="hljs-selector-class">.0</span><span class="hljs-selector-class">.fat</span><span class="hljs-selector-class">.jar</span>
+├── <span class="hljs-selector-tag">content</span>
+│   ├── <span class="hljs-selector-tag">local</span>
+│       ├── <span class="hljs-selector-tag">books</span><span class="hljs-selector-class">.html</span></code></pre><p>You can run the <em>Knot.x</em> instance using the following command:</p>
+<p><code>java -Dlogback.configurationFile=knotx-standalone.logback.xml -cp &quot;app/*&quot; io.knotx.launcher.LogbackLauncher -conf knotx-standalone.json</code></p>
+<p>When you visit the page <a href="http://localhost:8092/content/local/books.html">http://localhost:8092/content/local/books.html</a>,
+ you will see books and authors from the database listed.
+Now, when you add new books to database just refresh the page - new records will be visible immediately
+with no additional configuration.</p>
+<p>The complete code of this whole tutorial is available in the <a href="https://github.com/Knotx/knotx-tutorials/tree/master/adapt-service-without-webapi/"><em>Knot.x</em> tutorials GitHub repository</a>.</p>
+
+          </section>
+        </article>
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_config = function () {
+        this.page.url = "http://knotx.io/tutorials/adapt-service-without-webapi/1_2/";
+        this.page.identifier = "aa7e59cb46c361813083f543b83ab8a3";
+        };
+        (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = '//knotx-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+    </div>
+</div>
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+         <p>Knot.x is <a href="https://github.com/Cognifide/knotx">open source</a> and is licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0 License</a>.</p>
+      </div>
+      <div class="col-sm-5 col-sm-offset-1 text-right">
+        <p>Knot.x is brought to you with the support of <img src="/img/Cognified_Logo_white.png" alt="Cognifide"/></p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script defer="defer"  src="/scripts/vendor/jquery.min.js"></script><script defer="defer"  src="/scripts/vendor/bootstrap.min.js"></script><script defer="defer"  src="/scripts/vendor/highlight.pack.js"></script><script defer="defer"  src="/scripts/knotx.js"></script><script defer="defer"  src="/scripts/vendor/jquery.qtip.min.js"></script><script defer="defer"  src="/scripts/hovermap.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="There are two main concepts of integrating external services into your system: client-side and backend. Both approaches have strong sides which used in smart way will benefit your solution. However, they both have weak sides which might bring you many unwanted worries. Knot.x supports both approaches, bringing out their pros and limiting their cons. In this tutorial we will show you how to use Knot.x Gateway to create a consistent Web API for your client-side integration.">
+  <meta name="keywords" content="knotx, vertx, reactive, asynchronous, templating, java, polyglot, cms, tutorial">
+  <title>Client-side integration approach with Knot.x</title>
+
+  <meta property="og:title" content="Client-side integration approach with Knot.x"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="http://knotx.io/tutorials/client-side-integration-with-knotx/1_1/"/>
+  <meta property="og:site_name" content="Knot.x Website"/>
+  <meta property="og:description" content="There are two main concepts of integrating external services into your system: client-side and backend. Both approaches have strong sides which used in smart way will benefit your solution. However, they both have weak sides which might bring you many unwanted worries. Knot.x supports both approaches, bringing out their pros and limiting their cons. In this tutorial we will show you how to use Knot.x Gateway to create a consistent Web API for your client-side integration."/>
+  <meta property="og:image" content="http://knotx.io/img/logo-240x240.png"/>
+
+  <link rel="apple-touch-icon" sizes="57x57" href="/img/favicons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/img/favicons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/img/favicons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/img/favicons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/img/favicons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/img/favicons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/img/favicons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/favicons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicons/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/img/favicons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicons/favicon-16x16.png">
+  <link rel="manifest" href="/img/favicons/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/img/favicons/ms-icon-144x144.png">
+  <meta name="theme-color" content="#9f136c">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Montserrat:200,300,400,500,700|Ubuntu:300,400,500,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link  rel="stylesheet" href="/styles/bootstrap.css" /><link  rel="stylesheet" href="/styles/github.css" /><link  rel="stylesheet" href="/styles/knotx.css" />
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+  <body >
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-92165781-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    <!-- Header -->
+<header class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/img/logo-knotx.png" class="navbar-brand-logo" alt="Knot.x Logo"/>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        
+        <li><a href="/download/">Download</a></li>
+        
+        <li><a href="/business/">Business</a></li>
+        
+        <li><a href="/tutorials/">Tutorials</a></li>
+        
+        <li><a href="https://github.com/Cognifide/knotx/issues">Issues</a></li>
+        
+        <li><a href="https://github.com/Cognifide/knotx/wiki">Wiki</a></li>
+        
+        <li><a href="/community/">Community</a></li>
+        
+        <li><a href="/blog/">Blog</a></li>
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</header>
+
+    <!-- Content Header -->
+<div class="content-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>Client-side integration approach with Knot.x</h1>
+      </div>
+    </div>    
+  </div>
+  
+</div>
+
+<div class="container flex blog">
+    <div class="row">
+      <div class="col-sm-12">
+        <article>
+          <header class="meta">
+  <a class="meta-item" href="https://github.com/skejven">Maciej Laskowski</a>
+  <time class="meta-item date"
+        datetime="2017-06-30">June 30th, 2017
+  </time>
+
+  <div class="post-versions">    
+    
+      <a class="post-btn" href="/tutorials/client-side-integration-with-knotx/1_1/">1.1.0</a>
+    
+  </div>
+</header>
+
+          <section class="post">
+            <h2 id="overview">Overview</h2>
+<p>Hello <em>Knoters</em> !</p>
+<p>It&#39;s been some time since the last technical tutorial, so let&#39;s just get straight to the point.</p>
+<p>This tutorial explains how to use <a href="https://github.com/Cognifide/knotx/wiki/GatewayMode">Knot.x Gateway</a> to create a consistent
+Web API for your client-side integration. It was originally presented as part of Devoxx PL 2017 talk.</p>
+<p><img src="/img/blog/client-side-integration-with-knotx/knotx-gateway-api.png" alt="Gateway API"></p>
+<p>What you are going to learn:</p>
+<ul>
+<li>How to implement a simple Gateway module / microservice.</li>
+<li>How to configure Knot.x as your Web API endpoint.</li>
+</ul>
+<p>If you want to skip the configuration part and simply run the demo, please checkout
+<a href="https://github.com/Knotx/knotx-tutorials/tree/master/conferences/devoxx2017">github/knotx-tutorials/devox2017</a>
+and follow the instructions in <code>README.md</code> to compile and run the complete code.</p>
+<h2 id="case">Case</h2>
+<p>This time it will be a really simple case. We have to render a graph with markets forecast for the oil prices.
+Since we already have a JS library that will create a graph for us, we just need to deliver the data and the result will look like this:</p>
+<p><img src="/img/blog/client-side-integration-with-knotx/graph.png" alt="Forecast graph"></p>
+<p>Let&#39;s start with creating a new maven module and let&#39;s call it <code>market-api</code>.</p>
+<p>Create a <code>pom.xml</code> file with dependencies on <code>knotx-core</code> and <code>knotx-gateway</code>.
+Let&#39;s call the module <code>market-api</code>:</p>
+<pre class="highlight"><code class="hljs xml">  <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.knotx.examples<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>market-api<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span></code></pre>
+<p>The <code>&lt;dependencies&gt;</code> section of your project&#39;s <code>pom.xml</code> should look like this:</p>
+<pre class="highlight"><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.knotx<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>knotx-gateway<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.1.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.knotx<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>knotx-core<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.1.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span></code></pre>
+<p>You may simply download a ready <a href="https://github.com/Knotx/knotx-tutorials/tree/master/conferences/devoxx2017/examples/market-api/pom.xml"><code>pom.xml</code></a>
+file from the tutorial codebase.</p>
+<h2 id="gateway-request-processor">Gateway Request Processor</h2>
+<p>Now, let&#39;s create an <code>AbstractVerticle</code> which will register our gateway module on the Event Bus under configured address.</p>
+<pre class="highlight"><code class="hljs java"><span class="hljs-keyword">package</span> io.knotx.example.gateway;
+
+<span class="hljs-keyword">import</span> io.knotx.gateway.configuration.KnotxGatewayKnotConfiguration;
+<span class="hljs-keyword">import</span> io.knotx.proxy.KnotProxy;
+<span class="hljs-keyword">import</span> io.vertx.core.AbstractVerticle;
+<span class="hljs-keyword">import</span> io.vertx.core.Context;
+<span class="hljs-keyword">import</span> io.vertx.core.Vertx;
+<span class="hljs-keyword">import</span> io.vertx.core.eventbus.MessageConsumer;
+<span class="hljs-keyword">import</span> io.vertx.core.json.JsonObject;
+<span class="hljs-keyword">import</span> io.vertx.core.logging.Logger;
+<span class="hljs-keyword">import</span> io.vertx.core.logging.LoggerFactory;
+<span class="hljs-keyword">import</span> io.vertx.serviceproxy.ProxyHelper;
+<span class="hljs-keyword">import</span> io.knotx.example.gateway.impl.RequestProcessorKnotProxyImpl;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RequestProcessorKnotVerticle</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractVerticle</span> </span>{
+
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(RequestProcessorKnotVerticle.class);
+
+  <span class="hljs-keyword">private</span> KnotxGatewayKnotConfiguration configuration;
+
+  <span class="hljs-keyword">private</span> MessageConsumer&lt;JsonObject&gt; consumer;
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">(Vertx vertx, Context context)</span> </span>{
+    <span class="hljs-keyword">super</span>.init(vertx, context);
+    <span class="hljs-keyword">this</span>.configuration = <span class="hljs-keyword">new</span> KnotxGatewayKnotConfiguration(config());
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">start</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>{
+    LOGGER.info(<span class="hljs-string">"Starting &lt;{}&gt;"</span>, <span class="hljs-keyword">this</span>.getClass().getSimpleName());
+    consumer = ProxyHelper
+        .registerService(KnotProxy.class, vertx,
+            <span class="hljs-keyword">new</span> RequestProcessorKnotProxyImpl(),
+            configuration.getAddress());
+
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">stop</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>{
+    ProxyHelper.unregisterService(consumer);
+  }
+}
+</code></pre>
+<p>The next step is to create <code>RequestProcessorKnotProxyImpl</code> which is an <code>AbstractKnotProxy</code>.
+This is the place where a response will be created:</p>
+<pre class="highlight"><code class="hljs java"><span class="hljs-keyword">package</span> io.knotx.example.gateway.impl;
+
+<span class="hljs-keyword">import</span> io.knotx.dataobjects.ClientResponse;
+<span class="hljs-keyword">import</span> io.knotx.dataobjects.KnotContext;
+<span class="hljs-keyword">import</span> io.knotx.knot.AbstractKnotProxy;
+<span class="hljs-keyword">import</span> io.netty.handler.codec.http.HttpResponseStatus;
+<span class="hljs-keyword">import</span> io.vertx.core.buffer.Buffer;
+<span class="hljs-keyword">import</span> io.vertx.core.http.HttpHeaders;
+<span class="hljs-keyword">import</span> io.vertx.core.json.JsonArray;
+<span class="hljs-keyword">import</span> io.vertx.core.json.JsonObject;
+<span class="hljs-keyword">import</span> java.util.NoSuchElementException;
+<span class="hljs-keyword">import</span> java.util.Set;
+<span class="hljs-keyword">import</span> rx.Single;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RequestProcessorKnotProxyImpl</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractKnotProxy</span> </span>{
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">protected</span> Single&lt;KnotContext&gt; <span class="hljs-title">processRequest</span><span class="hljs-params">(KnotContext knotContext)</span> </span>{
+    <span class="hljs-keyword">return</span> Single.just(createSuccessResponse(knotContext));
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">shouldProcess</span><span class="hljs-params">(Set&lt;String&gt; knots)</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">protected</span> KnotContext <span class="hljs-title">processError</span><span class="hljs-params">(KnotContext knotContext, Throwable error)</span> </span>{
+    HttpResponseStatus statusCode;
+    <span class="hljs-keyword">if</span> (error <span class="hljs-keyword">instanceof</span> NoSuchElementException) {
+      statusCode = HttpResponseStatus.NOT_FOUND;
+    } <span class="hljs-keyword">else</span> {
+      statusCode = HttpResponseStatus.INTERNAL_SERVER_ERROR;
+    }
+    knotContext.getClientResponse().setStatusCode(statusCode.code());
+    <span class="hljs-keyword">return</span> knotContext;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">private</span> KnotContext <span class="hljs-title">createSuccessResponse</span><span class="hljs-params">(KnotContext knotContext)</span> </span>{
+
+    ClientResponse clientResponse = <span class="hljs-keyword">new</span> ClientResponse();
+
+    io.vertx.rxjava.core.MultiMap headers = clientResponse.getHeaders();
+    <span class="hljs-keyword">final</span> String response = generateResponse(knotContext);
+    headers.add(HttpHeaders.CONTENT_LENGTH.toString().toLowerCase(),
+        Integer.toString(response.length()))
+        .add(<span class="hljs-string">"Content-Type"</span>, <span class="hljs-string">"application/json"</span>);
+
+    clientResponse.setBody(Buffer.buffer(response)).setHeaders(headers);
+    clientResponse.setStatusCode(HttpResponseStatus.OK.code());
+
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> KnotContext()
+        .setClientRequest(knotContext.getClientRequest())
+        .setClientResponse(clientResponse);
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">generateResponse</span><span class="hljs-params">(KnotContext knotContext)</span> </span>{
+    JsonObject response = <span class="hljs-keyword">new</span> JsonObject();
+        response.put(<span class="hljs-string">"name"</span>, <span class="hljs-string">"example"</span>);
+        response.put(<span class="hljs-string">"rates"</span>,
+           <span class="hljs-keyword">new</span> JsonArray(<span class="hljs-string">"[[1498232814506,50.968072700299615],[1498232815506,49.73653935458357],[1498232816506,52.066547246591384],"</span>
+               + <span class="hljs-string">"[1498232817506,52.753176265338354],[1498232818506,54.287003496637524],[1498232819506,59.22586695165852],"</span>
+               + <span class="hljs-string">"[1498232820506,57.54826302123493],[1498232821506,62.03889260639349],[1498232822506,65.86002197809175],"</span>
+               + <span class="hljs-string">"[1498232823506,65.8111043728656],[1498232824506,65.76628610064904],[1498232825506,66.82933024734697],"</span>
+               + <span class="hljs-string">"[1498232826506,67.434139241855],[1498232827506,68.04628203063808],[1498232828506,72.61484706496175],"</span>
+               + <span class="hljs-string">"[1498232829506,78.02558934566414],[1498232830506,76.99705472126708],[1498232831506,80.51276063071195],"</span>
+               + <span class="hljs-string">"[1498232832506,76.46702027132517],[1498232833506,79.79124722536811],[1498232834506,84.8658910337025],"</span>
+               + <span class="hljs-string">"[1498232835506,89.01769877015262],[1498232836506,85.50230403942585],[1498232837506,88.09068504360295],"</span>
+               + <span class="hljs-string">"[1498232838506,89.90642194355952],[1498232839506,85.15114192802366],[1498232840506,85.01778836267285],"</span>
+               + <span class="hljs-string">"[1498232841506,83.2929267133251],[1498232842506,87.10970664505882],[1498232843506,77.3429772225821],"</span>
+               + <span class="hljs-string">"[1498232844506,74.9584782131682],[1498232845506,75.19028404805175],[1498232846506,76.13972926384264],"</span>
+               + <span class="hljs-string">"[1498232847506,75.89953615652841],[1498232848506,75.90148493621763],[1498232849506,71.06101041063238]]"</span>)
+        );
+        <span class="hljs-keyword">return</span> response.toString();
+  }
+
+}
+</code></pre>
+<p>Here in the <code>processRequest</code> method, the response is created. It is just the mocked JSON with the <code>name</code> and some <code>rates</code> in the form of an JsonArray.
+If you want it make more realistic, you can use a <code>MarketSimulation</code> class that I&#39;ve shared <a href="https://github.com/Knotx/knotx-tutorials/blob/master/conferences/devoxx2017/examples/market-api/src/main/java/io/knotx/example/gateway/impl/MarketSimulation.java">here</a>.</p>
+<p>The last thing - we create a default configuration for the module.
+Create <code>example.io.knotx.RequestProcessorKnot.json</code> configuration file under <code>market-api\src\main\resources</code>.
+Define the <code>main</code> verticle (the one that will setup the module) and the address of the Request Processor on the Event Bus:</p>
+<pre class="highlight"><code class="hljs json">{
+  <span class="hljs-attr">"main"</span>: <span class="hljs-string">"io.knotx.example.gateway.RequestProcessorKnotVerticle"</span>,
+  <span class="hljs-attr">"options"</span>: {
+    <span class="hljs-attr">"config"</span>: {
+      <span class="hljs-attr">"address"</span>: <span class="hljs-string">"knotx.gateway.requestprocessor"</span>
+    }
+  }
+}
+</code></pre>
+<p>And that&#39;s it - let&#39;s build the module and set up Knot.x instance.</p>
+<h2 id="running-web-api-with-knot-x">Running Web API with Knot.x</h2>
+<p>Create a folder where we will start <em>Knot.x</em> and our Gateway module. Let&#39;s name it <code>demo</code>. It should contain the following files:</p>
+<pre class="highlight"><code class="hljs routeros">├── knotx-standalone-1.1.0.json  (download <span class="hljs-keyword">from</span> Maven Central)
+├── knotx-standalone-1.1.0.logback.xml (download <span class="hljs-keyword">from</span> Maven Central)
+├── app
+│   ├── knotx-standalone-1.1.0.fat.jar (download <span class="hljs-keyword">from</span> Maven Central)
+│   ├── market-api-1.0.jar (copy <span class="hljs-keyword">from</span> the market-api/target)
+├── content (download <span class="hljs-keyword">from</span> tutorial github)
+│   ├── example
+│       ├── data        (contains js that request Web API with jquery)
+│       ├── dist        (contains<span class="hljs-built_in"> page </span>assets)
+│       ├── pages       (contains the html<span class="hljs-built_in"> page </span>- this will be Knot.x repoistory dir)
+│       ├── vendor      (contains some vendors libraries that are used <span class="hljs-keyword">to</span> render a page)</code></pre><p>You may download <em>Knot.x</em> files from the Maven Central Repository and tutorial github:</p>
+<ol>
+<li><a href="https://oss.sonatype.org/content/groups/public/io/knotx/knotx-standalone/1.1.0/knotx-standalone-1.1.0.fat.jar">Knot.x standalone fat jar</a></li>
+<li><a href="https://oss.sonatype.org/content/groups/public/io/knotx/knotx-standalone/1.1.0/knotx-standalone-1.1.0.json">JSON configuration file</a></li>
+<li><a href="https://oss.sonatype.org/content/groups/public/io/knotx/knotx-standalone/1.1.0/knotx-standalone-1.1.0.logback.xml">Log configuration file</a></li>
+</ol>
+<p>The best way to download <code>content</code> is to checkout <a href="https://github.com/Knotx/knotx-tutorials"><code>knotx-tutorials</code></a>
+or <a href="https://github.com/Knotx/knotx-tutorials/archive/master.zip">download repository as ZIP</a>.</p>
+<h3 id="configuration">Configuration</h3>
+<p>Open <code>knotx-standalone-1.1.0.json</code> in your favourite IDE and let&#39;s configure Knot.x instance.
+First, let&#39;s define all modules that will be:</p>
+<pre class="highlight"><code class="hljs json">{
+  <span class="hljs-attr">"modules"</span>: [
+    <span class="hljs-string">"knotx:io.knotx.KnotxServer"</span>,
+    <span class="hljs-string">"knotx:io.knotx.FilesystemRepositoryConnector"</span>,
+    <span class="hljs-string">"knotx:io.knotx.FragmentSplitter"</span>,
+    <span class="hljs-string">"knotx:io.knotx.FragmentAssembler"</span>,
+    <span class="hljs-string">"knotx:io.knotx.ServiceKnot"</span>,
+    <span class="hljs-string">"knotx:io.knotx.HandlebarsKnot"</span>,
+    <span class="hljs-string">"knotx:io.knotx.HttpServiceAdapter"</span>,
+    <span class="hljs-string">"knotx:io.knotx.GatewayKnot"</span>,
+    <span class="hljs-string">"knotx:example.io.knotx.RequestProcessorKnot"</span>,
+    <span class="hljs-string">"knotx:io.knotx.ResponseProviderKnot"</span>
+  ]
+}</code></pre><p>As you can see, one of modules is <code>knotx:example.io.knotx.RequestProcessorKnot</code> that we created in the <code>market-api</code>. By this naming convention,
+Knot.x will search for <code>example.io.knotx.RequestProcessorKnot.json</code> file in the classpath and start defined there Verticle.</p>
+<p>Now, let&#39;s override default <code>knotx:io.knotx.KnotxServer</code> settings where besides the <code>defaultFlow</code> we will define a <code>customFlow</code>. You can find
+more details how to override the default configuration <a href="https://github.com/Cognifide/knotx/wiki/KnotxDeployment">here</a>.</p>
+<h4 id="note">Note</h4>
+<p>You will see multiple entries in <code>defaultFlow.repositories</code>. This is just for the demo purposes.
+In the real world (production) requests for css/js/image and other page assets shouldn&#39;t be routed through Knot.x but
+handled e.g. by Apache Server that is in front of Knot.x instance and takes care of all static files.</p>
+<pre class="highlight"><code class="hljs undefined">    "knotx:io.knotx.KnotxServer": {
+      "options": {
+        "config": {
+          "defaultFlow": {
+            "repositories": [
+              {
+                "path": "/example/data/.*",
+                "address": "knotx.core.repository.filesystem",
+                "doProcessing": false
+              },
+              {
+                "path": "/example/dist/.*",
+                "address": "knotx.core.repository.filesystem",
+                "doProcessing": false
+              },
+              {
+                "path": "/example/vendor/.*",
+                "address": "knotx.core.repository.filesystem",
+                "doProcessing": false
+              },
+              {
+                "path": "/example/pages/.*",
+                "address": "knotx.core.repository.filesystem"
+              }
+            ],
+            "splitter": {
+              "address": "knotx.core.splitter"
+            },
+            "routing": {
+              "GET": [
+                {
+                  "path": "/example/.*",
+                  "address": "knotx.knot.service",
+                  "onTransition": {
+                    "next": {
+                      "address": "knotx.knot.handlebars"
+                    }
+                  }
+                }
+              ]
+            },
+            "assembler": {
+              "address": "knotx.core.assembler"
+            }
+          },
+          "customFlow": {
+            "routing": {
+              "GET": [
+                {
+                  "path": "/prices/.*",
+                  "address": "knotx.gateway.gatewayknot",
+                  "onTransition": {
+                    "next": {
+                      "address": "knotx.gateway.requestprocessor"
+                    }
+                  }
+                }
+              ]
+            },
+            "responseProvider": {
+              "address": "knotx.gateway.responseprovider"
+            }
+          }
+        }
+      }
+    }</code></pre>
+<p>So what happens inside the <code>customFlow</code>? Thanks to it we can define an additional routing, that Knot.x will handle.
+In this case, we define, that <code>GET</code> requests under <code>/prices/.*</code> path are processed by the Gateway Knot.
+And then (on transition) it will be routed to our RequestProcessorKnotProxyImpl.</p>
+<p>Finally our request will be processed by the <code>responseProvider</code> which (in its simple default implementation) just forwards the response to the client.</p>
+<p>To run the Knot.x example we still need to configure the repository and service knot and adapter
+(for backend integration that is running aside client-side in this example):</p>
+<pre class="highlight"><code class="hljs undefined">    "knotx:io.knotx.FilesystemRepositoryConnector": {
+      "options": {
+        "config": {
+          "address": "knotx.core.repository.filesystem",
+          "catalogue": "./content/"
+        }
+      }
+    }</code></pre>
+<h2 id="running-the-demo">Running the demo</h2>
+<p>And now the last part. Let&#39;s run the example by executing following command in <code>demo</code>:</p>
+<pre class="highlight"><code class="hljs stylus">$ java -Dlogback.configurationFile=knotx-standalone-<span class="hljs-number">1.1</span>.<span class="hljs-number">0</span><span class="hljs-selector-class">.logback</span><span class="hljs-selector-class">.xml</span> -cp <span class="hljs-string">"app/*"</span> io<span class="hljs-selector-class">.knotx</span><span class="hljs-selector-class">.launcher</span><span class="hljs-selector-class">.LogbackLauncher</span> -conf knotx-standalone-<span class="hljs-number">1.1</span>.<span class="hljs-number">0</span>.json</code></pre><p>to start Knot.x instance with <code>market-api</code> module.</p>
+<p>Now you may enter the <a href="http://localhost:8092/example/pages/gateway-demo.html">page</a> and see the rendered diagram.</p>
+<p>If you want to find more details about this page, please see <a href="https://github.com/Knotx/knotx-tutorials/tree/master/conferences/devoxx2017"><code>Devoxx PL 2017 Knot.x demo script</code></a>.</p>
+
+          </section>
+        </article>
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_config = function () {
+        this.page.url = "http://knotx.io/tutorials/client-side-integration-with-knotx/1_1/";
+        this.page.identifier = "8893b9b1cf8293f4ba471e64b641a5fa";
+        };
+        (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = '//knotx-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+    </div>
+</div>
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+         <p>Knot.x is <a href="https://github.com/Cognifide/knotx">open source</a> and is licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0 License</a>.</p>
+      </div>
+      <div class="col-sm-5 col-sm-offset-1 text-right">
+        <p>Knot.x is brought to you with the support of <img src="/img/Cognified_Logo_white.png" alt="Cognifide"/></p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script defer="defer"  src="/scripts/vendor/jquery.min.js"></script><script defer="defer"  src="/scripts/vendor/bootstrap.min.js"></script><script defer="defer"  src="/scripts/vendor/highlight.pack.js"></script><script defer="defer"  src="/scripts/knotx.js"></script><script defer="defer"  src="/scripts/vendor/jquery.qtip.min.js"></script><script defer="defer"  src="/scripts/hovermap.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="We have just released a minor release Knot.x 1.4.0.">
+  <meta name="keywords" content="knotx, vertx, reactive, asynchronous, templating, java, polyglot, cms, release">
+  <title>Knot.x 1.4.0 released! - Knot.x Blog Post</title>
+
+  <meta property="og:title" content="Knot.x 1.4.0 released! - Knot.x Blog Post"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="http://knotx.io/blog/release-1_4_0/"/>
+  <meta property="og:site_name" content="Knot.x Website"/>
+  <meta property="og:description" content="We have just released a minor release Knot.x 1.4.0."/>
+  <meta property="og:image" content="http://knotx.io/img/logo-240x240.png"/>
+
+  <link rel="apple-touch-icon" sizes="57x57" href="/img/favicons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/img/favicons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/img/favicons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/img/favicons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/img/favicons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/img/favicons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/img/favicons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/favicons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicons/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/img/favicons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicons/favicon-16x16.png">
+  <link rel="manifest" href="/img/favicons/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/img/favicons/ms-icon-144x144.png">
+  <meta name="theme-color" content="#9f136c">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Montserrat:200,300,400,500,700|Ubuntu:300,400,500,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link  rel="stylesheet" href="/styles/bootstrap.css" /><link  rel="stylesheet" href="/styles/github.css" /><link  rel="stylesheet" href="/styles/knotx.css" />
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+  <body >
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-92165781-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    <!-- Header -->
+<header class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/img/logo-knotx.png" class="navbar-brand-logo" alt="Knot.x Logo"/>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        
+        <li><a href="/download/">Download</a></li>
+        
+        <li><a href="/business/">Business</a></li>
+        
+        <li><a href="/tutorials/">Tutorials</a></li>
+        
+        <li><a href="https://github.com/Cognifide/knotx/issues">Issues</a></li>
+        
+        <li><a href="https://github.com/Cognifide/knotx/wiki">Wiki</a></li>
+        
+        <li><a href="/community/">Community</a></li>
+        
+        <li><a href="/blog/">Blog</a></li>
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</header>
+
+    <!-- Content Header -->
+<div class="content-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>Knot.x 1.4.0 released!</h1>
+      </div>
+    </div>    
+  </div>
+  
+</div>
+
+<div class="container flex blog">
+    <div class="row">
+      <div class="col-sm-12">
+        <article>
+          <header class="meta">
+  <a class="meta-item" href="https://github.com/skejven">Maciej Laskowski</a>
+  <time class="meta-item date"
+        datetime="2018-10-10">October 10th, 2018
+  </time>
+
+  <div class="meta-item">
+    
+      <a class="meta-item" href="https://github.com/Cognifide/knotx/releases/tag/1.4.0">1.4.0</a>
+    
+  </div>
+</header>
+
+          <section class="post">
+            <h1 id="knot-x-1-4-0">Knot.x 1.4.0</h1>
+<h2 id="release-notes">Release Notes</h2>
+<h3 id="knotx-core"><a href="https://github.com/Cognifide/knotx">knotx-core</a></h3>
+<ul>
+<li><a href="https://github.com/Cognifide/knotx/pull/427">PR-427</a> - HttpRepositoryConnectorProxyImpl logging improvements</li>
+<li><a href="https://github.com/Cognifide/knotx/pull/422">PR-422</a> - Configurable Handlebars delimiters</li>
+<li><a href="https://github.com/Cognifide/knotx/pull/428">PR-428</a> - Mark all Service Knot related classes deprecated.</li>
+<li><a href="https://github.com/Cognifide/knotx/pull/432">PR-432</a> - Port unit and integration tests to JUnit 5</li>
+<li><a href="https://github.com/Cognifide/knotx/pull/440">PR-440</a> - Enable different Vert.x Config stores types fix.</li>
+<li><a href="https://github.com/Cognifide/knotx/pull/443">PR-443</a> - Update maven plugins versions.</li>
+<li><a href="https://github.com/Cognifide/knotx/pull/445">PR-445</a> - Vert.x version upgrade to 3.5.3</li>
+<li><a href="https://github.com/Cognifide/knotx/pull/458">PR-458</a> - Remove unused StringToPattern function</li>
+</ul>
+<h3 id="knotx-dependencies"><a href="https://github.com/Knotx/knotx-dependencies">knotx-dependencies</a></h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-dependencies/pull/2">PR-2</a> - JUnit 5 libraries added</li>
+<li><a href="https://github.com/Knotx/knotx-dependencies/pull/7">PR-7</a> - Configure Knot.x Data Bridge in BOM file</li>
+<li><a href="https://github.com/Knotx/knotx-dependencies/pull/9">PR-9</a> - Updated JUnit, added Apache Collections v4 and AssertJ versions</li>
+<li><a href="https://github.com/Knotx/knotx-dependencies/pull/10">PR-10</a> - Vert.x version upgraded to 3.5.3</li>
+</ul>
+<h3 id="knotx-junit5"><a href="https://github.com/Knotx/knotx-junit5">knotx-junit5</a></h3>
+<p>First release of the Knot.x Junit5 module that enables full support for Junit5 in Knot.x tests.</p>
+<h3 id="knotx-data-bridge"><a href="https://github.com/Knotx/knotx-data-bridge">knotx-data-bridge</a></h3>
+<p>First release of the <a href="https://github.com/Knotx/knotx-data-bridge">Knot.x Data Bridge</a> module
+that replaces old <a href="https://github.com/Cognifide/knotx/wiki/ServiceKnot">Knot.x Service Knot</a>
+(which is now deprecated and will be removed soon).</p>
+<h3 id="knotx-stack"><a href="https://github.com/Knotx/knotx-stack">knotx-stack</a></h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-stack/pull/5">PR-5</a> - Knot.x Data Bridge introduced instead of Service Knot</li>
+<li><a href="https://github.com/Knotx/knotx-stack/pull/18">PR-18</a> - Introduced Junit5 and integration tests module</li>
+<li><a href="https://github.com/Knotx/knotx-stack/pull/25">PR-25</a> - Fixed http repo headers conifg</li>
+</ul>
+<h3 id="knotx-example-project"><a href="https://github.com/Knotx/knotx-example-project">knotx-example-project</a></h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-example-project/pull/19">PR-19</a> - Fixed http repo headers conifg</li>
+</ul>
+<h2 id="upgrade-notes">Upgrade Notes</h2>
+<h3 id="replace-service-knot-with-data-bridge-knot">Replace <code>Service Knot</code> with <code>Data Bridge Knot</code></h3>
+<blockquote>
+<p>Notice! You may still use old <code>Service Knot</code> with Knot.x 1.4 if you want
+In order to start using Knot.x with Data Bridge do following changes:</p>
+</blockquote>
+<h4 id="configuration-files">Configuration files</h4>
+<ol>
+<li>In your main config, update <code>modules</code> section from:<pre class="highlight"><code class="hljs ruby"><span class="hljs-string">"serviceKnot=io.knotx.knot.service.ServiceKnotVerticle"</span>
+<span class="hljs-string">"serviceAdapter=io.knotx.adapter.service.http.HttpServiceAdapterVerticle"</span></code></pre>
+</li>
+</ol>
+<p>to</p>
+<pre class="highlight"><code class="hljs ruby">  <span class="hljs-string">"dataBridge=io.knotx.databridge.core.DataBridgeKnot"</span>
+  <span class="hljs-string">"dataSourceHttp=io.knotx.databridge.http.HttpDataSourceAdapter"</span></code></pre>
+<ol start="2">
+<li>Define Data Bridge constants in the <code>global</code> section of <code>application.conf</code>:<pre class="highlight"><code class="hljs ruby"><span class="hljs-comment"># Data Bridge globals</span>
+bridge {
+ address = knotx.knot.databridge
+ dataSource {
+   http.address = knotx.bridge.datasource.http
+ }
+}</code></pre>
+</li>
+<li>nstead including <code>serviceKnot.conf</code> and <code>serviceAdapter.conf</code> change includes
+to <code>dataBridge.conf</code> and <code>dataSourceHttp.conf</code>.
+You will find examples of those files in
+<a href="https://github.com/Knotx/knotx-stack/blob/1.4.0/knotx-stack-manager/src/main/packaging/conf/includes"><code>knotx-stack distribution</code></a>.</li>
+<li>Move all your <code>services</code> definitions from <code>serviceKnot.conf</code> to <code>dataDefinitions</code> in <code>dataBridge.conf</code>.</li>
+<li>Move all your <code>services</code> definitions from <code>serviceAdapter.conf</code> to <code>dataSourceHttp.conf</code>.</li>
+</ol>
+<p>Refer to <a href="https://github.com/Knotx/knotx-stack/blob/1.4.0/knotx-stack-manager/src/main/packaging/conf/application.conf">example application.conf</a>
+in the Knot.x Stack project.</p>
+<h4 id="page-templates">Page templates</h4>
+<p>Alter all Knot.x snippets in your repository.</p>
+<ol>
+<li>Update <code>data-knotx-knots</code> values from <code>services</code> to <code>databridge</code>.</li>
+<li>Update data bindings from <code>data-knotx-service-${NAMESPACE}</code> to <code>data-knotx-databridge-name-${NAMESPACE}</code>.</li>
+<li>Update data params from <code>data-knotx-params-${NAMESPACE}</code> to <code>data-knotx-databridge-params-${NAMESPACE}</code>.</li>
+</ol>
+<p>If you use custom param-prefix (default is <code>data-knotx-</code>), you may also set them for Knot.x Data Bridge module.</p>
+<h4 id="custom-adapters-upgrade">Custom adapters upgrade</h4>
+<p>If you implemented your own Service Adapter (by implementing
+<a href="https://github.com/Cognifide/knotx/blob/1.3.0/knotx-core/src/main/java/io/knotx/proxy/AdapterProxy.java"><code>io.knotx.proxy.AdapterProxy</code></a>
+refactor it to implement
+<a href="https://github.com/Knotx/knotx-data-bridge/blob/1.4.0/api/src/main/java/io/knotx/databridge/api/DataSourceAdapterProxy.java"><code>io.knotx.databridge.api.DataSourceAdapterProxy.java</code></a>
+instead.</p>
+<h4 id="tests-update">Tests update</h4>
+<p>Knot.x 1.4 comes with JUnit 5 support. Instead of including <code>knotx-core</code> start using <code>knotx-junit5</code>.
+Instead of using <code>@RunWith(VertxUnitRunner.class)</code> use extension <code>@ExtendWith(KnotxExtension.class)</code>.</p>
+<p>Also you don&#39;t need those any more:</p>
+<pre class="highlight"><code class="hljs java">  <span class="hljs-keyword">private</span> RunTestOnContext vertx = <span class="hljs-keyword">new</span> RunTestOnContext();
+  <span class="hljs-keyword">private</span> TestVertxDeployer knotx = <span class="hljs-keyword">new</span> TestVertxDeployer(vertx);
+  <span class="hljs-meta">@Rule</span>
+  <span class="hljs-keyword">public</span> RuleChain chain = RuleChain.outerRule(vertx).around(knotx);</code></pre>
+<p>Just annotate your tests with <code>@KnotxApplyConfiguration(&quot;path-to-config&quot;)</code>
+instead of <code>@KnotxConfiguration(&quot;path-to-config&quot;)</code>.</p>
+<p>You may find example of migrating Knot.x JUnit tests in those PRs:</p>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-data-bridge/pull/19/files">Data Bridge JUnit 5 migration</a></li>
+<li><a href="https://github.com/Cognifide/knotx/pull/432/files">Knot.x Core JUnit 5 migration</a></li>
+</ul>
+<h3 id="fix-http-repository-headers-wildcards">Fix <code>Http Repository</code> headers wildcards</h3>
+<p>In the Http Repository configuration update <code>allowedRequestHeaders</code> section.
+<code>*</code> is no longer a wildcard, now regexp are allowed so e.g. change any:</p>
+<pre class="highlight"><code class="hljs ruby">allowedRequestHeaders = [
+  <span class="hljs-string">"Accept*"</span>
+  ...
+]</code></pre>
+<p>to</p>
+<pre class="highlight"><code class="hljs ruby">allowedRequestHeaders = [
+  <span class="hljs-string">"Accept.*"</span>
+  ...
+]</code></pre>
+<p>All regular expressions are supported.</p>
+
+          </section>
+        </article>
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_config = function () {
+        this.page.url = "http://knotx.io/blog/release-1_4_0/";
+        this.page.identifier = "1b0cd7209058073cc1aa9a8a211b9047";
+        };
+        (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = '//knotx-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+    </div>
+</div>
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+         <p>Knot.x is <a href="https://github.com/Cognifide/knotx">open source</a> and is licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0 License</a>.</p>
+      </div>
+      <div class="col-sm-5 col-sm-offset-1 text-right">
+        <p>Knot.x is brought to you with the support of <img src="/img/Cognified_Logo_white.png" alt="Cognifide"/></p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script defer="defer"  src="/scripts/vendor/jquery.min.js"></script><script defer="defer"  src="/scripts/vendor/bootstrap.min.js"></script><script defer="defer"  src="/scripts/vendor/highlight.pack.js"></script><script defer="defer"  src="/scripts/knotx.js"></script><script defer="defer"  src="/scripts/vendor/jquery.qtip.min.js"></script><script defer="defer"  src="/scripts/hovermap.js"></script>
+
+<script id="dsq-count-scr" src="//knotx-io.disqus.com/count.js" async></script>
+
+  </body>
+</html>
