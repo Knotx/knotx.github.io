@@ -117,11 +117,11 @@
       <a class="post-btn" href="/tutorials/getting-started-with-knotx-stack/1_3/">1.3.0</a>
     
       <a class="post-btn" href="/tutorials/getting-started-with-knotx-stack/1_4/">1.4.0</a>
-    
+
       <a class="post-btn" href="/tutorials/getting-started-with-knotx-stack/1_5/">1.5.0</a>
     
       <a class="post-btn" href="/tutorials/getting-started-with-knotx-stack/edge/">edge</a>
-    
+
   </div>
 </header>
 
@@ -196,8 +196,8 @@ It is not designed to be used as a production ready solution (you should use <co
 <p>By doing that you let Knot.x instance to start <code>FilesystemRepositoryConnector</code> with the name <code>fileSystemRepo</code>. 
 It will be later referenced by this name in configurations.</p>
 </li>
-<li><p>uncomment <code>fileSystemRepo</code> in the <code>global.address</code> section to define the Event Bus address of Filesystem Repository.</p>
-<pre class="highlight"><code class="hljs ruby">fileSystemRepo = knotx.core.repository.filesystem</code></pre>
+<li><p>uncomment <code>fileSystemRepo.address</code> in the <code>global.repositories</code> section to define the Event Bus address of Filesystem Repository.</p>
+<pre class="highlight"><code class="hljs ruby">fileSystemRepo.address = knotx.core.repository.filesystem</code></pre>
 </li>
 </ul>
 <ul>
@@ -267,7 +267,7 @@ You may see that Knot.x instance reloaded modules and <code>fileSystemRepo</code
 <p>Create <code>conf/includes/fileSystemRepo.conf</code> file with the following:</p>
 <pre class="highlight"><code class="hljs ruby"><span class="hljs-comment"># Event bus address on which the File System Repository connector listens on. Default is 'knotx.core.repository.filesystem'</span>
 <span class="hljs-comment"># Here below, we use a global constant defined in `conf/application.conf`</span>
-address = ${global.address.fileSystemRepo}
+address = ${global.repositories.fileSystemRepo}
 <span class="hljs-comment"># Path to the directory on the local filesystem which will be the root for requested templates</span>
 catalogue = <span class="hljs-string">"./content/"</span></code></pre>
 <p>This way we define the <code>content</code> directory that will to be our file repository.</p>
@@ -285,7 +285,7 @@ defaultFlow {
   repositories = [
     {
       path = <span class="hljs-string">".*"</span>
-      address = ${global.address.fileSystemRepo}
+      address = ${global.repositories.fileSystemRepo}
     }
   ]
 ...</code></pre>

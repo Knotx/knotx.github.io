@@ -255,7 +255,7 @@ However, remember that it is marked as @Deprecated and will be removed in the ne
 <li><p>Replace all occurenes of the Handlebars Knot address in the Server routing <code>defaultFlow</code> from <code>${global.hbs.address}</code> to <code>${global.templateEngine.address}</code>.</p>
 </li>
 <li><p>Instead including <code>hbsKnot.conf</code> change include to <code>templateEngine.conf</code>. You will find examples configuration files in 
-the <a href="https://github.com/Knotx/knotx-stack/blob/master/knotx-stack-manager/src/main/packaging/conf/includes">knotx-stack distribution</a>.</p>
+the <a href="https://github.com/Knotx/knotx-stack/blob/1.5.0/knotx-stack-manager/src/main/packaging/conf/includes">knotx-stack distribution</a>.</p>
 </li>
 </ol>
 <h4 id="page-templates-">Page templates:</h4>
@@ -263,7 +263,7 @@ the <a href="https://github.com/Knotx/knotx-stack/blob/master/knotx-stack-manage
 <li><p>Update <code>data-knotx-knots</code> values from <code>handlebars</code> to <code>te</code>.</p>
 </li>
 <li><p>Example helpers: <code>string_equals</code> and <code>encode_uri</code> that were embedded into Handlebars Knot are no longer available in the Template Engine.
-You may introduce them by defining handlebars extension as it is presented in the <a href="https://github.com/Knotx/knotx-example-project/tree/master/acme-handlebars-ext">example project</a>.</p>
+You may introduce them by defining handlebars extension as it is presented in the <a href="https://github.com/Knotx/knotx-example-project/tree/1.5.0/acme-handlebars-ext">example project</a>.</p>
 </li>
 </ol>
 

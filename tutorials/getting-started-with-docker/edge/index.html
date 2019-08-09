@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Knot.x Website">
+  <meta name="keywords" content="knotx, vertx, reactive, asynchronous, templating, java, polyglot, cms, tutorial">
+  <title>Getting Started with Docker</title>
+
+  <meta property="og:title" content="Getting Started with Docker"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="http://knotx.io/tutorials/getting-started-with-docker/edge/"/>
+  <meta property="og:site_name" content="Knot.x Website"/>
+  <meta property="og:description" content="Knot.x Website"/>
+  <meta property="og:image" content="http://knotx.io/img/logo-240x240.png"/>
+
+  <link rel="apple-touch-icon" sizes="57x57" href="/img/favicons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/img/favicons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/img/favicons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/img/favicons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/img/favicons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/img/favicons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/img/favicons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/favicons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicons/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/img/favicons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicons/favicon-16x16.png">
+  <link rel="manifest" href="/img/favicons/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/img/favicons/ms-icon-144x144.png">
+  <meta name="theme-color" content="#9f136c">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Montserrat:200,300,400,500,700|Ubuntu:300,400,500,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link  rel="stylesheet" href="/styles/bootstrap.css" /><link  rel="stylesheet" href="/styles/github.css" /><link  rel="stylesheet" href="/styles/knotx.css" />
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+  <body >
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-92165781-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    <!-- Header -->
+<header class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/img/logo-knotx.png" class="navbar-brand-logo" alt="Knot.x Logo"/>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        
+        <li><a href="/download/">Download</a></li>
+        
+        <li><a href="/business/">Business</a></li>
+        
+        <li><a href="/tutorials/">Tutorials</a></li>
+        
+        <li><a href="https://github.com/Cognifide/knotx/issues">Issues</a></li>
+        
+        <li><a href="https://github.com/Cognifide/knotx/wiki">Wiki</a></li>
+        
+        <li><a href="/community/">Community</a></li>
+        
+        <li><a href="/blog/">Blog</a></li>
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</header>
+
+    <!-- Content Header -->
+<div class="content-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>Getting Started with Docker</h1>
+      </div>
+    </div>    
+  </div>
+  
+    <div class="row edge">
+      <div class="container">
+        <h5>This post may be changed. It referes to development version.</h5>
+      </div>
+    </div>
+  
+</div>
+
+<div class="container flex blog">
+    <div class="row">
+      <div class="col-sm-12">
+        <article>
+          <header class="meta">
+  <a class="meta-item" href="https://github.com/marcinkp">Piotr Marcinkowski</a>
+  <time class="meta-item date"
+        datetime="2019-08-07">August 7th, 2019
+  </time>
+
+  <div class="post-versions">    
+    
+      <a class="post-btn" href="/tutorials/getting-started-with-docker/edge/">edge</a>
+    
+  </div>
+</header>
+
+          <section class="post">
+            <h2 id="overview">Overview</h2>
+<p>In this tutorial, we will setup a simple project based on the <a href="https://github.com/Knotx/knotx-starter-kit">Knot.x Starter Kit</a> template.
+You will customize the Knot.x distribution with your own modules and configuration entries. Then you will build your custom Docker image.</p>
+<p>What you’re going to learn:</p>
+<ul>
+<li>How to setup a Knot.x project with customization based on the <a href="https://github.com/Knotx/knotx-starter-kit">Knot.x Starter Kit</a> template</li>
+<li>How to transform a static HTML into the dynamic content and configure Knot.x to use REST services to get data</li>
+<li>How to use the data from such services to dynamically populate HTML</li>
+<li>How to implement custom <a href="https://github.com/Knotx/knotx-fragments/tree/master/handler/api">Action</a></li>
+</ul>
+<h2 id="setup-basic-knot-x-project">Setup basic Knot.x project</h2>
+<p><strong>Prerequisites</strong>
+You will need the following things to use Knot.x:</p>
+<ul>
+<li>JDK 8</li>
+<li>Linux or OSX bash console (for Windows users we recommend using e.g. Ubuntu with <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">Windows Subsystem for Linux</a>).</li>
+<li>Docker </li>
+</ul>
+<p>Download <a href="https://github.com/Knotx/knotx-starter-kit/releases">Latest Knot.x Starter Kit release</a> and unzip it.</p>
+<p>Project has the following structure:</p>
+<pre class="highlight"><code class="hljs lasso">├── docker
+|   ├── Dockerfile                <span class="hljs-comment">// Docker file with image definition.</span>
+├── functional                    <span class="hljs-comment">// Keep here your functional tests. Example implementation included</span>
+├── gradle                        <span class="hljs-comment">// Gradle wrapper and common gradle scripts</span>
+├── knotx                         <span class="hljs-comment">// Knotx configuration which will be copied to docker image</span>
+├── modules                       <span class="hljs-comment">// Sub-modules of your project</span>
+│   ├── <span class="hljs-params">...</span>                       <span class="hljs-comment">// example modules implementation</span></code></pre><h2 id="configuration">Configuration</h2>
+<h3 id="openapi-yml">openapi.yml</h3>
+<p>Open <code>knotx/conf/openapi.yml</code> and add following path definition:</p>
+<pre class="highlight"><code class="hljs dts">  <span class="hljs-meta-keyword">/content/</span>*:
+<span class="hljs-symbol">    get:</span>
+<span class="hljs-symbol">      operationId:</span> content-get
+<span class="hljs-symbol">      responses:</span>
+<span class="hljs-symbol">        default:</span>
+<span class="hljs-symbol">          description:</span> Remote repository template processing</code></pre><p>By doing this you define the operation which should be executed for path <code>/content/*</code>.</p>
+<h3 id="operations-conf">operations.conf</h3>
+<p>Now, you need to define operation <code>content-get</code>. Open <code>knotx/conf/routes/operations.con</code>
+Add in <code>routingOperations</code> array following definition:</p>
+<pre class="highlight"><code class="hljs routeros">  {
+    operationId = content-<span class="hljs-builtin-name">get</span>
+    handlers = <span class="hljs-variable">${config.server.handlers.common.request}</span> [
+      {
+        name = httpRepoConnectorHandler
+       <span class="hljs-built_in"> config </span>= {include required(classpath(<span class="hljs-string">"routes/handlers/httpRepoConnectorHandler.conf"</span>))}
+      },
+      {
+        name = htmlFragmentsSupplier
+      },
+      {
+        name = fragmentsHandler
+       <span class="hljs-built_in"> config </span>= {include required(classpath(<span class="hljs-string">"routes/handlers/fragmentsHandler.conf"</span>))}
+      },
+      {
+        name = fragmentsAssembler
+      }
+    ] <span class="hljs-variable">${config.server.handlers.common.response}</span>
+  }</code></pre><p>You have defined operation using <a href="https://github.com/Knotx/knotx-repository-connector/tree/master/http">httpRepoConnectorHandler</a> to
+fetch documents from external repository via HTTP protocol.</p>
+<p>Then the document is split into fragments. Fragments are processed by <a href="https://github.com/Knotx/knotx-fragments/tree/master/handler">fragmentsHandler</a></p>
+<p>Now you can define how fragments will be processed.</p>
+<h3 id="fragmentshandler-conf">fragmentsHandler.conf</h3>
+<p>Create a new file <code>knotx/conf/routes/handlers/fragmentsHandler.conf</code> and edit it:</p>
+<pre class="highlight"><code class="hljs routeros">tasks {
+  payment-check {
+    action =<span class="hljs-built_in"> user
+</span>    onTransitions {
+      _success {
+        actions = [
+          {
+            action = creditCard
+          }
+          {
+            action = paypal
+          }
+          {
+            action = payU
+          }
+        ]
+        onTransitions {
+          _success {
+            action = payments
+            onTransitions {
+              _success {
+                action = template-engine-handlebars
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+actions {
+  payments {
+    factory = payments
+  }
+ <span class="hljs-built_in"> user </span>{
+    factory = http
+   <span class="hljs-built_in"> config </span>{
+      endpointOptions {
+        path = <span class="hljs-built_in">/user
+</span>        domain = webapi
+       <span class="hljs-built_in"> port </span>= 8080
+        allowedRequestHeaders = [<span class="hljs-string">"Content-Type"</span>]
+      }
+    }
+  }
+  creditCard {
+    factory = http
+   <span class="hljs-built_in"> config </span>{
+      endpointOptions {
+        path = /creditcard/allowed
+        domain = webapi
+       <span class="hljs-built_in"> port </span>= 8080
+        allowedRequestHeaders = [<span class="hljs-string">"Content-Type"</span>]
+      }
+    }
+  }
+  paypal {
+    factory = http
+   <span class="hljs-built_in"> config </span>{
+      endpointOptions {
+        path = /paypal/verify
+        domain = webapi
+       <span class="hljs-built_in"> port </span>= 8080
+        allowedRequestHeaders = [<span class="hljs-string">"Content-Type"</span>]
+      }
+    }
+  }
+  payU {
+    factory = http
+   <span class="hljs-built_in"> config </span>{
+      endpointOptions {
+        path = /payu/active
+        domain = webapi
+       <span class="hljs-built_in"> port </span>= 8080
+        allowedRequestHeaders = [<span class="hljs-string">"Content-Type"</span>]
+      }
+    }
+  }
+  template-engine-handlebars {
+    factory = knot
+   <span class="hljs-built_in"> config </span>{
+     <span class="hljs-built_in"> address </span>= knotx.knot.te.handlebars
+      deliveryOptions {
+        sendTimeout = 3000
+      }
+    }
+  }
+}</code></pre><p>You have defined one task <code>payment-check</code>. You will refer to this task in <a href="#htmlTemplate">HTML Template</a>.</p>
+<p>Task perform action <code>user</code> and then in parallel <code>creditCard</code>, <code>paypal</code> and <code>payU</code>. All this actions use <a href="https://github.com/Knotx/knotx-data-bridge/tree/master/http"><code>http</code></a> implementation.
+Once all data from external services are fetched, action <code>payments</code> is executed. This action is a custom action that now we will implement.</p>
+<p>As mentioned before we use <a href="https://github.com/Knotx/knotx-repository-connector/tree/master/http">httpRepoConnectorHandler</a> to fetch documents. Modification
+is required for the default handler configuration. </p>
+<p>Create a new file <code>knotx/conf/routes/handlers/httpRepoConnectorHandler.conf</code> and edit it:</p>
+<pre class="highlight"><code class="hljs ruby">clientOptions {
+  maxPoolSize = <span class="hljs-number">1000</span>
+  idleTimeout = <span class="hljs-number">120</span> <span class="hljs-comment"># seconds</span>
+  tryUseCompression = <span class="hljs-literal">true</span>
+}
+
+clientDestination {
+  scheme = http
+  domain = repository
+  port = <span class="hljs-number">80</span>
+}
+
+allowedRequestHeaders = [
+  <span class="hljs-string">"Accept.*"</span>
+  Authorization
+  Connection
+  Cookie
+  Date
+  <span class="hljs-string">"Edge.*"</span>
+  <span class="hljs-string">"If.*"</span>
+  Origin
+  Pragma
+  Proxy-Authorization
+  <span class="hljs-string">"Surrogate.*"</span>
+  User-Agent
+  Via
+  <span class="hljs-string">"X-.*"</span>template-processing
+]
+
+customHttpHeader = {
+  name = X-User-Agent
+  value = Knot.x
+}
+</code></pre>
+<p>We change here the <code>domain</code> name from <code>localhost</code> to <code>repository</code>. Please check the <a href="#swarm">swarm</a> definition.</p>
+<h2 id="implementation">Implementation</h2>
+<p>Now, you are ready to implement custom <a href="https://github.com/Knotx/knotx-fragments/tree/master/handler/api#action">Action</a>. 
+The purpose of Action is to transform collected <code>json</code> data from external services into one <code>json</code> which can be used to fill <a href="#htmlTemplate">HTML Template</a>  </p>
+<p>Create the directory for new module <code>modules/payments</code>. 
+Edit the <code>settings.gradle.kts</code> and add two lines:</p>
+<pre class="highlight"><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">include</span><span class="hljs-params">(<span class="hljs-string">"payments"</span>)</span></span>
+
+<span class="hljs-function"><span class="hljs-title">project</span><span class="hljs-params">(<span class="hljs-string">":payments"</span>)</span></span><span class="hljs-selector-class">.projectDir</span> = file(<span class="hljs-string">"modules/payments"</span>)
+</code></pre><p>Add the following files:</p>
+<p><em>build.gradle.kts</em></p>
+<pre class="highlight"><code class="hljs kotlin">plugins {
+    `java-library`
+}
+
+dependencies {
+    implementation(group = <span class="hljs-string">"org.apache.commons"</span>, name = <span class="hljs-string">"commons-lang3"</span>)
+
+    <span class="hljs-string">"io.knotx:knotx"</span>.let { v -&gt;
+        implementation(platform(<span class="hljs-string">"<span class="hljs-variable">$v</span>-dependencies:<span class="hljs-subst">${project.property("knotx.version")}</span>"</span>))
+        implementation(<span class="hljs-string">"<span class="hljs-variable">$v</span>-server-http-api:<span class="hljs-subst">${project.property("knotx.version")}</span>"</span>)
+        implementation(<span class="hljs-string">"<span class="hljs-variable">$v</span>-fragments-handler-api:<span class="hljs-subst">${project.property("knotx.version")}</span>"</span>)
+    }
+    <span class="hljs-string">"io.vertx:vertx"</span>.let { v -&gt;
+        implementation(<span class="hljs-string">"<span class="hljs-variable">$v</span>-web"</span>)
+        implementation(<span class="hljs-string">"<span class="hljs-variable">$v</span>-web-client"</span>)
+        implementation(<span class="hljs-string">"<span class="hljs-variable">$v</span>-rx-java2"</span>)
+        implementation(<span class="hljs-string">"<span class="hljs-variable">$v</span>-circuit-breaker"</span>)
+    }
+}</code></pre>
+<p><em>src/main/resources/META-INF/services/io.knotx.fragments.handler.api.ActionFactory</em></p>
+<pre class="highlight"><code class="hljs stylus">io<span class="hljs-selector-class">.knotx</span><span class="hljs-selector-class">.example</span><span class="hljs-selector-class">.payment</span><span class="hljs-selector-class">.action</span><span class="hljs-selector-class">.PaymentsActionFactory</span></code></pre><p><em>src/main/java/io/knotx/example/payment/action/PaymentsActionFactory.java</em></p>
+<pre class="highlight"><code class="hljs java"><span class="hljs-keyword">package</span> io.knotx.example.payment.action;
+
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> io.knotx.example.payment.utils.ProvidersProvider.calculateProviders;
+
+<span class="hljs-keyword">import</span> org.apache.commons.lang3.StringUtils;
+
+<span class="hljs-keyword">import</span> io.knotx.fragments.handler.api.Action;
+<span class="hljs-keyword">import</span> io.knotx.fragments.handler.api.ActionFactory;
+<span class="hljs-keyword">import</span> io.knotx.fragments.handler.api.domain.FragmentResult;
+<span class="hljs-keyword">import</span> io.reactivex.Single;
+<span class="hljs-keyword">import</span> io.vertx.core.Future;
+<span class="hljs-keyword">import</span> io.vertx.core.Vertx;
+<span class="hljs-keyword">import</span> io.vertx.core.json.JsonObject;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PaymentsActionFactory</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ActionFactory</span> </span>{
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"payments"</span>;
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> Action <span class="hljs-title">create</span><span class="hljs-params">(String alias, JsonObject config, Vertx vertx, Action doAction)</span> </span>{
+    <span class="hljs-keyword">return</span> (fragmentContext, resultHandler) -&gt;
+        Single.just(fragmentContext.getFragment())
+            .map(fragment -&gt; {
+              JsonObject payload = fragment.getPayload();
+              JsonObject user = payload.getJsonObject(<span class="hljs-string">"user"</span>);
+              JsonObject payments = processProviders(payload);
+              fragment.clearPayload();
+              fragment.mergeInPayload(<span class="hljs-keyword">new</span> JsonObject().put(getAlias(alias), payments)
+                  .put(<span class="hljs-string">"user"</span>, user));
+              <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> FragmentResult(fragment, FragmentResult.SUCCESS_TRANSITION);
+            })
+            .subscribe(onSuccess -&gt; {
+              Future&lt;FragmentResult&gt; resultFuture = Future.succeededFuture(onSuccess);
+              resultFuture.setHandler(resultHandler);
+            }, onError -&gt; {
+              Future&lt;FragmentResult&gt; resultFuture = Future.failedFuture(onError);
+              resultFuture.setHandler(resultHandler);
+            });
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">private</span> JsonObject <span class="hljs-title">processProviders</span><span class="hljs-params">(JsonObject payload)</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> JsonObject()
+        .put(<span class="hljs-string">"timestamp"</span>, System.currentTimeMillis())
+        .put(<span class="hljs-string">"providers"</span>, calculateProviders(payload));
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">getAlias</span><span class="hljs-params">(String alias)</span> </span>{
+    <span class="hljs-keyword">return</span> StringUtils.defaultString(alias, <span class="hljs-string">"payments"</span>);
+  }
+}</code></pre>
+<p><em>src/main/java/io/knotx/example/payment/utils/ProvidersProvider.java</em></p>
+<pre class="highlight"><code class="hljs java"><span class="hljs-keyword">package</span> io.knotx.example.payment.utils;
+
+<span class="hljs-keyword">import</span> io.vertx.core.json.JsonArray;
+<span class="hljs-keyword">import</span> io.vertx.core.json.JsonObject;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProvidersProvider</span> </span>{
+
+  <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">ProvidersProvider</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-comment">//util</span>
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> JsonArray <span class="hljs-title">calculateProviders</span><span class="hljs-params">(JsonObject creditCard,
+      JsonObject paypal, JsonObject payU)</span> </span>{
+    JsonArray providers = <span class="hljs-keyword">new</span> JsonArray();
+    <span class="hljs-keyword">if</span> (creditCard != <span class="hljs-keyword">null</span> &amp;&amp; creditCard.containsKey(<span class="hljs-string">"allowed"</span>) &amp;&amp; creditCard
+        .getBoolean(<span class="hljs-string">"allowed"</span>)) {
+      providers.add(getProviderData(creditCard, <span class="hljs-string">"label"</span>, <span class="hljs-string">"url"</span>));
+    }
+    <span class="hljs-keyword">if</span> (paypal != <span class="hljs-keyword">null</span> &amp;&amp; paypal.containsKey(<span class="hljs-string">"verified"</span>) &amp;&amp; paypal.getBoolean(<span class="hljs-string">"verified"</span>)) {
+      providers.add(getProviderData(paypal, <span class="hljs-string">"label"</span>, <span class="hljs-string">"paymentUrl"</span>));
+    }
+    <span class="hljs-keyword">if</span> (payU != <span class="hljs-keyword">null</span> &amp;&amp; <span class="hljs-string">"OK"</span>.equals(payU.getString(<span class="hljs-string">"status"</span>))) {
+      providers.add(getProviderData(payU, <span class="hljs-string">"name"</span>, <span class="hljs-string">"link"</span>));
+    }
+    <span class="hljs-keyword">return</span> providers;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> JsonArray <span class="hljs-title">calculateProviders</span><span class="hljs-params">(JsonObject payload)</span> </span>{
+    <span class="hljs-keyword">return</span> calculateProviders(getResult(payload, <span class="hljs-string">"creditCard"</span>), getResult(payload, <span class="hljs-string">"paypal"</span>),
+        getResult(payload, <span class="hljs-string">"payU"</span>));
+  }
+
+
+  <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> JsonObject <span class="hljs-title">getProviderData</span><span class="hljs-params">(JsonObject data, String label, String paymentUrl)</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> JsonObject()
+        .put(<span class="hljs-string">"label"</span>, data.getString(label))
+        .put(<span class="hljs-string">"paymentUrl"</span>, data.getString(paymentUrl));
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> JsonObject <span class="hljs-title">getResult</span><span class="hljs-params">(JsonObject payload, String provider)</span> </span>{
+    <span class="hljs-keyword">if</span> (payload.containsKey(provider)) {
+      <span class="hljs-keyword">return</span> payload.getJsonObject(provider)
+          .getJsonObject(<span class="hljs-string">"_result"</span>);
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    }
+  }
+
+}</code></pre>
+<p><a id="htmlTemplate"></a></p>
+<h2 id="html-template">HTML Template</h2>
+<p>Create <code>services/content/public_html/content</code> directory and put there following page template with Knot.x snippet (<code>&lt;knotx:snippet data-knotx-task=&quot;payment-check&quot;&gt;...</code>):
+As you see in this snippet we refer the task <code>payment-check</code> we defined before.</p>
+<p><em>payment.html</em></p>
+<pre class="highlight"><code class="hljs xml"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"utf-8"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"X-UA-Compatible"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"IE=edge"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Knot.x Docker Example<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span>
+        <span class="hljs-attr">href</span>=<span class="hljs-string">"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"</span>
+        <span class="hljs-attr">integrity</span>=<span class="hljs-string">"sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"</span>
+        <span class="hljs-attr">crossorigin</span>=<span class="hljs-string">"anonymous"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container-fluid"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-md-12"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"jumbotron"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>
+          Knot.x Docker Example
+        <span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>
+          This template is served from the <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>HTTP<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span> repository.
+        <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/assets/knotx-logo.png"</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">"Hello Knot.x"</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-md-12"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"jumbotron"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>
+          Datasource message
+        <span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">knotx:snippet</span> <span class="hljs-attr">data-knotx-task</span>=<span class="hljs-string">"payment-check"</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">h4</span>&gt;</span>Hello {{user._result.name.first}} {{user._result.name.last}}!<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Your score is <span class="hljs-tag">&lt;<span class="hljs-name">b</span>&gt;</span>{{user._result.score}}<span class="hljs-tag">&lt;/<span class="hljs-name">b</span>&gt;</span> and you can use following payment methods:<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+            {{#each payments.providers}}
+            <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{{this.paymentUrl}}"</span>&gt;</span>{{this.label}}<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+            {{/each}}
+          <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">knotx:snippet</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://code.jquery.com/jquery-3.3.1.slim.min.js"</span>
+        <span class="hljs-attr">integrity</span>=<span class="hljs-string">"sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"</span>
+        <span class="hljs-attr">crossorigin</span>=<span class="hljs-string">"anonymous"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"</span>
+        <span class="hljs-attr">integrity</span>=<span class="hljs-string">"sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"</span>
+        <span class="hljs-attr">crossorigin</span>=<span class="hljs-string">"anonymous"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"</span>
+        <span class="hljs-attr">integrity</span>=<span class="hljs-string">"sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"</span>
+        <span class="hljs-attr">crossorigin</span>=<span class="hljs-string">"anonymous"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</code></pre>
+<h2 id="external-services">External services</h2>
+<p>We need to define the responses for external services. Our definition calls 4 services. Let&#39;s define them.<br>Create <code>services/webapi/__files</code> directory  and put there 4 files:</p>
+<p><em>creditcard.json</em></p>
+<pre class="highlight"><code class="hljs json">{
+  <span class="hljs-attr">"allowed"</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">"url"</span>: <span class="hljs-string">"https://cc-example.com/pay/19g8esry9se8rgyse90r8ug4"</span>,
+  <span class="hljs-attr">"label"</span>: <span class="hljs-string">"Credit Card"</span>
+}</code></pre>
+<p><em>paypal.json</em></p>
+<pre class="highlight"><code class="hljs json">{
+  <span class="hljs-attr">"verified"</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">"paymentUrl"</span>: <span class="hljs-string">"https://paypal-example.com/payment?id=1983247919hv9sa398f"</span>,
+  <span class="hljs-attr">"label"</span>: <span class="hljs-string">"PayPal premium"</span>
+}</code></pre>
+<p><em>payu.json</em></p>
+<pre class="highlight"><code class="hljs json">{
+  <span class="hljs-attr">"status"</span>: <span class="hljs-string">"OK"</span>,
+  <span class="hljs-attr">"link"</span>: <span class="hljs-string">"https://payu-example.com/tr?id=afj08aw398gha0we9ge"</span>,
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"PayU"</span>
+}</code></pre>
+<p><em>user.json</em></p>
+<pre class="highlight"><code class="hljs json">{
+  <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"5cee7d620a281607d18cf8d5"</span>,
+  <span class="hljs-attr">"score"</span>: <span class="hljs-number">123.321</span>,
+  <span class="hljs-attr">"age"</span>: <span class="hljs-number">22</span>,
+  <span class="hljs-attr">"eyeColor"</span>: <span class="hljs-string">"blue"</span>,
+  <span class="hljs-attr">"name"</span>: {
+    <span class="hljs-attr">"first"</span>: <span class="hljs-string">"Claudine"</span>,
+    <span class="hljs-attr">"last"</span>: <span class="hljs-string">"Sellers"</span>
+  },
+  <span class="hljs-attr">"company"</span>: <span class="hljs-string">"GAZAK"</span>,
+  <span class="hljs-attr">"email"</span>: <span class="hljs-string">"claudine.sellers@gazak.co.uk"</span>,
+  <span class="hljs-attr">"phone"</span>: <span class="hljs-string">"+1 (844) 442-3950"</span>,
+  <span class="hljs-attr">"address"</span>: <span class="hljs-string">"670 Rutland Road, Brethren, Montana, 9555"</span>,
+  <span class="hljs-attr">"about"</span>: <span class="hljs-string">"Fugiat qui in eiusmod nostrud cupidatat do sit dolor. Duis in minim nulla exercitation ea commodo cillum excepteur amet. Esse non in labore enim eu excepteur do in eiusmod ipsum mollit commodo mollit adipisicing."</span>,
+  <span class="hljs-attr">"registered"</span>: <span class="hljs-string">"Sunday, February 2, 2014 2:48 AM"</span>,
+  <span class="hljs-attr">"latitude"</span>: <span class="hljs-string">"-33.507469"</span>,
+  <span class="hljs-attr">"longitude"</span>: <span class="hljs-string">"-115.52703"</span>,
+  <span class="hljs-attr">"tags"</span>: [
+    <span class="hljs-string">"velit"</span>,
+    <span class="hljs-string">"aliquip"</span>,
+    <span class="hljs-string">"ullamco"</span>,
+    <span class="hljs-string">"sunt"</span>,
+    <span class="hljs-string">"non"</span>
+  ],
+  <span class="hljs-attr">"favoriteFruit"</span>: <span class="hljs-string">"apple"</span>
+}</code></pre>
+<p>We will use <a href="http://wiremock.org/">WireMock</a> for mock services and we need to define the mappings.</p>
+<p>Create the <code>services/webapi/mappings</code> directory and put there those four files:</p>
+<p><em>creditcard.json</em></p>
+<pre class="highlight"><code class="hljs json">{
+  <span class="hljs-attr">"request"</span>: {
+    <span class="hljs-attr">"method"</span>: <span class="hljs-string">"GET"</span>,
+    <span class="hljs-attr">"url"</span>: <span class="hljs-string">"/creditcard/allowed"</span>
+  },
+  <span class="hljs-attr">"response"</span>: {
+    <span class="hljs-attr">"status"</span>: <span class="hljs-number">200</span>,
+    <span class="hljs-attr">"fixedDelayMilliseconds"</span>: <span class="hljs-number">100</span>,
+    <span class="hljs-attr">"bodyFileName"</span>: <span class="hljs-string">"creditcard.json"</span>
+  }
+}
+</code></pre>
+<p><em>paypal.json</em></p>
+<pre class="highlight"><code class="hljs json">{
+  <span class="hljs-attr">"request"</span>: {
+    <span class="hljs-attr">"method"</span>: <span class="hljs-string">"GET"</span>,
+    <span class="hljs-attr">"url"</span>: <span class="hljs-string">"/paypal/verify"</span>
+  },
+  <span class="hljs-attr">"response"</span>: {
+    <span class="hljs-attr">"status"</span>: <span class="hljs-number">200</span>,
+    <span class="hljs-attr">"fixedDelayMilliseconds"</span>: <span class="hljs-number">3000</span>,
+    <span class="hljs-attr">"bodyFileName"</span>: <span class="hljs-string">"paypal.json"</span>
+  }
+}
+</code></pre>
+<p><em>payu.json</em></p>
+<pre class="highlight"><code class="hljs json">{
+  <span class="hljs-attr">"request"</span>: {
+    <span class="hljs-attr">"method"</span>: <span class="hljs-string">"GET"</span>,
+    <span class="hljs-attr">"url"</span>: <span class="hljs-string">"/payu/active"</span>
+  },
+  <span class="hljs-attr">"response"</span>: {
+    <span class="hljs-attr">"status"</span>: <span class="hljs-number">200</span>,
+    <span class="hljs-attr">"fixedDelayMilliseconds"</span>: <span class="hljs-number">200</span>,
+    <span class="hljs-attr">"bodyFileName"</span>: <span class="hljs-string">"payu.json"</span>
+  }
+}
+</code></pre>
+<p><em>user.json</em></p>
+<pre class="highlight"><code class="hljs json">{
+  <span class="hljs-attr">"request"</span>: {
+    <span class="hljs-attr">"method"</span>: <span class="hljs-string">"GET"</span>,
+    <span class="hljs-attr">"url"</span>: <span class="hljs-string">"/user"</span>
+  },
+  <span class="hljs-attr">"response"</span>: {
+    <span class="hljs-attr">"status"</span>: <span class="hljs-number">200</span>,
+    <span class="hljs-attr">"bodyFileName"</span>: <span class="hljs-string">"user.json"</span>
+  }
+}</code></pre>
+<h2 id="docker">Docker</h2>
+<h3 id="configuration">Configuration</h3>
+<p><a href="https://github.com/Knotx/knotx-starter-kit">Knot.x Starter Kit</a> project builds docker image. Edit <code>gradle.properties</code> and change property <code>docker.image.name</code>:</p>
+<pre class="highlight"><code class="hljs stylus">docker<span class="hljs-selector-class">.image</span><span class="hljs-selector-class">.name</span>=knotx-example/template-processing</code></pre><p>You will refer to image name in the swarm file.</p>
+<p><a id="swarm"></a></p>
+<h3 id="swarm">Swarm</h3>
+<p>Let&#39;s define the swarm file where we will setup following services:</p>
+<ul>
+<li><code>repository</code> - Content Repository which will serve the html templates</li>
+<li><code>webapi</code> - external Web APIs for: <code>user</code>, <code>creditcard</code>, <code>payu</code> and <code>paypal</code> (which we&#39;ve just created above)</li>
+<li><code>knotx</code> - Knot.x image with our customization we build during this tutorial</li>
+</ul>
+<p>Create the <code>template-processing.yml</code> file:</p>
+<pre class="highlight"><code class="hljs yaml"><span class="hljs-attr">version:</span> <span class="hljs-string">'3.7'</span>
+
+<span class="hljs-attr">networks:</span>
+<span class="hljs-attr">  knotnet:</span>
+
+<span class="hljs-attr">services:</span>
+<span class="hljs-attr">  repository:</span>
+<span class="hljs-attr">    image:</span> <span class="hljs-attr">httpd:2.4</span>
+<span class="hljs-attr">    volumes:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">"./services/content/public_html:/usr/local/apache2/htdocs"</span>
+<span class="hljs-attr">    ports:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">"4503:80"</span>
+<span class="hljs-attr">    networks:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">knotnet</span>
+
+<span class="hljs-attr">  webapi:</span>
+<span class="hljs-attr">    image:</span> <span class="hljs-string">rodolpheche/wiremock</span>
+<span class="hljs-attr">    volumes:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">"./services/webapi:/home/wiremock"</span>
+<span class="hljs-attr">    ports:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">"3000:8080"</span>
+<span class="hljs-attr">    networks:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">knotnet</span>
+
+<span class="hljs-attr">  knotx:</span>
+<span class="hljs-attr">    image:</span> <span class="hljs-string">knotx-example/template-processing:latest</span>
+<span class="hljs-attr">    command:</span> <span class="hljs-string">["knotx",</span> <span class="hljs-string">"run-knotx"</span><span class="hljs-string">]</span>
+<span class="hljs-attr">    ports:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">"8092:8092"</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">"18092:18092"</span>
+<span class="hljs-attr">    networks:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">knotnet</span>
+</code></pre>
+<h2 id="run">Run</h2>
+<p>Now we are ready to run. First, build your docker image</p>
+<pre class="highlight"><code class="hljs elixir"><span class="hljs-variable">$ </span>gradlew clean build</code></pre><p>Run Knot.x instance and example data services (Web API and Content Repository) in a single-node Docker Swarm:</p>
+<pre class="highlight"><code class="hljs cpp">docker <span class="hljs-built_in">stack</span> deploy -c ./<span class="hljs-keyword">template</span>-processing.yml <span class="hljs-keyword">template</span>-processing</code></pre><h3 id="final-page">Final page</h3>
+<p><a href="http://localhost:8092/content/payment.html">http://localhost:8092/content/payment.html</a></p>
+<p>You can find full project implementation <a href="https://github.com/Knotx/knotx-example-project/tree/master/template-processing">here</a></p>
+
+          </section>
+        </article>
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_config = function () {
+        this.page.url = "http://knotx.io/tutorials/getting-started-with-docker/edge/";
+        this.page.identifier = "0a16897e708d4ed763fa77513f34bcf9";
+        };
+        (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = '//knotx-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+    </div>
+</div>
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+         <p>Knot.x is <a href="https://github.com/Cognifide/knotx">open source</a> and is licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0 License</a>.</p>
+      </div>
+      <div class="col-sm-5 col-sm-offset-1 text-right">
+        <p>Knot.x is brought to you with the support of <img src="/img/Cognified_Logo_white.png" alt="Cognifide"/></p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script defer="defer"  src="/scripts/vendor/jquery.min.js"></script><script defer="defer"  src="/scripts/vendor/bootstrap.min.js"></script><script defer="defer"  src="/scripts/vendor/highlight.pack.js"></script><script defer="defer"  src="/scripts/knotx.js"></script><script defer="defer"  src="/scripts/vendor/jquery.qtip.min.js"></script><script defer="defer"  src="/scripts/hovermap.js"></script>
+
+  </body>
+</html>
