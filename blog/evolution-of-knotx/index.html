@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="While Knot.x philosophy has not changed from the beginning, we definitely witness the journey from being a reactive template engine processor to being an API integration framework. Read about the evolution of Knot.x in this short article.">
+  <meta name="keywords" content="knotx, vertx, reactive, asynchronous, templating, java, polyglot, cms, blog">
+  <title>Evolution of Knot.x: from tool to framework - Knot.x Blog Post</title>
+
+  <meta property="og:title" content="Evolution of Knot.x: from tool to framework - Knot.x Blog Post"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="http://knotx.io/blog/evolution-of-knotx/"/>
+  <meta property="og:site_name" content="Knot.x Website"/>
+  <meta property="og:description" content="While Knot.x philosophy has not changed from the beginning, we definitely witness the journey from being a reactive template engine processor to being an API integration framework. Read about the evolution of Knot.x in this short article."/>
+  <meta property="og:image" content="http://knotx.io/img/logo-240x240.png"/>
+
+  <link rel="apple-touch-icon" sizes="57x57" href="/img/favicons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/img/favicons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/img/favicons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/img/favicons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/img/favicons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/img/favicons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/img/favicons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/favicons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicons/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/img/favicons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicons/favicon-16x16.png">
+  <link rel="manifest" href="/img/favicons/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/img/favicons/ms-icon-144x144.png">
+  <meta name="theme-color" content="#9f136c">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Montserrat:200,300,400,500,700|Ubuntu:300,400,500,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link  rel="stylesheet" href="/styles/bootstrap.css" /><link  rel="stylesheet" href="/styles/github.css" /><link  rel="stylesheet" href="/styles/knotx.css" />
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+  <body >
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-92165781-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    <!-- Header -->
+<header class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/img/logo-knotx.png" class="navbar-brand-logo" alt="Knot.x Logo"/>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        
+        <li><a href="/download/">Download</a></li>
+        
+        <li><a href="/tutorials/">Tutorials</a></li>
+        
+        <li><a href="https://github.com/Knotx/knotx/issues">Issues</a></li>
+        
+        <li><a href="/documentation/">Documentation</a></li>
+        
+        <li><a href="/community/">Community</a></li>
+        
+        <li><a href="/blog/">Blog</a></li>
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</header>
+
+    <!-- Content Header -->
+<div class="content-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>Evolution of Knot.x: from tool to framework</h1>
+      </div>
+    </div>    
+  </div>
+  
+</div>
+
+<div class="container flex blog">
+    <div class="row">
+      <div class="col-sm-12">
+        <article>
+          <header class="meta">
+  <a class="meta-item" href="https://github.com/skejven">Maciej Laskowski</a>
+  <time class="meta-item date"
+        datetime="2019-08-19">August 19th, 2019
+  </time>
+
+  <div class="meta-item">
+    
+  </div>
+</header>
+
+          <section class="post">
+            <h1 id="evolution-of-knot-x">Evolution of Knot.x</h1>
+<p>Over 2 years ago, when we kicked off Knot.x officially, the major problems that we struggled with were integrations with 3rd party and customer’s APIs. Convincing CMS, CRM, search engine and e-commerce to talk with each other and integrating them into a single, coherent platform was the main challenge of our daily work. And Knot.x came with a very simple yet powerful solution: instead of hacking each of those platforms to communicate with others, move the integration logic into a dedicated architecture layer.</p>
+<p>Back then, Knot.x was the answer to the repeatedly increasing number of services that should be combined into the &quot;unified customer experience&quot;. </p>
+<p>It enabled us to deliver multiple commercial projects for global brands from the pharmacy, banking and consulting agencies industries. Knot.x helped solve complex architectural problems like dynamic product pages with CDN support, combining legacy and new platforms into a single system or providing a microservice Web API platform.</p>
+<p>It was a super-fast, scalable and fault-tolerant solution that supported implementing complex and challenging (global, performance demanding, connection dozens of customers and 3rd party APIs) projects. And it still is... But now, Knot.x is much more.</p>
+<h1 id="api-backend">API backend</h1>
+<p>It&#39;s 2019 and there is a whole different world today. <em>Headless</em>, <em>serverless</em>, <em>SPA</em> are the top buzzwords we hear when talking about commercial solutions. The microservice is so passé now. And so is the reactive template engine that combines multiple data sources with static layout on the backend and serving it as a dynamic page to the end-user. Don&#39;t get me wrong, that’s still a useful approach for Multi-page applications (<em>MPA</em>), but it’s just not enough for modern architectures.</p>
+<p>New technologies displace the old ones, new buzzwords replace those that ruled last year. But if you stop for a moment, you will notice there are problems and solutions that are constant no matter the technology or buzzword you use. For example, web communication is far from perfect and that’s nothing new. And since that, there have been integration stability patterns that have helped developers mitigate timeouts, connection errors, and other unexpected failures.</p>
+<p>The hype about the headless content is getting more and more attention. There are numerous articles on why your business should or should not adopt a Headless CMS and I won’t touch comparisons in this article. Nevertheless, since the content is headless, there is a need to build a presentation layer. The trend to build it on the client-side tends to be a very natural decision. And this is where Single Page Application (or <em>SPA</em>) and <em>JAMStack</em> phrases appear. Since we have a nice API that serves the content (the underlying assumption behind the Headless CMS), UI composition techniques can work just well with it. But what when there is something more than just content… Let’s say there is some integration with eCommerce required. If it does not have a Web API optimized to the public web, there is a problem. More troubles appear when some kind of security is required for the front-end application.</p>
+<p>And here Knot.x kicks in. Thanks to its reactive nature, high performance (with Vert.x and Netty under the hood), and non-blocking resource management, Knot.x is a perfect candidate to conduct and organize requests and produce simplified experience for the user in the form of API Gateway, Backend For Frontend (<em>BFF</em>) and any other backend API or security layer. Knot.x can turn many requests into just one, to reduce the number of round trips between the client and application. When setting up Knot.x in front of multiple data sources (e-commerce API, microservices, database) it becomes the entry point for every HTTP request processed by the application backend. Client-side implementation is simplified, backend services can keep their responsibilities small and simple - that’s a win-win situation.</p>
+<p>Moreover, Knot.x enables projects to follow the Clean Architecture principle. This means you can postpone important decisions, like the presentation layer choice (e.g. SPA vs MPA) to a more mature (when you can make an informed decision) project phase. The integration logic you create with Knot.x can be reused with both approaches. Also, the project can start with happy-case integration scenarios and wrap business logic with stability patterns (like Circuit Breaker, Errors fallback or Retry) later without changing a single line of code. Finally, Knot.x encourages building integrations in the form of low responsibility puzzles (we call them Actions) and combine the integration logic into a graph. That helps to understand even complex scenarios and design them first on the whiteboard with business. We call that approach a Configurable Integration.</p>
+<h1 id="summary">Summary</h1>
+<p>Since the first versions of Knot.x, where the main feature was combining layout and content from the traditional CMS with dynamic data, Knot.x has evolved towards an integration framework.</p>
+<p>It still keeps its server-side rendering (combining static layout with dynamic content) features that have proven to be a successful approach in numerous commercial implementations. But now, with the Design First approach (no matter REST or GraphQL) at the root, Configurable Integrations and Stability Patterns (like Circuit Breaker and Bulkhead) build-in, Knot.x has become the robust framework for building backend APIs like:</p>
+<ul>
+<li>API Gateway,</li>
+<li>Backend For Frontend,</li>
+<li>Web API,</li>
+<li>SPA Security Layer.</li>
+</ul>
+
+          </section>
+        </article>
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_config = function () {
+        this.page.url = "http://knotx.io/blog/evolution-of-knotx/";
+        this.page.identifier = "dcb4fef92f41f7f13ecb56a5dcc74f8d";
+        };
+        (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = '//knotx-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+    </div>
+</div>
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+         <p>Knot.x is <a href="https://github.com/Knotx/knotx">open source</a> and is licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0 License</a>.</p>
+      </div>
+      <div class="col-sm-5 col-sm-offset-1 text-right">
+        <p>Knot.x is brought to you with the support of <img src="/img/Cognified_Logo_white.png" alt="Cognifide"/></p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script defer="defer"  src="/scripts/vendor/jquery.min.js"></script><script defer="defer"  src="/scripts/vendor/bootstrap.min.js"></script><script defer="defer"  src="/scripts/vendor/highlight.pack.js"></script><script defer="defer"  src="/scripts/knotx.js"></script><script defer="defer"  src="/scripts/vendor/jquery.qtip.min.js"></script><script defer="defer"  src="/scripts/hovermap.js"></script>
+
+<script id="dsq-count-scr" src="//knotx-io.disqus.com/count.js" async></script>
+
+
+  </body>
+</html>

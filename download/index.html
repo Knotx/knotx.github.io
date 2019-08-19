@@ -73,13 +73,11 @@
         
         <li><a href="/download/">Download</a></li>
         
-        <li><a href="/business/">Business</a></li>
-        
         <li><a href="/tutorials/">Tutorials</a></li>
         
-        <li><a href="https://github.com/Cognifide/knotx/issues">Issues</a></li>
+        <li><a href="https://github.com/Knotx/knotx/issues">Issues</a></li>
         
-        <li><a href="https://github.com/Cognifide/knotx/wiki">Wiki</a></li>
+        <li><a href="/documentation/">Documentation</a></li>
         
         <li><a href="/community/">Community</a></li>
         
@@ -106,80 +104,72 @@
   <div class="row">
     <div class="col-sm-12">
       <p>On this page, you can download the Knot.x distributions based on the <a
-          href="https://vertx.io/docs/vertx-stack-manager/stack-manager" target="_blank"
-          alt="Vert.x Stack Manager">Vert.x Stack Manager</a>.
-        <br/>
-        The distribution provides the Knot.x command line tool. To modify the content of the
-        distribution once downloaded, use the
-        <a href="https://github.com/Knotx/knotx-stack#resolving-dependencies" target="_blank">Knot.x
-          Stack Manager</a>.
+          href="https://github.com/Knotx/knotx-launcher" target="_blank"
+          alt="Knot.x Launcher">Knot.x Launcher</a>.
       </p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12">
-      <h1>Distribution</h1>
-      <p> This package contains the full Knot.x distribution with all dependencies and 3rd party
-        libraries and is ready to run basic Knot.x instance without demo content.</p>
+      <h1>Stack</h1>
+      <p> This package contains the full and self-contained Knot.x distribution (with all
+        dependencies and 3rd party libraries). All you need to run it is Java. The stack is ready to
+        launch a basic Knot.x instance. We use Stack to build a
+        <a href="#docker">Docker image</a>.</p>
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-12">
       <p>
-      <a class="btn btn-default btn-lg"
-         href="https://bintray.com/knotx/downloads/download_file?file_path=knotx-1.5.0.tar.gz"
-         role="button">
-        <span class="fa fa-download"></span>
-        Knot.x 1.5.0 (.tar.gz)
-        <br>
-        <small>October 3rd, 2018 | 63.87 MB</small>
-      </a>
+        <a class="btn btn-default btn-lg"
+           href="https://repo1.maven.org/maven2/io/knotx/knotx-stack/2.0.0/knotx-stack-2.0.0.zip"
+           role="button">
+          <span class="fa fa-download"></span>
+          Knot.x 2.0 (.zip)
+          <br>
+          <small>August 14th, 2019 | 24.2 MB</small>
+        </a>
       </p>
     </div>
-    <div class="col-sm-3">
-      <p>
-      <a class="btn btn-default btn-lg"
-         href="https://bintray.com/knotx/downloads/download_file?file_path=knotx-1.5.0.zip"
-         role="button">
-        <span class="fa fa-download"></span>
-        Knot.x 1.5.0 (.zip)
-        <br>
-        <small>October 3rd, 2018 | 63.9 MB</small>
-      </a>
-      </p>
-    </div>
-    <div class="col-sm-6"><p>&nbsp;</p></div>
     <div class="col-sm-12">
       <p>Read more <a href="https://github.com/Knotx/knotx-stack#knotx-stack">here</a>.
       <p>You may find older packages <a href="https://bintray.com/knotx/downloads/distro">here</a>.
     </div>
   </div>
   <hr>
+
   <div class="row">
     <div class="col-sm-12">
-      <h1>Example</h1>
-      <p> This package contains the example project build on top of Knot.x distribution.</p>
+      <h1>Starter Kit</h1>
+      <p> This package contains a template project that simplifies Knot.x project setup. It allows
+        you to customize the Knot.x distribution with your own modules and configuration entries.
+        Then it builds and validates your custom Docker image.</p>
       <p>
         <a class="btn btn-default btn-lg"
-           href="https://bintray.com/knotx/downloads/download_file?file_path=knotx-example-project-stack-1.5.0.zip"
+           href="https://github.com/Knotx/knotx-starter-kit/archive/2.0.0.zip"
            role="button">
           <span class="fa fa-download"></span>
-          Knot.x example 1.5.0 (.zip)
+          Knot.x Starter Kit 2.0 (.zip)
           <br>
-          <small>October 3rd, 2018 | 63.92 MB</small>
+          <small>August 14th, 2019 | 87 KB</small>
         </a>
       </p>
-      <p>Read more <a href="https://github.com/Knotx/knotx-example-project#getting-started">here</a> of how to run example.
-      <p>You may find older packages <a href="https://bintray.com/knotx/downloads/examples">here</a>.
+      <p>Read more <a href="https://github.com/Knotx/knotx-starter-kit">here</a>.
     </div>
   </div>
   <hr>
   <div class="row">
     <div class="col-sm-12">
+      <a name="docker"></a>
       <h1>Docker</h1>
       <p>You can install the Knot.x distribution in a Docker container by running:</p>
       <p>
-        <code>docker run -p 8092:8092 knotx/knotx:1.5.0</code>
+        <code>docker image pull knotx/knotx:2.0.0</code>
       </p>
-      <p>Read more <a href="https://github.com/Knotx/knotx-stack/tree/master/knotx-docker">here</a>.
+      <p>The image is intended to be used by extension using the Docker <code>FROM</code> directive.
+        We use the Knot.x Docker image in the <a href="https://github.com/Knotx/knotx-starter-kit">Knot.x
+          Starter Kit</a>.</p>
+      <p>You may find <code>alpine</code> and full versions at the <a
+          href="https://hub.docker.com/u/knotx">Docker Hub</a>.
+      <p>Read more <a href="https://github.com/Knotx/knotx-docker">here</a>.
       </p>
     </div>
   </div>
@@ -189,7 +179,7 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-6">
-         <p>Knot.x is <a href="https://github.com/Cognifide/knotx">open source</a> and is licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0 License</a>.</p>
+         <p>Knot.x is <a href="https://github.com/Knotx/knotx">open source</a> and is licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0 License</a>.</p>
       </div>
       <div class="col-sm-5 col-sm-offset-1 text-right">
         <p>Knot.x is brought to you with the support of <img src="/img/Cognified_Logo_white.png" alt="Cognifide"/></p>
@@ -198,6 +188,7 @@
   </div>
 </footer>
 <script defer="defer"  src="/scripts/vendor/jquery.min.js"></script><script defer="defer"  src="/scripts/vendor/bootstrap.min.js"></script><script defer="defer"  src="/scripts/vendor/highlight.pack.js"></script><script defer="defer"  src="/scripts/knotx.js"></script><script defer="defer"  src="/scripts/vendor/jquery.qtip.min.js"></script><script defer="defer"  src="/scripts/hovermap.js"></script>
+
 
   </body>
 </html>
