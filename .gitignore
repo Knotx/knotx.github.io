@@ -3,3 +3,5 @@ styles/*.less
 !index.html
 contributors/
 commiters/
+
+.idea
