@@ -183,15 +183,15 @@ Deployed <span class="hljs-number">1</span> instance(s) of required server (java
 
 <span class="hljs-number">2019</span><span class="hljs-number">-08</span><span class="hljs-number">-05</span> <span class="hljs-number">13</span>:<span class="hljs-number">50</span>:<span class="hljs-number">28.017</span> [vert.x-eventloop-thread<span class="hljs-number">-0</span>] INFO  i.k.launcher.KnotxStarterVerticle - Knot.x STARTED successfully</code></pre><p>Congratulation! That&#39;s it. You have your own basic Knot.x instance running.</p>
 <h2 id="configuration">Configuration</h2>
-<p>Lets now configure Knot.x to do the magic for us.
+<p>Let&#39;s now configure Knot.x to do the magic for us.
 We need to do two things:</p>
 <ul>
-<li>provide the page template, for the tutorial purpose, we will use <code>fsRepoConnectorHandler</code>,</li>
+<li>provide the page template, for the tutorial purpose, we will use <a href="https://github.com/Knotx/knotx-repository-connector/tree/master/fs"><code>fsRepoConnectorHandler</code></a>,</li>
 <li>provide the datasource, we will use the <a href="https://developers.google.com/books/">Google Books API</a>.</li>
 </ul>
 <blockquote>
-<p>All configuration options and default values, such as address fields, for each Knot.x module, are
-described directly in the configuration files of those modules in <code>conf</code>.</p>
+<p>All configuration options and default values, for each Knot.x module, are
+described on github. For example <a href="https://github.com/Knotx/knotx-repository-connector/blob/master/fs/docs/asciidoc/dataobjects.adoc"><code>fsRepoConnectorHandler</code> configuration</a></p>
 </blockquote>
 <h3 id="html-template">HTML Template</h3>
 <p>Create a <code>repository/content</code> directory in <code>KNOTX_HOME</code> and put there following page template with Knot.x snippet (<code>&lt;knotx:snippet data-knotx-task=&quot;bookslist&quot;&gt;...</code>):</p>
@@ -220,7 +220,7 @@ described directly in the configuration files of those modules in <code>conf</co
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
    <span class="hljs-tag">&lt;<span class="hljs-name">knotx:snippet</span> <span class="hljs-attr">data-knotx-task</span>=<span class="hljs-string">"bookslist"</span>&gt;</span>
-      {{#each _result.items}}
+      {{#each books._result.items}}
         <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-sm-3"</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card"</span>&gt;</span>
           <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-img-top"</span>
@@ -247,7 +247,7 @@ described directly in the configuration files of those modules in <code>conf</co
 <h3 id="templates-repository-configuration">Templates repository configuration</h3>
 <p>We will use <a href="https://github.com/Knotx/knotx-repository-connector/tree/master/fs">fsRepoConnectorHandler</a>, its purposes are purely academical.
 It is not designed to be used as a production ready solution (you should use <a href="https://github.com/Knotx/knotx-repository-connector/tree/master/http">httpRepoConnectorHandler</a> there).</p>
-<p>Create <code>conf\routes\handlers\fsRepoConnectorHandler.conf</code> file with the following:</p>
+<p>Create <code>knotx/conf/routes/handlers/fsRepoConnectorHandler.conf</code> file with the following:</p>
 <pre class="highlight"><code class="hljs ruby"><span class="hljs-comment"># Path to the directory on the local filesystem which will be the root for requested templates</span>
 catalogue = <span class="hljs-string">"./repository/"</span></code></pre>
 <p>This way we define the <code>repository</code> directory that will be our files content repository.</p>
@@ -293,7 +293,7 @@ You may see that the Knot.x instance detected file changes and reloaded its conf
     action = books
     onTransitions {
       _success {
-        action = te-hbs   
+        action = te-hbs
       }
     }
   }</code></pre>
@@ -324,7 +324,7 @@ The <code>actions</code> section should contain:</p>
   }  </code></pre>
 <p>Save the configuration file, Knot.x will reload its modules once again.</p>
 <p>The last thing left, open <a href="http://localhost:8092/content/books.html">http://localhost:8092/content/books.html</a> - Voilà!</p>
-<p>You can find full example implementation <a href="https://github.com/Knotx/knotx-example-project/tree/master/getting-started">here</a></p>
+<p>You can find full example implementation <a href="https://github.com/Knotx/knotx-example-project/tree/master/distribution/stack">here</a>.</p>
 
           </section>
         </article>

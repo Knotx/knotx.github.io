@@ -419,7 +419,7 @@ dependencies {
 
 }</code></pre>
 <h2 id="external-services">External services</h2>
-<p>We need to define the responses for external services. Our definition calls 4 services. Let&#39;s define them.<br>Create <code>services/webapi/__files</code> directory  and put there 4 files:</p>
+<p>We need to define the responses for external services. Our definition calls 4 services. Let&#39;s define them.<br>Create <code>../common-services</code> directory. Let&#39;s put this directory in the parent directory of our current project, since we will be reusing files created there in different tutorials. Now let&#39;s create <code>../common-services/webapi/__files</code> and put 4 files there:</p>
 <p><em>creditcard.json</em></p>
 <pre class="highlight"><code class="hljs json">{
   <span class="hljs-attr">"allowed"</span>: <span class="hljs-literal">true</span>,
@@ -466,7 +466,7 @@ dependencies {
   <span class="hljs-attr">"favoriteFruit"</span>: <span class="hljs-string">"apple"</span>
 }</code></pre>
 <p>We will use <a href="http://wiremock.org/">WireMock</a> for mock services and we need to define the mappings.</p>
-<p>Create the <code>services/webapi/mappings</code> directory and put there those four files:</p>
+<p>Create the <code>../common-services/webapi/mappings</code> directory and put there those four files:</p>
 <p><em>creditcard.json</em></p>
 <pre class="highlight"><code class="hljs json">{
   <span class="hljs-attr">"request"</span>: {
@@ -558,9 +558,10 @@ dependencies {
 <h2 id="run">Run</h2>
 <p>Now we are ready to run. First, build your docker image</p>
 <pre class="highlight"><code class="hljs elixir"><span class="hljs-variable">$ </span>gradlew clean build</code></pre><p>Run Knot.x instance and example data services (Web API and Content Repository) in a single-node Docker Swarm:</p>
-<pre class="highlight"><code class="hljs stylus">docker stack deploy -c api-gateway<span class="hljs-selector-class">.yml</span> api-gateway</code></pre><h3 id="final-page">Final page</h3>
+<pre class="highlight"><code class="hljs elixir"><span class="hljs-variable">$ </span>docker swarm init
+<span class="hljs-variable">$ </span>docker stack deploy -c api-gateway.yml api-gateway</code></pre><h3 id="final-page">Final page</h3>
 <p><a href="http://localhost:8092/api/payments">http://localhost:8092/api/payments</a></p>
-<p>You can find full project implementation <a href="https://github.com/Knotx/knotx-example-project/tree/master/api-gateway">here</a>.
+<p>You can find full project implementation <a href="https://github.com/Knotx/knotx-example-project/tree/master/api-gateway/composing-many-apis">here</a>.
 Please note that this example provides 3 different approaches. One we have presented here is available under <a href="http://localhost:8092/api/v3/payments">http://localhost:8092/api/v3/payments</a></p>
 
           </section>

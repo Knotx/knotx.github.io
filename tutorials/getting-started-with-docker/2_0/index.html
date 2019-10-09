@@ -132,7 +132,6 @@ Will configure Knot.x with a simple page that uses an external datasource (Googl
 You will need the following things to use Knot.x:</p>
 <ul>
 <li>JDK 8</li>
-<li>Linux or OSX bash console (for Windows users we recommend using e.g. Ubuntu with <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">Windows Subsystem for Linux</a>).</li>
 <li>Docker </li>
 </ul>
 <p>Download the <a href="https://github.com/Knotx/knotx-starter-kit/releases">Latest Knot.x Starter Kit release</a> and unzip it.</p>
@@ -141,7 +140,7 @@ You will need the following things to use Knot.x:</p>
 |   ├── Dockerfile                <span class="hljs-comment">// Docker file with image definition.</span>
 ├── functional                    <span class="hljs-comment">// Keep here your functional tests. Example implementation included</span>
 ├── gradle                        <span class="hljs-comment">// Gradle wrapper and common gradle scripts</span>
-├── knotx                         <span class="hljs-comment">// Knotx configuration which will be copied to docker image</span>
+├── knotx/conf                    <span class="hljs-comment">// Knotx configurations which will be copied to docker image</span>
 ├── modules                       <span class="hljs-comment">// Sub-modules of your project</span>
 │   ├── <span class="hljs-params">...</span>                       <span class="hljs-comment">// example modules implementation</span></code></pre><h2 id="configuration">Configuration</h2>
 <p>Let&#39;s now configure Knot.x to do the magic for us.
@@ -181,7 +180,7 @@ described on github. For example <a href="https://github.com/Knotx/knotx-reposit
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
    <span class="hljs-tag">&lt;<span class="hljs-name">knotx:snippet</span> <span class="hljs-attr">data-knotx-task</span>=<span class="hljs-string">"bookslist"</span>&gt;</span>
-      {{#each _result.items}}
+      {{#each books._result.items}}
         <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-sm-3"</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card"</span>&gt;</span>
           <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-img-top"</span>
@@ -208,7 +207,7 @@ described on github. For example <a href="https://github.com/Knotx/knotx-reposit
 <h3 id="templates-repository-configuration">Templates repository configuration</h3>
 <p>We will use <a href="https://github.com/Knotx/knotx-repository-connector/tree/master/fs">fsRepoConnectorHandler</a>, its purposes are purely academical.
 It is not designed to be used as a production ready solution (you should use <a href="https://github.com/Knotx/knotx-repository-connector/tree/master/http">httpRepoConnectorHandler</a> there).</p>
-<p>Create <code>knorx/conf/routes/handlers/fsRepoConnectorHandler.conf</code> file with the following:</p>
+<p>Create <code>knotx/conf/routes/handlers/fsRepoConnectorHandler.conf</code> file with the following:</p>
 <pre class="highlight"><code class="hljs ruby"><span class="hljs-comment"># Path to the directory on the local filesystem which will be the root for requested templates</span>
 catalogue = <span class="hljs-string">"/usr/local/knotx/repository/"</span></code></pre>
 <p>This way we define the <code>repository</code> directory that will be our files content repository.</p>
@@ -285,11 +284,10 @@ We will cover more sophisticated example in the <a href="/tutorials/configurable
 <h2 id="docker">Docker</h2>
 <h3 id="configuration">Configuration</h3>
 <p><a href="https://github.com/Knotx/knotx-starter-kit">Knot.x Starter Kit</a> project builds docker image. Edit <code>gradle.properties</code> and change property <code>docker.image.name</code>:</p>
-<pre class="highlight"><code class="hljs stylus">docker<span class="hljs-selector-class">.image</span><span class="hljs-selector-class">.name</span>=knotx-example/getting-started</code></pre><h2 id="run">Run</h2>
+<pre class="highlight"><code class="hljs stylus">docker<span class="hljs-selector-class">.image</span><span class="hljs-selector-class">.name</span>=knotx-example/docker-distribution</code></pre><h2 id="run">Run</h2>
 <p>Now we are ready to run. First, build your docker image</p>
 <pre class="highlight"><code class="hljs elixir"><span class="hljs-variable">$ </span>gradlew clean build</code></pre><p>Run Knot.x instance:</p>
-<pre class="highlight"><code class="hljs dockerfile">docker <span class="hljs-keyword">run</span><span class="bash"> -p8092:8092 knotx-example/getting-started</span></code></pre><h3 id="final-page">Final page</h3>
-<p><a href="http://localhost:8092/content/payment.html">http://localhost:8092/content/payment.html</a></p>
+<pre class="highlight"><code class="hljs dockerfile">docker <span class="hljs-keyword">run</span><span class="bash"> -p8092:8092 knotx-example/docker-distribution</span></code></pre><p>The last thing left, open <a href="http://localhost:8092/content/books.html">http://localhost:8092/content/books.html</a> - Voilà!</p>
 
           </section>
         </article>
