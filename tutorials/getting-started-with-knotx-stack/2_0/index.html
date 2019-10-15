@@ -105,9 +105,9 @@
       <div class="col-sm-12">
         <article>
           <header class="meta">
-  <a class="meta-item" href="https://github.com/skejven">Maciej Laskowski</a>
+  <a class="meta-item" href="https://github.com/Mateusz512">Mateusz Hinc</a>
   <time class="meta-item date"
-        datetime="2019-08-07">August 7th, 2019
+        datetime="2019-10-15">October 15th, 2019
   </time>
 
   <div class="post-versions">    
@@ -125,206 +125,239 @@
 
           <section class="post">
             <h2 id="overview">Overview</h2>
-<p>In this tutorial we will configure Knot.x instance with a simple page that
-uses an external datasource (Google API Books) to fetch the dynamic data and display it on our page.</p>
-<p>What you’re going to learn:</p>
-<ul>
-<li>How to setup Knot.x instance using <a href="https://github.com/Knotx/knotx-stack">Knot.x Stack</a></li>
-<li>How to transform a static HTML into the dynamic content and configure Knot.x to use REST services to get data</li>
-<li>How to use the data from such services to dynamically populate HTML</li>
-</ul>
-<h2 id="setup-basic-knot-x-instance">Setup basic Knot.x instance</h2>
-<p><strong>Prerequisites</strong>
-You will need the following things to use Knot.x stack:</p>
+<p>In this tutorial, we will set up a simple project based on the <a href="https://github.com/Knotx/knotx-starter-kit">Knot.x Starter Kit</a> template.</p>
+<p>We will implement a custom handler that will print a &quot;Hello world from Knot.x!&quot; message.</p>
+<h3 id="prerequisites">Prerequisites</h3>
 <ul>
 <li>JDK 8</li>
-<li>Linux or OSX bash console (for Windows users we recommend using e.g. Ubuntu with <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">Windows Subsystem for Linux</a>).</li>
+<li>Linux or OSX bash console (for Windows users we recommend using e.g. Ubuntu with <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">Windows Subsystem for Linux</a>)</li>
 </ul>
-<p>Download <a href="https://repo1.maven.org/maven2/io/knotx/knotx-stack/">Latest Knot.x Stack release</a> and unzip it.</p>
-<p>For the purpose of this tutorial let&#39;s call the structure of unzipped stack <code>KNOTX_HOME</code>.
-<code>KNOTX_HOME</code> which is Knot.x instance with all configuration files and dependencies has the following structure:</p>
-<pre class="highlight"><code class="hljs smali">├── bin
-|   ├── knotx                     // shell script used to run Knot.x<span class="hljs-built_in"> instance
-</span>│   └── knotx.bat                 // Windows script used to run Knot.x<span class="hljs-built_in"> instance </span>                     
-├── conf                          // contains application<span class="hljs-built_in"> and </span>logger configuration files
-│   ├── application.conf          // defines / includes all modules that Knot.x<span class="hljs-built_in"> instance </span>is running
-│   ├── bootstrap.json            // config retriever options, defines application configuration stores (e.g. points to `application.conf` - the main configuration)
-│   ├── openapi.yaml              // Open API 3.0 configuration that is loaded via Knot.x HTTP Server
-│   ├── server.conf               // Knot.x HTTP server configuration which is included in `application.conf`
-│   ├── routes                    // server routes configurations 
-│   │   ├── operations.conf       // defines handlers per Open API operation ids
-│   │   └── handlers              // handlers configurations used in `operations.conf`
-|   │   │   ├── fragmentsHandler.conf
-|   │   │   └── httpRepoConnectorHandler.conf
-│   ├── knots                     // Knot modules configurations which are included in `application.conf`
-│   │   ├── templateEngineStack.conf
-│   │   └── templateEngineKnot.conf
-│   └── logback.xml          // logger configuration
-├── lib                      // contains<span class="hljs-built_in"> instance </span>libraries<span class="hljs-built_in"> and </span>dependencies,<span class="hljs-built_in"> instance </span>classpath
-│   ├── the list of project dependency libraries
-│   ├── ...</code></pre><p>Now, run</p>
-<pre class="highlight"><code class="hljs cmd">bin/knotx run-knotx</code></pre>
-<p>to start the Knot.x instance. You should see that the instance is running with all deployed modules. Following entries should appear in the <code>logs/knotx.log</code> file:</p>
-<pre class="highlight"><code class="hljs angelscript"><span class="hljs-number">2019</span><span class="hljs-number">-08</span><span class="hljs-number">-05</span> <span class="hljs-number">13</span>:<span class="hljs-number">50</span>:<span class="hljs-number">26.380</span> [vert.x-eventloop-thread<span class="hljs-number">-0</span>] INFO  i.k.launcher.KnotxStarterVerticle - STARTING Knot.x
-<span class="hljs-number">2019</span><span class="hljs-number">-08</span><span class="hljs-number">-05</span> <span class="hljs-number">13</span>:<span class="hljs-number">50</span>:<span class="hljs-number">26.492</span> [vert.x-eventloop-thread<span class="hljs-number">-2</span>] INFO  io.knotx.te.core.TemplateEngineKnot - Starting &lt;TemplateEngineKnot&gt;
-<span class="hljs-number">2019</span><span class="hljs-number">-08</span><span class="hljs-number">-05</span> <span class="hljs-number">13</span>:<span class="hljs-number">50</span>:<span class="hljs-number">26.497</span> [vert.x-eventloop-thread<span class="hljs-number">-2</span>] INFO  i.k.te.core.TemplateEngineProvider - Template Engines [handlebars] registered.
-<span class="hljs-number">2019</span><span class="hljs-number">-08</span><span class="hljs-number">-05</span> <span class="hljs-number">13</span>:<span class="hljs-number">50</span>:<span class="hljs-number">26.500</span> [vert.x-eventloop-thread<span class="hljs-number">-2</span>] INFO  i.k.t.h.HandlebarsTemplateEngine - &lt;HandlebarsTemplateEngine&gt; instance created
-<span class="hljs-number">2019</span><span class="hljs-number">-08</span><span class="hljs-number">-05</span> <span class="hljs-number">13</span>:<span class="hljs-number">50</span>:<span class="hljs-number">26.501</span> [vert.x-eventloop-thread<span class="hljs-number">-1</span>] INFO  io.knotx.server.KnotxServerVerticle - Starting &lt;KnotxServerVerticle&gt;
-<span class="hljs-number">2019</span><span class="hljs-number">-08</span><span class="hljs-number">-05</span> <span class="hljs-number">13</span>:<span class="hljs-number">50</span>:<span class="hljs-number">26.504</span> [vert.x-eventloop-thread<span class="hljs-number">-1</span>] INFO  io.knotx.server.KnotxServerVerticle - Open API specification location [/openapi.yaml]
-<span class="hljs-number">2019</span><span class="hljs-number">-08</span><span class="hljs-number">-05</span> <span class="hljs-number">13</span>:<span class="hljs-number">50</span>:<span class="hljs-number">26.639</span> [vert.x-eventloop-thread<span class="hljs-number">-1</span>] INFO  i.k.server.GlobalHandlersProvider - Global handler loggerHandler registered
-<span class="hljs-number">2019</span><span class="hljs-number">-08</span><span class="hljs-number">-05</span> <span class="hljs-number">13</span>:<span class="hljs-number">50</span>:<span class="hljs-number">26.641</span> [vert.x-eventloop-thread<span class="hljs-number">-1</span>] INFO  io.knotx.server.SecurityProvider - Auth handler factory types registered: 
-<span class="hljs-number">2019</span><span class="hljs-number">-08</span><span class="hljs-number">-05</span> <span class="hljs-number">13</span>:<span class="hljs-number">50</span>:<span class="hljs-number">26.645</span> [vert.x-eventloop-thread<span class="hljs-number">-1</span>] INFO  io.knotx.server.RoutesProvider - Routing handler factory names [fragmentsAssemblerHandler,fragmentsHandler,fragmentsProviderHtmlSplitter,singleFragmentSupplier,fsRepoConnectorHandler,httpRepoConnectorHandler,csrfHandler,loggerHandler,bodyHandler,cookieHandler,errorHandler,requestContextHandler,headerHandler,writerHandler] registered.
-<span class="hljs-number">2019</span><span class="hljs-number">-08</span><span class="hljs-number">-05</span> <span class="hljs-number">13</span>:<span class="hljs-number">50</span>:<span class="hljs-number">27.346</span> [vert.x-eventloop-thread<span class="hljs-number">-1</span>] INFO  io.knotx.server.RoutesProvider - Initialized all handlers <span class="hljs-keyword">for</span> operation [operation-<span class="hljs-keyword">get</span>]
-<span class="hljs-number">2019</span><span class="hljs-number">-08</span><span class="hljs-number">-05</span> <span class="hljs-number">13</span>:<span class="hljs-number">50</span>:<span class="hljs-number">27.362</span> [vert.x-eventloop-thread<span class="hljs-number">-1</span>] INFO  io.knotx.server.KnotxServerVerticle - Routes [[Route[ path:<span class="hljs-literal">null</span> pattern:<span class="hljs-literal">null</span> handlers:[io.vertx.ext.web.handler.impl.<span class="hljs-symbol">BodyHandlerImpl@</span><span class="hljs-number">6</span>ab5ad9, io.vertx.reactivex.ext.web.api.contract.openapi3.OpenAPI3RouterFactory$<span class="hljs-symbol">5@</span>ca253d2] failureHandlers:[] order:<span class="hljs-number">0</span> methods:[]]@<span class="hljs-number">1683416257</span>, Route[ path:/content/ pattern:<span class="hljs-literal">null</span> handlers:[io.vertx.ext.web.api.contract.openapi3.impl.<span class="hljs-symbol">OpenAPI3RequestValidationHandlerImpl@</span><span class="hljs-number">28f</span>91299, io.vertx.reactivex.ext.web.api.contract.openapi3.OpenAPI3RouterFactory$<span class="hljs-symbol">8@</span><span class="hljs-number">7458e8</span>cd, io.vertx.reactivex.ext.web.api.contract.openapi3.OpenAPI3RouterFactory$<span class="hljs-symbol">8@</span><span class="hljs-number">6</span>a7a1957, io.vertx.reactivex.ext.web.api.contract.openapi3.OpenAPI3RouterFactory$<span class="hljs-symbol">8@</span><span class="hljs-number">39</span>d98835, io.vertx.reactivex.ext.web.api.contract.openapi3.OpenAPI3RouterFactory$<span class="hljs-symbol">8@</span><span class="hljs-number">59</span>d4284d, io.vertx.reactivex.ext.web.api.contract.openapi3.OpenAPI3RouterFactory$<span class="hljs-symbol">8@</span><span class="hljs-number">6</span>a79ad3a, io.vertx.reactivex.ext.web.api.contract.openapi3.OpenAPI3RouterFactory$<span class="hljs-symbol">8@</span><span class="hljs-number">5073</span>b183, io.vertx.reactivex.ext.web.api.contract.openapi3.OpenAPI3RouterFactory$<span class="hljs-symbol">8@</span><span class="hljs-number">259e1398</span>, io.vertx.reactivex.ext.web.api.contract.openapi3.OpenAPI3RouterFactory$<span class="hljs-symbol">8@</span><span class="hljs-number">5</span>d70d126, io.vertx.reactivex.ext.web.api.contract.openapi3.OpenAPI3RouterFactory$<span class="hljs-symbol">8@</span><span class="hljs-number">7</span>ac7a7cf] failureHandlers:[] order:<span class="hljs-number">1</span> methods:[GET]]@<span class="hljs-number">930479805</span>]]
-<span class="hljs-number">2019</span><span class="hljs-number">-08</span><span class="hljs-number">-05</span> <span class="hljs-number">13</span>:<span class="hljs-number">50</span>:<span class="hljs-number">28.012</span> [vert.x-eventloop-thread<span class="hljs-number">-1</span>] INFO  io.knotx.server.KnotxServerVerticle - Knot.x HTTP Server started. Listening on port <span class="hljs-number">8092</span>
-<span class="hljs-number">2019</span><span class="hljs-number">-08</span><span class="hljs-number">-05</span> <span class="hljs-number">13</span>:<span class="hljs-number">50</span>:<span class="hljs-number">28.016</span> [vert.x-eventloop-thread<span class="hljs-number">-0</span>] INFO  i.k.launcher.KnotxStarterVerticle - Instance modules: 
-Deployed <span class="hljs-number">1</span> instance(s) of required templateEngine (java:io.knotx.te.core.TemplateEngineKnot) [<span class="hljs-number">313308</span>b7-e9eb<span class="hljs-number">-4</span>a32-b26b<span class="hljs-number">-331f</span>79ce9e2c]
-Deployed <span class="hljs-number">1</span> instance(s) of required server (java:io.knotx.server.KnotxServerVerticle) [<span class="hljs-number">56784</span>ec6<span class="hljs-number">-9981</span><span class="hljs-number">-41f</span>2<span class="hljs-number">-8</span>ed6<span class="hljs-number">-404301</span>cfdc5d]
-
-<span class="hljs-number">2019</span><span class="hljs-number">-08</span><span class="hljs-number">-05</span> <span class="hljs-number">13</span>:<span class="hljs-number">50</span>:<span class="hljs-number">28.017</span> [vert.x-eventloop-thread<span class="hljs-number">-0</span>] INFO  i.k.launcher.KnotxStarterVerticle - Knot.x STARTED successfully</code></pre><p>Congratulation! That&#39;s it. You have your own basic Knot.x instance running.</p>
-<h2 id="configuration">Configuration</h2>
-<p>Let&#39;s now configure Knot.x to do the magic for us.
-We need to do two things:</p>
+<h3 id="what-you-re-going-to-learn-">What you’re going to learn:</h3>
 <ul>
-<li>provide the page template, for the tutorial purpose, we will use <a href="https://github.com/Knotx/knotx-repository-connector/tree/master/fs"><code>fsRepoConnectorHandler</code></a>,</li>
-<li>provide the datasource, we will use the <a href="https://developers.google.com/books/">Google Books API</a>.</li>
+<li>How to use the <a href="https://swagger.io/blog/api-design/design-first-or-code-first-api-development/">Design First approach</a> to design the API&#39;s contract first before writing any code configuring <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md">Open API specification</a> entries</li>
+<li>How to implement a custom business logic, the Knot.x <a href="https://github.com/Knotx/knotx-server-http#knotx-http-server">Handler</a>, and apply it to configured API</li>
 </ul>
+<p>Download the <a href="https://github.com/Knotx/knotx-starter-kit/releases">Latest Knot.x Starter Kit release</a> and unzip it. </p>
+<p>Please note that the support for ZIP distribution was added <a href="https://github.com/Knotx/knotx-starter-kit/pull/17">here</a>. If your version does not contain those changes you can easily apply them with upgrade notes.</p>
+<p>Project has the following structure:</p>
+<pre class="highlight"><code class="hljs lasso">├── docker
+|   ├── Dockerfile                <span class="hljs-comment">// Docker file with image definition.</span>
+├── functional                    <span class="hljs-comment">// Keep here your functional tests. Example implementation included</span>
+├── gradle                        <span class="hljs-comment">// Gradle wrapper and common gradle scripts</span>
+├── knotx/conf                    <span class="hljs-comment">// Knotx configuration which will be copied to docker image</span>
+├── modules                       <span class="hljs-comment">// Sub-modules of your project</span>
+│   ├── <span class="hljs-params">...</span>                       <span class="hljs-comment">// example modules implementation</span></code></pre><h2 id="configure-api-specify-path-and-method">Configure API: specify path and method</h2>
+<p>When it comes to API development, two approaches are available: The “Design First” and the “Code First”. You can read more details <a href="https://swagger.io/blog/api-design/design-first-or-code-first-api-development/">here</a> to understand the differences between them. Knot.x uses the Design First approach focusing on developer experience and API design quality. It uses the <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md">OpenAPI 3.0 specification</a> to configure HTTP request routing.</p>
+<p>The <code>knotx/conf/openapi.yaml</code> file contains project-specific API definitions using the <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md">OpenAPI 3.0 specification</a> syntax.</p>
+<p>We can see three distinguishable parts of this file:</p>
+<ol>
+<li><p>Information about the project, which is quite self-explanatory:</p>
+<pre class="highlight"><code class="hljs yaml"> <span class="hljs-string">...</span>
+
+<span class="hljs-attr"> openapi:</span> <span class="hljs-string">"3.0.0"</span>
+<span class="hljs-attr"> info:</span>
+<span class="hljs-attr">   version:</span> <span class="hljs-number">1.0</span><span class="hljs-number">.0</span>
+<span class="hljs-attr">   title:</span> <span class="hljs-string">Knot.x</span> <span class="hljs-string">Starter</span> <span class="hljs-string">Kit</span>
+<span class="hljs-attr">   description:</span> <span class="hljs-string">Knotx</span> <span class="hljs-string">Starter</span> <span class="hljs-string">Kit</span>
+<span class="hljs-attr">   contact:</span> 
+<span class="hljs-attr">     name:</span> <span class="hljs-string">"Knot.x Community"</span>
+<span class="hljs-attr">     url:</span> <span class="hljs-string">"http://knotx.io/community/"</span>
+
+ <span class="hljs-string">...</span></code></pre>
+</li>
+<li><p>Server configuration that defines how the server behaves:</p>
+<pre class="highlight"><code class="hljs yaml"> <span class="hljs-string">...</span>
+
+<span class="hljs-attr"> servers:</span>
+<span class="hljs-attr">   - url:</span> <span class="hljs-attr">https://{domain}:{port}</span>
+<span class="hljs-attr">     description:</span> <span class="hljs-string">The</span> <span class="hljs-string">local</span> <span class="hljs-string">API</span> <span class="hljs-string">server</span>
+<span class="hljs-attr">     variables:</span>
+<span class="hljs-attr">       domain:</span>
+<span class="hljs-attr">         default:</span> <span class="hljs-string">localhost</span>
+<span class="hljs-attr">         description:</span> <span class="hljs-string">api</span> <span class="hljs-string">domain</span>
+<span class="hljs-attr">       port:</span>
+<span class="hljs-attr">         enum:</span>
+<span class="hljs-bullet">           -</span> <span class="hljs-string">'8092'</span>
+<span class="hljs-attr">         default:</span> <span class="hljs-string">'8092'</span>
+
+ <span class="hljs-string">...</span></code></pre>
+<p> Here we can see, for example, that the server will be registered on port <code>8092</code>. Notice variable substitution indicated by <code>{</code>brackets<code>}</code>. For more information on what can be configured here, see <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#serverObject">this documentation</a>. </p>
+</li>
+<li><p>Paths configuration that explicitly specifies the endpoints, their paths, methods, responses and much more in a clear, easily readable and declarative way:</p>
+<pre class="highlight"><code class="hljs yaml"> <span class="hljs-string">...</span>
+
+<span class="hljs-attr"> paths:</span> 
+
+   <span class="hljs-string">...</span>   
+
+   <span class="hljs-string">/healthcheck:</span>
+<span class="hljs-attr">     get:</span>
+<span class="hljs-attr">       operationId:</span> <span class="hljs-string">healthcheck-operation</span>
+       <span class="hljs-comment"># https://vertx.io/docs/vertx-health-check/java/</span>
+<span class="hljs-attr">       responses:</span>
+         <span class="hljs-string">'200'</span><span class="hljs-string">:</span>
+<span class="hljs-attr">           description:</span> <span class="hljs-string">Everything</span> <span class="hljs-string">is</span> <span class="hljs-string">fine</span>
+         <span class="hljs-string">'204'</span><span class="hljs-string">:</span>
+<span class="hljs-attr">           description:</span> <span class="hljs-literal">No</span> <span class="hljs-string">procedure</span> <span class="hljs-string">are</span> <span class="hljs-string">registered.</span>
+         <span class="hljs-string">'501'</span><span class="hljs-string">:</span>
+<span class="hljs-attr">           description:</span> <span class="hljs-string">At</span> <span class="hljs-string">least</span> <span class="hljs-string">one</span> <span class="hljs-string">procedure</span> <span class="hljs-string">has</span> <span class="hljs-string">reported</span> <span class="hljs-string">a</span> <span class="hljs-string">non-healthy</span> <span class="hljs-string">status</span>
+         <span class="hljs-string">'500'</span><span class="hljs-string">:</span>
+<span class="hljs-attr">           description:</span> <span class="hljs-string">One</span> <span class="hljs-string">procedure</span> <span class="hljs-string">has</span> <span class="hljs-string">thrown</span> <span class="hljs-string">an</span> <span class="hljs-string">error</span> <span class="hljs-string">or</span> <span class="hljs-string">has</span> <span class="hljs-string">not</span> <span class="hljs-string">reported</span> <span class="hljs-string">a</span> <span class="hljs-string">status</span> <span class="hljs-string">in</span> <span class="hljs-string">time</span>
+ <span class="hljs-string">...</span></code></pre>
+</li>
+</ol>
 <blockquote>
-<p>All configuration options and default values, for each Knot.x module, are
-described on github. For example <a href="https://github.com/Knotx/knotx-repository-connector/blob/master/fs/docs/asciidoc/dataobjects.adoc"><code>fsRepoConnectorHandler</code> configuration</a></p>
+<p>In OpenAPI terms, paths are endpoints (resources), such as <code>/users</code> or <code>/reports/summary/</code>, that your API exposes, and operations are the HTTP methods used to manipulate these paths, such as GET, POST or DELETE. (read more <a href="https://swagger.io/docs/specification/paths-and-operations/">here</a>)</p>
 </blockquote>
-<h3 id="html-template">HTML Template</h3>
-<p>Create a <code>repository/content</code> directory in <code>KNOTX_HOME</code> and put there following page template with Knot.x snippet (<code>&lt;knotx:snippet data-knotx-task=&quot;bookslist&quot;&gt;...</code>):</p>
-<p><em>books.html</em></p>
-<pre class="highlight"><code class="hljs xml"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"utf-8"</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"X-UA-Compatible"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"IE=edge"</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1"</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Knot.x<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://bootswatch.com/4/superhero/bootstrap.min.css"</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span>/&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container-fluid"</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-sm-12"</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"panel panel-default"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"panel-heading"</span>&gt;</span>Books list<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"panel-body"</span>&gt;</span>
-          This page lists Java related books provided by <span class="hljs-tag">&lt;<span class="hljs-name">a</span>
-            <span class="hljs-attr">href</span>=<span class="hljs-string">"https://www.googleapis.com/books/v1/volumes?q=java"</span>&gt;</span>Googleapis book service<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>.
-        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
-   <span class="hljs-tag">&lt;<span class="hljs-name">knotx:snippet</span> <span class="hljs-attr">data-knotx-task</span>=<span class="hljs-string">"bookslist"</span>&gt;</span>
-      {{#each books._result.items}}
-        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-sm-3"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card"</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-img-top"</span>
-             <span class="hljs-attr">src</span>=<span class="hljs-string">"{{volumeInfo.imageLinks.thumbnail}}"</span>
-             <span class="hljs-attr">alt</span>=<span class="hljs-string">"{{volumeInfo.title}}"</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-block"</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">h4</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-title"</span>&gt;</span>{{volumeInfo.title}}<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-text"</span>&gt;</span>
-              {{#each volumeInfo.authors as |author|}}
-                {{author}}{{#unless @last}}, {{/unless}}
-              {{/each}}<span class="hljs-tag">&lt;<span class="hljs-name">br</span> /&gt;</span>
-              Published: {{volumeInfo.publishedDate}}
-            <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-          <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-         <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-      {{/each}}
-    <span class="hljs-tag">&lt;/<span class="hljs-name">knotx:snippet</span>&gt;</span>
-
-    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
-<h3 id="templates-repository-configuration">Templates repository configuration</h3>
-<p>We will use <a href="https://github.com/Knotx/knotx-repository-connector/tree/master/fs">fsRepoConnectorHandler</a>, its purposes are purely academical.
-It is not designed to be used as a production ready solution (you should use <a href="https://github.com/Knotx/knotx-repository-connector/tree/master/http">httpRepoConnectorHandler</a> there).</p>
-<p>Create <code>knotx/conf/routes/handlers/fsRepoConnectorHandler.conf</code> file with the following:</p>
-<pre class="highlight"><code class="hljs ruby"><span class="hljs-comment"># Path to the directory on the local filesystem which will be the root for requested templates</span>
-catalogue = <span class="hljs-string">"./repository/"</span></code></pre>
-<p>This way we define the <code>repository</code> directory that will be our files content repository.</p>
-<p>Edit the <code>conf/routes/operations.conf</code> file and:</p>
-<ul>
-<li>replace <code>httpRepoConnectorHandler</code> to <code>fsRepoConnectorHandler</code> in <code>operation-get</code> definition</li>
-<li>change included configuration file into one you have just created <code>routes/handlers/fsRepoConnectorHandler.conf</code></li>
-</ul>
-<p>Your <code>conf/routes/operations.conf</code> should contain:</p>
+<p>The Starter Kit template comes with example paths and methods defined. Let&#39;s see the <code>/healthcheck</code> API. It is used to express the current state of the application in very simple terms: UP or DOWN (more on that <a href="http://knotx.io/tutorials/getting-started-with-docker/2_0/">in the second tutorial</a>).</p>
+<p>We can see that it is registered under <code>/healthcheck</code> path, it&#39;s method is a <code>GET</code> and it can have various responses depending on the state of the instance.</p>
+<p>A configured path and method section declares a unique operation that is used to process matching requests. In the example above, it is <code>healthcheck-operation</code>. Details how to link configured operation with the business logic implementation will be covered later.</p>
+<p>Now, it is time to define a custom endpoint <code>/api/hello</code> and operation <code>hello-world-operation</code>.</p>
+<p>Simply add new routing configuration under <code>paths</code>:</p>
+<pre class="highlight"><code class="hljs yaml"><span class="hljs-attr">paths:</span>
+  <span class="hljs-string">/api/hello:</span>
+<span class="hljs-attr">    get:</span>
+<span class="hljs-attr">      operationId:</span> <span class="hljs-string">hello-world-operation</span>
+<span class="hljs-attr">      responses:</span>
+<span class="hljs-attr">        default:</span>
+<span class="hljs-attr">          description:</span> <span class="hljs-string">Example</span> <span class="hljs-string">API</span> <span class="hljs-string">implemented</span> <span class="hljs-string">in</span> <span class="hljs-string">this</span> <span class="hljs-string">tutorial</span></code></pre>
+<h2 id="configure-api-define-a-new-operation">Configure API: define a new operation</h2>
+<p>As previously mentioned, a configured path and method indicates <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#operationObject">operation</a> to perform. Every operation is configured as a <a href="https://github.com/Knotx/knotx-server-http/tree/master#routing-operations">Routing Operation</a> entry that specifies Handlers with business logic to execute and failure Handlers when processing fails. </p>
+<p>All routing operation entries are configured in the <code>knotx/conf/routes/operations.conf</code> file. It is the first time the Knot.x configuration appears. It uses the HOCON (<em>Human-Optimized Config Object Notation</em>) syntax. More on HOCON  can be found in <a href="https://github.com/lightbend/config/blob/master/HOCON.md">here</a>.</p>
+<p>Let&#39;s take a look at this file:</p>
 <pre class="highlight"><code class="hljs ruby">routingOperations = ${routingOperations} [
-  {
-    operationId = operation-get
+
+  <span class="hljs-regexp">//</span> routing operations <span class="hljs-keyword">for</span> this project
+
+]</code></pre>
+<p><code>routingOperations</code> is an array of <code>routingOperation</code> objects. </p>
+<p><code>${routingOperations}</code> takes care of merging any <a href="https://github.com/Knotx/knotx-stack/blob/master/src/main/packaging/conf/server.conf">previously defined</a> routing operations with the ones you define here. More about HOCON concatenation possibilities can be found <a href="https://github.com/lightbend/config/blob/master/HOCON.md#array-and-object-concatenation">here</a>.</p>
+<p>Let&#39;s take a look at an example routing operation entry we get from Starter Kit:</p>
+<pre class="highlight"><code class="hljs ruby">  {
+    operationId = healthcheck-operation
+    handlers = [
+      {
+        name = healthcheck
+      }
+    ]
+  }</code></pre>
+<p>The <code>healthcheck-operation</code> operation defines the array of <a href="https://vertx.io/docs/apidocs/io/vertx/core/Handler.html">Handlers</a> with a single Handler, named <code>healthcheck</code>. Please note that Handlers can be easily reused so <code>healthcheck</code> is a Handler&#39;s factory unique name.</p>
+<p>Let&#39;s take a look at a more complicated one:</p>
+<pre class="highlight"><code class="hljs ruby">{
+    operationId = example-api-with-fragments-operation
     handlers = ${config.server.handlers.common.request} [
       {
-        name = fsRepoConnectorHandler
-        config = {<span class="hljs-keyword">include</span> required(classpath(<span class="hljs-string">"routes/handlers/fsRepoConnectorHandler.conf"</span>))}
-      },
-      {
-        name = htmlFragmentsSupplier
+        name = singleFragmentSupplier
+        config = {
+          type = json
+          configuration {
+            data-knotx-task = api-task
+          }
+        }
       },
       {
         name = fragmentsHandler
-        config = {<span class="hljs-keyword">include</span> required(classpath(<span class="hljs-string">"routes/handlers/fragmentsHandler.conf"</span>))}
+        config = { <span class="hljs-keyword">include</span> required(classpath(<span class="hljs-string">"routes/handlers/api-with-fragments.conf"</span>)) }
       },
       {
         name = fragmentsAssembler
       }
     ] ${config.server.handlers.common.response}
-  }
-]
-</code></pre>
-<ul>
-<li>Save the changes
-You may see that the Knot.x instance detected file changes and reloaded its configuration.</li>
-</ul>
-<h3 id="task-configuration">Task configuration</h3>
-<p>As you probably noticed the <code>Knot.x</code> snippet you defined in the <code>books.html</code> template file pointed to the <code>bookslist</code> task. Let&#39;s define it.</p>
-<p>Edit <code>conf/routes/handlers/fragmentsHandler.conf</code></p>
-<ul>
-<li>Add following in <code>tasks</code> section:</li>
-</ul>
-<pre class="highlight"><code class="hljs ruby">  bookslist {
-    action = books
-    onTransitions {
-      _success {
-        action = te-hbs
-      }
-    }
   }</code></pre>
-<p>Your task definition requires two actions: <code>books</code> and <code>te-hbs</code>, let&#39;s define them. 
-The <code>actions</code> section should contain:</p>
-<pre class="highlight"><code class="hljs ruby">  books {
-    factory = http
-    config {
-      webClientOptions {
-          ssl = <span class="hljs-literal">true</span>
+<p>Here we provide not one, but three different handlers. By defining them in an array, they will be called in order they&#39;re defined. Some of them even have some additional configurations defined explicitly or in another file. They will be passed as <code>JsonObject</code>s to the handler implementation.</p>
+<p>Notice two additional imports: <code>${config.server.handlers.common.request}</code> and <code>${config.server.handlers.common.response}</code>. Here we use the handlers defined in <a href="https://github.com/Knotx/knotx-server-http/blob/master/conf/server.conf">Knot.x source code</a>, which simplifies handling of basic requests without repeating the configuration for similar operations.</p>
+<p>Now, let&#39;s connect <code>hello-world-operation</code> with a handler. The name of the handler factory will be <code>hellohandler</code> (reminder: names must be unique!). We&#39;ll also make the message configurable.</p>
+<p>Simply add new routing operation to the array:</p>
+<pre class="highlight"><code class="hljs ruby">  {
+    operationId = hello-world-operation
+    handlers = [
+      {
+        name = hellohandler
+        config = {
+          message = <span class="hljs-string">"Hello World From Knot.x!"</span>
+        }
       }
-      endpointOptions {
-        path = <span class="hljs-string">"/books/v1/volumes?q=java"</span>
-        domain = www.googleapis.com
-        port = <span class="hljs-number">443</span>
-        allowedRequestHeaders = [<span class="hljs-string">"Content-Type"</span>]
-      }
+    ]
+  }</code></pre>
+<h2 id="api-implementation-creating-new-handler">API implementation: creating new Handler</h2>
+<p>Now it is time to code some custom logic printing <em>&quot;Hello World from Knot.x!&quot;</em>. We will implement the <a href="https://github.com/Knotx/knotx-server-http/blob/master/api/src/main/java/io/knotx/server/api/handler/RoutingHandlerFactory.java">RoutingHandlerFactory</a> interface. We use Java but you can use any JVM-based language, such as <a href="https://kotlinlang.org/">Kotlin</a>. Let&#39;s put it in a separate module.</p>
+<p>Create a new module under the <code>modules</code> folder. The structure should look like this:</p>
+<pre class="highlight"><code class="hljs stylus">modules
+└─ hellomodule
+    ├── build<span class="hljs-selector-class">.gradle</span><span class="hljs-selector-class">.kts</span>                                                        <span class="hljs-comment">// gradle build script</span>
+    └── src 
+        └── main                   
+            ├── java/com/project/example/hellohandler
+            │     └── HelloWorldHandlerFactory<span class="hljs-selector-class">.java</span>                             <span class="hljs-comment">// the handler factory  </span>
+            └── resources
+                  └── META-INF/services
+                        └── io<span class="hljs-selector-class">.knotx</span><span class="hljs-selector-class">.server</span><span class="hljs-selector-class">.api</span><span class="hljs-selector-class">.handler</span><span class="hljs-selector-class">.RoutingHandlerFactory</span>   <span class="hljs-comment">// META-INF file used by Knot.x to find the handler   </span></code></pre><p>Let&#39;s take a look at the three files required for the module to work.</p>
+<p><code>build.gradle.kts</code></p>
+<pre class="highlight"><code class="hljs kotlin">plugins {
+    `java-library`
+}
+
+dependencies {
+
+    <span class="hljs-string">"io.knotx:knotx"</span>.let { v -&gt;
+        implementation(platform(<span class="hljs-string">"<span class="hljs-variable">$v</span>-dependencies:<span class="hljs-subst">${project.property("knotx.version")}</span>"</span>))
+        api(<span class="hljs-string">"<span class="hljs-variable">$v</span>-fragments-api:<span class="hljs-subst">${project.property("knotx.version")}</span>"</span>)
+        api(<span class="hljs-string">"<span class="hljs-variable">$v</span>-fragments-handler-api:<span class="hljs-subst">${project.property("knotx.version")}</span>"</span>)
     }
+    <span class="hljs-string">"io.vertx:vertx"</span>.let { v -&gt;
+        implementation(<span class="hljs-string">"<span class="hljs-variable">$v</span>-web"</span>)
+        implementation(<span class="hljs-string">"<span class="hljs-variable">$v</span>-web-client"</span>)
+        implementation(<span class="hljs-string">"<span class="hljs-variable">$v</span>-rx-java2"</span>)
+    }
+}</code></pre>
+<p><code>io.knotx.server.api.handler.RoutingHandlerFactory</code></p>
+<pre class="highlight"><code class="hljs stylus">io<span class="hljs-selector-class">.knotx</span><span class="hljs-selector-class">.example</span><span class="hljs-selector-class">.hellohandler</span><span class="hljs-selector-class">.HelloWorldHandlerFactory</span></code></pre><p>In this file we list, line by line, all the <a href="https://github.com/Knotx/knotx-server-http/blob/master/api/src/main/java/io/knotx/server/api/handler/RoutingHandlerFactory.java">RoutingHandlerFactory</a> implementations we want Knot.x to see. It has to be a canonical class name. It uses <a href="https://docs.oracle.com/javase/7/docs/api/java/util/ServiceLoader.html">Java ServiceLoader</a>.</p>
+<p><code>HelloWorldHandlerFactory.java</code></p>
+<pre class="highlight"><code class="hljs pgsql">package io.knotx.example.hellohandler;
+
+<span class="hljs-keyword">import</span> io.knotx.<span class="hljs-keyword">server</span>.api.<span class="hljs-keyword">handler</span>.RoutingHandlerFactory;
+<span class="hljs-keyword">import</span> io.vertx.core.<span class="hljs-keyword">Handler</span>;
+<span class="hljs-keyword">import</span> io.vertx.core.json.JsonObject;
+<span class="hljs-keyword">import</span> io.vertx.reactivex.core.Vertx;
+<span class="hljs-keyword">import</span> io.vertx.reactivex.ext.web.RoutingContext;
+
+<span class="hljs-built_in">public</span> <span class="hljs-keyword">class</span> HelloWorldHandlerFactory implements RoutingHandlerFactory {
+
+  @Override
+  <span class="hljs-built_in">public</span> String getName() {
+    <span class="hljs-keyword">return</span> "hellohandler";    // this has <span class="hljs-keyword">to</span> be exactly the same <span class="hljs-keyword">unique</span> string <span class="hljs-keyword">as</span> <span class="hljs-keyword">in</span> operations.conf file                                                 
   }
-  te-hbs {
-    factory = knot
-    config {
-      address = knotx.knot.te.handlebars
-      deliveryOptions {
-        sendTimeout = <span class="hljs-number">1000</span>
-      }
-    }
-  }  </code></pre>
-<p>Save the configuration file, Knot.x will reload its modules once again.</p>
-<p>The last thing left, open <a href="http://localhost:8092/content/books.html">http://localhost:8092/content/books.html</a> - Voilà!</p>
-<p>You can find full example implementation <a href="https://github.com/Knotx/knotx-example-project/tree/master/distribution/stack">here</a>.</p>
+
+  @Override
+  <span class="hljs-built_in">public</span> <span class="hljs-keyword">Handler</span>&lt;RoutingContext&gt; <span class="hljs-keyword">create</span>(Vertx vertx, JsonObject config) {
+    String message = config.getString("message", "Some default message");
+    JsonObject jsonObject = <span class="hljs-built_in">new</span> JsonObject()
+        .put("message", message);
+    <span class="hljs-keyword">return</span> event -&gt; event.response().<span class="hljs-keyword">end</span>(jsonObject.toString());
+  }
+}</code></pre><p>The most important thing is to register it by its name. In this case, it was <code>&quot;hellohandler&quot;</code>. </p>
+<p>The handling it performs is simply ending the response with previously configured <em>&quot;Hello World from Knot.x!&quot;</em> JSON.</p>
+<p>Finally, let&#39;s update the main project&#39;s <code>settings.gradle.kts</code> file, so that it will recognize the new module. </p>
+<p>Simply add those two lines:</p>
+<pre class="highlight"><code class="hljs kotlin">include(<span class="hljs-string">"hello-module"</span>)</code></pre>
+<p>and</p>
+<pre class="highlight"><code class="hljs kotlin">project(<span class="hljs-string">":hello-module"</span>).projectDir = file(<span class="hljs-string">"modules/hello-module"</span>)</code></pre>
+<h2 id="build-run">Build &amp; Run</h2>
+<p>The process of distributing Knot.x via stack is the following:</p>
+<pre class="highlight"><code class="hljs elixir"><span class="hljs-variable">$ </span>./gradlew build</code></pre><p>This command is building the distributable zip archive. It can be found under <code>build/distributions</code> directory.</p>
+<p>This archive is fully functional Knot.x distribution and can be deployed on any Unix-based machine.</p>
+<p>In order to run it, first we need to unzip it.</p>
+<pre class="highlight"><code class="hljs stata">$ <span class="hljs-keyword">cd</span> build/distributions
+$ unzip knotx-<span class="hljs-keyword">stack</span>-&lt;<span class="hljs-keyword">version</span> of your project&gt;.<span class="hljs-keyword">zip</span></code></pre><p>Now let&#39;s navigate to unzipped <code>knotx</code> folder and make <code>knotx/bin/knotx</code> file executable.</p>
+<pre class="highlight"><code class="hljs shell"><span class="hljs-meta">$</span><span class="bash"> <span class="hljs-built_in">cd</span> knotx</span>
+<span class="hljs-meta">$</span><span class="bash"> chmod +x bin/knotx</span></code></pre><p>The final step is executing the starting script:</p>
+<pre class="highlight"><code class="hljs dockerfile">$ bin/knotx <span class="hljs-keyword">run</span><span class="bash">-knotx</span></code></pre><p>The application should start.</p>
+<p>After a while it should be up and running and the endpoint can be accessed. Let&#39;s execute the command:</p>
+<pre class="highlight"><code class="hljs awk">$ curl -X GET http:<span class="hljs-regexp">//</span>localhost:<span class="hljs-number">8092</span><span class="hljs-regexp">/api/</span>hello
+{<span class="hljs-string">"message"</span>:<span class="hljs-string">"Hello World From Knot.x!"</span>}</code></pre><h3 id="debugging">Debugging</h3>
+<p>For manual on how to debug the application see <a href="https://github.com/Knotx/knotx-starter-kit#docker-debugging">this documentation</a>.</p>
+<hr>
+<p>You can find full example implementation <a href="https://github.com/Knotx/knotx-example-project/tree/master/distribution/getting-started">here</a>.</p>
 
           </section>
         </article>

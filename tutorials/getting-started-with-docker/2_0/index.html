@@ -105,9 +105,9 @@
       <div class="col-sm-12">
         <article>
           <header class="meta">
-  <a class="meta-item" href="https://github.com/marcinkp">Piotr Marcinkowski</a>
+  <a class="meta-item" href="https://github.com/Mateusz512">Mateusz Hinc</a>
   <time class="meta-item date"
-        datetime="2019-08-07">August 7th, 2019
+        datetime="2019-10-10">October 10th, 2019
   </time>
 
   <div class="post-versions">    
@@ -119,175 +119,89 @@
 
           <section class="post">
             <h2 id="overview">Overview</h2>
-<p>In this tutorial, we will setup a simple project based on the <a href="https://github.com/Knotx/knotx-starter-kit">Knot.x Starter Kit</a> template.
-Will configure Knot.x with a simple page that uses an external datasource (Google Books API) to fetch the dynamic data and display it on our page.</p>
+<p>In this tutorial, we will set up a simple project based on the <a href="https://github.com/Knotx/knotx-starter-kit">Knot.x Starter Kit</a> template, just as we did in <a href="http://knotx.io/tutorials/getting-started-with-knotx-stack/2_0/">the previous tutorial</a>, but this time we will use <a href="https://www.docker.com/">Docker</a>.</p>
+<p>This is the second part of <em>Getting started</em> tutorials, and completion of <a href="http://knotx.io/tutorials/getting-started-with-knotx-stack/2_0/">Getting Started with Knot.x Stack tutorial</a> is <strong>required</strong> to fully understand this tutorial.</p>
 <p>What you’re going to learn:</p>
 <ul>
-<li>How to setup a Knot.x project with customization based on the <a href="https://github.com/Knotx/knotx-starter-kit">Knot.x Starter Kit</a> template</li>
-<li>How to transform a static HTML into the dynamic content and configure Knot.x to use REST services to get data</li>
-<li>How to use the data from such services to dynamically populate HTML</li>
+<li>How to build a custom Docker image containing project-specific configs and extensions using Gradle</li>
+<li>How to validate the Docker image with functional / system tests</li>
 </ul>
-<h2 id="setup-basic-knot-x-project">Setup basic Knot.x project</h2>
-<p><strong>Prerequisites</strong>
-You will need the following things to use Knot.x:</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>You will need the following things to use Knot.x with Docker:</p>
 <ul>
 <li>JDK 8</li>
 <li>Docker </li>
 </ul>
-<p>Download the <a href="https://github.com/Knotx/knotx-starter-kit/releases">Latest Knot.x Starter Kit release</a> and unzip it.</p>
-<p>Project has the following structure:</p>
-<pre class="highlight"><code class="hljs lasso">├── docker
-|   ├── Dockerfile                <span class="hljs-comment">// Docker file with image definition.</span>
-├── functional                    <span class="hljs-comment">// Keep here your functional tests. Example implementation included</span>
-├── gradle                        <span class="hljs-comment">// Gradle wrapper and common gradle scripts</span>
-├── knotx/conf                    <span class="hljs-comment">// Knotx configurations which will be copied to docker image</span>
-├── modules                       <span class="hljs-comment">// Sub-modules of your project</span>
-│   ├── <span class="hljs-params">...</span>                       <span class="hljs-comment">// example modules implementation</span></code></pre><h2 id="configuration">Configuration</h2>
-<p>Let&#39;s now configure Knot.x to do the magic for us.
-We need to do two things:</p>
-<ul>
-<li>provide the page template, for the tutorial purpose, we will use <a href="https://github.com/Knotx/knotx-repository-connector/tree/master/fs"><code>fsRepoConnectorHandler</code></a>,</li>
-<li>provide the datasource, we will use the <a href="https://developers.google.com/books/">Google Books API</a>.</li>
-</ul>
-<blockquote>
-<p>All configuration options and default values, for each Knot.x module, are
-described on github. For example <a href="https://github.com/Knotx/knotx-repository-connector/blob/master/fs/docs/asciidoc/dataobjects.adoc"><code>fsRepoConnectorHandler</code> configuration</a></p>
-</blockquote>
-<h3 id="html-template">HTML Template</h3>
-<p>Create a <code>knotx/repository/content</code> directory in your project and put there following page template with Knot.x snippet (<code>&lt;knotx:snippet data-knotx-task=&quot;bookslist&quot;&gt;...</code>):</p>
-<p><em>books.html</em></p>
-<pre class="highlight"><code class="hljs xml"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"utf-8"</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"X-UA-Compatible"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"IE=edge"</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1"</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Knot.x<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://bootswatch.com/4/superhero/bootstrap.min.css"</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span>/&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container-fluid"</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-sm-12"</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"panel panel-default"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"panel-heading"</span>&gt;</span>Books list<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"panel-body"</span>&gt;</span>
-          This page lists Java related books provided by <span class="hljs-tag">&lt;<span class="hljs-name">a</span>
-            <span class="hljs-attr">href</span>=<span class="hljs-string">"https://www.googleapis.com/books/v1/volumes?q=java"</span>&gt;</span>Googleapis book service<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>.
-        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
-   <span class="hljs-tag">&lt;<span class="hljs-name">knotx:snippet</span> <span class="hljs-attr">data-knotx-task</span>=<span class="hljs-string">"bookslist"</span>&gt;</span>
-      {{#each books._result.items}}
-        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-sm-3"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card"</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-img-top"</span>
-             <span class="hljs-attr">src</span>=<span class="hljs-string">"{{volumeInfo.imageLinks.thumbnail}}"</span>
-             <span class="hljs-attr">alt</span>=<span class="hljs-string">"{{volumeInfo.title}}"</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-block"</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">h4</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-title"</span>&gt;</span>{{volumeInfo.title}}<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-text"</span>&gt;</span>
-              {{#each volumeInfo.authors as |author|}}
-                {{author}}{{#unless @last}}, {{/unless}}
-              {{/each}}<span class="hljs-tag">&lt;<span class="hljs-name">br</span> /&gt;</span>
-              Published: {{volumeInfo.publishedDate}}
-            <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-          <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-         <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-      {{/each}}
-    <span class="hljs-tag">&lt;/<span class="hljs-name">knotx:snippet</span>&gt;</span>
-
-    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
-<h3 id="templates-repository-configuration">Templates repository configuration</h3>
-<p>We will use <a href="https://github.com/Knotx/knotx-repository-connector/tree/master/fs">fsRepoConnectorHandler</a>, its purposes are purely academical.
-It is not designed to be used as a production ready solution (you should use <a href="https://github.com/Knotx/knotx-repository-connector/tree/master/http">httpRepoConnectorHandler</a> there).</p>
-<p>Create <code>knotx/conf/routes/handlers/fsRepoConnectorHandler.conf</code> file with the following:</p>
-<pre class="highlight"><code class="hljs ruby"><span class="hljs-comment"># Path to the directory on the local filesystem which will be the root for requested templates</span>
-catalogue = <span class="hljs-string">"/usr/local/knotx/repository/"</span></code></pre>
-<p>This way we define the <code>repository</code> directory that will be our files content repository.</p>
-<h3 id="openapi-yml">openapi.yml</h3>
-<p>Open <code>knotx/conf/openapi.yml</code> and add following path definition:</p>
-<pre class="highlight"><code class="hljs dts">  <span class="hljs-meta-keyword">/content/</span>*:
-<span class="hljs-symbol">    get:</span>
-<span class="hljs-symbol">      operationId:</span> content-get
-<span class="hljs-symbol">      responses:</span>
-<span class="hljs-symbol">        default:</span>
-<span class="hljs-symbol">          description:</span> Remote repository template processing</code></pre><p>By doing this you define the operation which should be executed for path <code>/content/*</code>.</p>
-<h3 id="operations-conf">operations.conf</h3>
-<p>Now, you need to define operation <code>content-get</code>. Open <code>knotx/conf/routes/operations.con</code>
-Add in <code>routingOperations</code> array following definition:</p>
-<pre class="highlight"><code class="hljs routeros">  {
-    operationId = content-<span class="hljs-builtin-name">get</span>
-    handlers = <span class="hljs-variable">${config.server.handlers.common.request}</span> [
-      {
-        name = fsRepoConnectorHandler
-       <span class="hljs-built_in"> config </span>= {include required(classpath(<span class="hljs-string">"routes/handlers/fsRepoConnectorHandler.conf"</span>))}
-      },
-      {
-        name = htmlFragmentsSupplier
-      },
-      {
-        name = fragmentsHandler
-       <span class="hljs-built_in"> config </span>= {include required(classpath(<span class="hljs-string">"routes/handlers/fragmentsHandler.conf"</span>))}
-      },
-      {
-        name = fragmentsAssembler
-      }
-    ] <span class="hljs-variable">${config.server.handlers.common.response}</span>
-  }</code></pre><h3 id="task-configuration">Task configuration</h3>
-<p>As you probably noticed the <code>Knot.x</code> snippet you defined in the <code>books.html</code> template file pointed to the <code>bookslist</code> task. Let&#39;s define it.</p>
-<p>Create <code>knotx/conf/routes/handlers/fragmentsHandler.conf</code> and add following code:</p>
-<pre class="highlight"><code class="hljs ruby">tasks {
-  bookslist {
-    action = books
-    onTransitions {
-      _success {
-        action = te-hbs
-      }
-    }
-  }
-}
-
-actions {
-  books {
-    factory = http
-    config {
-      endpointOptions {
-        path = <span class="hljs-string">"/books/v1/volumes?q=java"</span>
-        domain = www.googleapis.com
-        port = <span class="hljs-number">443</span>
-        allowedRequestHeaders = [<span class="hljs-string">"Content-Type"</span>]
-      }
-      webClientOptions {
-        ssl = <span class="hljs-literal">true</span>
-      }
-    }
-  }
-  te-hbs {
-    factory = knot
-    config {
-      address = knotx.knot.te.handlebars
-      deliveryOptions {
-        sendTimeout = <span class="hljs-number">1000</span>
-      }
-    }
-  }
-}</code></pre>
-<p>Above file will be processed by <a href="https://github.com/Knotx/knotx-fragments/tree/master/handler"><code>fragmentsHandler</code></a>. 
-We will cover more sophisticated example in the <a href="/tutorials/configurable-api-gateway/">configurable API gateway tutorial</a> </p>
 <h2 id="docker">Docker</h2>
-<h3 id="configuration">Configuration</h3>
-<p><a href="https://github.com/Knotx/knotx-starter-kit">Knot.x Starter Kit</a> project builds docker image. Edit <code>gradle.properties</code> and change property <code>docker.image.name</code>:</p>
-<pre class="highlight"><code class="hljs stylus">docker<span class="hljs-selector-class">.image</span><span class="hljs-selector-class">.name</span>=knotx-example/docker-distribution</code></pre><h2 id="run">Run</h2>
-<p>Now we are ready to run. First, build your docker image</p>
-<pre class="highlight"><code class="hljs elixir"><span class="hljs-variable">$ </span>gradlew clean build</code></pre><p>Run Knot.x instance:</p>
-<pre class="highlight"><code class="hljs dockerfile">docker <span class="hljs-keyword">run</span><span class="bash"> -p8092:8092 knotx-example/docker-distribution</span></code></pre><p>The last thing left, open <a href="http://localhost:8092/content/books.html">http://localhost:8092/content/books.html</a> - Voilà!</p>
+<p>Open directory of the previous tutorial. If you don&#39;t have one, you can find it <a href="https://github.com/Knotx/knotx-example-project/tree/master/distribution/getting-started">here</a>.</p>
+<p><a href="https://github.com/Knotx/knotx-starter-kit">Knot.x Starter Kit</a> project builds either stack (zip distribution) or Docker image. In this tutorial, we&#39;ll use the latter.</p>
+<p>The part responsible for building the Docker image is the <a href="https://raw.githubusercontent.com/Knotx/knotx-starter-kit/master/gradle/docker.gradle.kts"><code>docker.gradle.kts</code></a> file, which uses the <a href="https://github.com/bmuschko/gradle-docker-plugin"><code>gradle-docker-plugin</code></a>.</p>
+<p>Let&#39;s rename the Docker image. Edit <code>gradle.properties</code> and change property <code>docker.image.name</code>:</p>
+<pre class="highlight"><code class="hljs stylus">docker<span class="hljs-selector-class">.image</span><span class="hljs-selector-class">.name</span>=knotx-example/knotx-docker-tutorial</code></pre><h2 id="build-run">Build &amp; Run</h2>
+<p>First, let&#39;s build your docker image:</p>
+<pre class="highlight"><code class="hljs elixir"><span class="hljs-variable">$ </span>gradlew clean build-docker</code></pre><p>If you take a closer look at build log (you can use <code>-i</code> flag for a more verbose process) you can see, that not only the project is being built, but also it:</p>
+<ul>
+<li>builds the Docker image</li>
+<li>starts a container for testing</li>
+<li>runs <code>healthcheck</code> test on the container and then executes functional tests (more on that in the next section)</li>
+</ul>
+<p>But what <em>building the Docker image</em> means in this case?</p>
+<p><img src="/img/blog/getting-started-with-docker/starter-kit-docker.png" alt="Starter Kit Docker Image"></p>
+<p>The diagram above describes how it works. Starter Kit Docker Image is based on Knot.x image hosted at <a href="https://hub.docker.com/">Docker Hub</a>, which is based on a base OpenJDK image. While building the image, we copy all custom modules (JARs) and configuration to the resulting image. </p>
+<p>Now let&#39;s run the dockerized Knot.x instance:</p>
+<pre class="highlight"><code class="hljs dockerfile">$ docker <span class="hljs-keyword">run</span><span class="bash"> -p8092:8092 knotx-example/knotx-docker-tutorial</span></code></pre><h3 id="final-result">Final result</h3>
+<pre class="highlight"><code class="hljs awk">$ curl -X GET http:<span class="hljs-regexp">//</span>localhost:<span class="hljs-number">8092</span><span class="hljs-regexp">/api/</span>hello
+{<span class="hljs-string">"message"</span>:<span class="hljs-string">"Hello World From Knot.x!"</span>}</code></pre><h2 id="tests">Tests</h2>
+<p>Now let&#39;s take a closer look at what tests we have here.</p>
+<p>The first test is the <code>healthcheck</code>. Technically speaking, this is not a <em>test</em>, but rather an endpoint in which, we call application&#39;s endpoints within the application. If the request succeeds, we can be sure that the Docker container is up and running.</p>
+<p>Let&#39;s take a quick peek at <code>docker/Dockerfile</code>:</p>
+<pre class="highlight"><code class="hljs dockerfile">... 
+
+<span class="hljs-keyword">HEALTHCHECK</span><span class="bash"> --interval=5s --timeout=2s --retries=12 \
+  CMD curl --silent --fail localhost:8092/healthcheck || <span class="hljs-built_in">exit</span> 1</span>
+
+...</code></pre>
+<p>Docker is trying to reach <code>localhost:8092/healthcheck</code> with defined interval, timeouts and retries. If <code>/healthcheck</code> returns <code>200</code> code, we can be sure that the instance is up. For more details see <a href="https://docs.docker.com/engine/reference/builder/#healthcheck">this documentation</a>.</p>
+<p> A quick recap on how to find the class implementing the handler: in <code>openapi.yaml</code> endpoint <code>/healthcheck</code> is handled by operation <code>healthcheck-operation</code>, which has one handler registered with name <code>healthcheck</code>. This leads to the class <code>HealthcheckHandlerFactory.java</code>.</p>
+<p> We&#39;ll modify it so that it will use the <code>/api/hello</code> endpoint. </p>
+<p>Simply change the <code>create</code> method:</p>
+<pre class="highlight"><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> Handler&lt;RoutingContext&gt; <span class="hljs-title">create</span><span class="hljs-params">(Vertx vertx, JsonObject config)</span> </span>{
+    HealthChecks checks = HealthChecks.create(vertx);
+    checks.register(<span class="hljs-string">"API check"</span>, <span class="hljs-number">200</span>, future -&gt; {
+      WebClient webClient = WebClient.create(vertx);
+      webClient.get(<span class="hljs-number">8092</span>, <span class="hljs-string">"localhost"</span>, <span class="hljs-string">"/api/hello"</span>)
+          .rxSend()
+          .subscribe(onSuccess -&gt; {
+            JsonObject jsonResponse = onSuccess.bodyAsJsonObject();
+            future.complete(<span class="hljs-string">"Hello World From Knot.x!"</span>.equals(jsonResponse.getString(<span class="hljs-string">"message"</span>)) ? Status.OK() : Status.KO());
+          }, onError -&gt; future
+              .complete(Status.KO(<span class="hljs-keyword">new</span> JsonObject().put(<span class="hljs-string">"error"</span>, onError.getMessage()))));
+});</code></pre>
+<p>Starter Kit has some example functional tests as well.</p>
+<p>As this line suggests: </p>
+<p><code>build.gradle.kts</code></p>
+<pre class="highlight"><code class="hljs kotlin">sourceSets.named(<span class="hljs-string">"test"</span>) {
+    java.srcDir(<span class="hljs-string">"functional/src/test/java"</span>)
+}</code></pre>
+<p>They can be found under <code>functional/src/test/java</code>. </p>
+<p>For now, we have one test that comes out of the box with the Starter Kit: <code>ExampleApiITCase</code>. Let&#39;s change it as well. </p>
+<p>Again, we&#39;ll modify the test to use the <code>/api/hello</code> endpoint:</p>
+<pre class="highlight"><code class="hljs java">  <span class="hljs-meta">@Test</span>
+  <span class="hljs-meta">@DisplayName</span>(<span class="hljs-string">"Expect 200 status code from hello api."</span>)
+  <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">callHandlersApiEndpointAndExpectOK</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-comment">// @formatter:off</span>
+    given().
+        port(<span class="hljs-number">8092</span>).
+      when().
+        get(<span class="hljs-string">"/api/hello"</span>).
+      then()
+        .assertThat().
+        statusCode(<span class="hljs-number">200</span>);
+    <span class="hljs-comment">// @formatter:on</span>
+  }</code></pre>
+<p>If you look closely at <a href="https://raw.githubusercontent.com/Knotx/knotx-starter-kit/master/gradle/docker.gradle.kts">this file</a>, you can see that task <code>runFunctionalTests</code> relies on Docker container to be up (which is ensured by <code>healthcheck</code>). Now that we have the application running, we can run integration tests by invoking various endpoints and asserting their responses. Here we use <a href="http://rest-assured.io/">REST-assured</a> for this purpose.</p>
+<hr>
+<p>You can find full project implementation <a href="https://github.com/Knotx/knotx-example-project/tree/master/distribution/getting-started">here</a>.</p>
 
           </section>
         </article>
