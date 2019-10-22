@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Knot.x Website">
+  <meta name="keywords" content="knotx, vertx, reactive, asynchronous, templating, java, polyglot, cms, tutorial">
+  <title>Using GraphQL with Knot.x</title>
+
+  <meta property="og:title" content="Using GraphQL with Knot.x"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="http://knotx.io/tutorials/graphql-usage/2_0/"/>
+  <meta property="og:site_name" content="Knot.x Website"/>
+  <meta property="og:description" content="Knot.x Website"/>
+  <meta property="og:image" content="http://knotx.io/img/logo-240x240.png"/>
+
+  <link rel="apple-touch-icon" sizes="57x57" href="/img/favicons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/img/favicons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/img/favicons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/img/favicons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/img/favicons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/img/favicons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/img/favicons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/favicons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicons/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/img/favicons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicons/favicon-16x16.png">
+  <link rel="manifest" href="/img/favicons/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/img/favicons/ms-icon-144x144.png">
+  <meta name="theme-color" content="#9f136c">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Montserrat:200,300,400,500,700|Ubuntu:300,400,500,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link  rel="stylesheet" href="/styles/bootstrap.css" /><link  rel="stylesheet" href="/styles/github.css" /><link  rel="stylesheet" href="/styles/knotx.css" />
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+  <body >
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-92165781-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    <!-- Header -->
+<header class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/img/logo-knotx.png" class="navbar-brand-logo" alt="Knot.x Logo"/>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        
+        <li><a href="/download/">Download</a></li>
+        
+        <li><a href="/tutorials/">Tutorials</a></li>
+        
+        <li><a href="https://github.com/Knotx/knotx/issues">Issues</a></li>
+        
+        <li><a href="/documentation/">Documentation</a></li>
+        
+        <li><a href="/community/">Community</a></li>
+        
+        <li><a href="/blog/">Blog</a></li>
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</header>
+
+    <!-- Content Header -->
+<div class="content-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>Using GraphQL with Knot.x</h1>
+      </div>
+    </div>    
+  </div>
+  
+</div>
+
+<div class="container flex blog">
+    <div class="row">
+      <div class="col-sm-12">
+        <article>
+          <header class="meta">
+  <a class="meta-item" href="https://github.com/Voycawojka">Filip Kowalski</a>
+  <time class="meta-item date"
+        datetime="2019-10-16">October 16th, 2019
+  </time>
+
+  <div class="post-versions">    
+    
+      <a class="post-btn" href="/tutorials/graphql-usage/2_0/">2.0.0</a>
+    
+  </div>
+</header>
+
+          <section class="post">
+            <h2 id="overview">Overview</h2>
+<p>In this tutorial, we&#39;ll implement a sample <a href="https://graphql.org/">GraphQL</a> endpoint that makes use of <a href="http://knotx.io/blog/configurable-integrations/">Knot.x Configurable Integrations</a>. It&#39;s advised to complete the <a href="/tutorials/getting-started-with-knotx-stack/2_0/">Getting Started tutorials</a> first. You should also be familiar with fragments. Familiarity with GraphQL is not obligatory (but always welcome).</p>
+<p>You&#39;ll learn how to:</p>
+<ul>
+<li>use Java and Vert.x GraphQL implementations</li>
+<li>implement them to work seamlessly with Knot.x</li>
+<li>create and use custom <a href="https://github.com/Knotx/knotx-fragments/tree/2.0.0/api#knotx-fragment-api">Fragments</a> and reuse <a href="https://github.com/Knotx/knotx-data-bridge/tree/2.0.0/http#http-action">HTTP Action</a> to fetch data from Google API</li>
+</ul>
+<h2 id="graphql">GraphQL</h2>
+<p>GraphQL is a query language, a standard for serving and retrieving data. It&#39;s commonly used for communication via HTTP. Unlike REST, GraphQL uses a single endpoint that is serving all data. Clients specify what data they need with a dedicated query language. The server then responds with JSON including only data the client asked for and in the structure he or she wanted.</p>
+<p>For example, client could ask for data like this:</p>
+<pre class="highlight"><code class="hljs ruby">{
+    books(<span class="hljs-symbol">cover_type:</span> <span class="hljs-string">"hard"</span>) {
+        available
+        price
+    }
+}</code></pre>
+<p>And get a JSON response:</p>
+<pre class="highlight"><code class="hljs json">{
+    <span class="hljs-attr">"data"</span>: {
+        <span class="hljs-attr">"books"</span>: [
+            {
+                <span class="hljs-attr">"available"</span>: <span class="hljs-literal">true</span>,
+                <span class="hljs-attr">"price"</span>: <span class="hljs-string">"$12"</span>
+            },
+            {
+                <span class="hljs-attr">"available"</span>: <span class="hljs-literal">false</span>,
+                <span class="hljs-attr">"price"</span>: <span class="hljs-string">"€15"</span>
+            }
+        ]
+    }
+}</code></pre>
+<p>Maybe we could ask the server for different properties of books or for other products - it doesn&#39;t matter. We get what we asked for.</p>
+<p>Another advantage of GraphQL is that it&#39;s statically typed. The server defines a schema which is a file defining all operations and types the client can request. It&#39;s like a model layer.</p>
+<p>You can read more at <a href="https://graphql.org/">graphql.org</a>.</p>
+<h2 id="java-implementation-library">Java implementation library</h2>
+<p>Because GraphQL is a specification, it has many implementations for different languages. The most popular Java one is <a href="https://github.com/graphql-java/graphql-java">GraphQL Java</a>.</p>
+<p>The main idea of this library is a <strong>data fetcher</strong>. It is an object implementing the <code>DataFetcher</code> interface with only one method: </p>
+<pre class="highlight"><code class="hljs java"><span class="hljs-function">T <span class="hljs-title">get</span><span class="hljs-params">(DataFetchingEnvironment env)</span></span></code></pre>
+<p>Let&#39;s ignore the <code>env</code> argument for now. As you might suspect, the role of a data fetcher is to provide some data (return an object, to be precise).</p>
+<p>At runtime, you assign data fetchers to types defined in GraphQL schema. Such a fetcher needs to return an object that can be automatically mapped to the schema type. For example, if the schema defines an operation <code>book</code> returning a type <code>Book</code> that has a property <code>title</code>, then we would implement it like that:</p>
+<ol>
+<li>Define a POJO <code>Book</code> object</li>
+</ol>
+<pre class="highlight"><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Book</span> </span>{
+    <span class="hljs-keyword">private</span> String title;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Book</span><span class="hljs-params">(String title)</span> </span>{
+        <span class="hljs-keyword">this</span>.title = title;
+    }
+}</code></pre>
+<ol start="2">
+<li>Define a fetcher</li>
+</ol>
+<pre class="highlight"><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BookFetcher</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">DataFetcher</span>&lt;<span class="hljs-title">Book</span>&gt; </span>{
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function">Book <span class="hljs-title">get</span><span class="hljs-params">(DataFetchingEnvironment env)</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Book(<span class="hljs-string">"Reindeers World"</span>);
+    }
+}</code></pre>
+<blockquote>
+<p>Note that the example above contains a hardcoded Book instance to keep things simple. Normally the data could be fetched e.g. from the database or 3rd party web service. But as far as GraphQL is concerned, it doesn&#39;t matter as long as the fetcher returns a <code>Book</code> object. </p>
+</blockquote>
+<ol start="3">
+<li>Assign the fetcher to operation</li>
+</ol>
+<pre class="highlight"><code class="hljs java"><span class="hljs-comment">//...</span>
+RuntimeWiring runtimeWiring = newRuntimeWiring()
+    .type(<span class="hljs-string">"QueryType"</span>, builder -&gt; builder.dataFetcher(<span class="hljs-string">"book"</span>, <span class="hljs-keyword">new</span> BookFetcher()))
+    .build()
+<span class="hljs-comment">//then load the schema file and construct GraphQL object</span></code></pre>
+<p><code>QueryType</code> is the name of the query we define in a schema. </p>
+<p>You&#39;ll end up with a <code>graphQL</code> object (of class <code>GraphQL</code>). You can then ask this object to process a query, e.g:</p>
+<pre class="highlight"><code class="hljs ruby">{
+    book {
+        title
+    }
+}</code></pre>
+<p>And you should get the following output:</p>
+<pre class="highlight"><code class="hljs json">{
+    <span class="hljs-attr">"data"</span>: {
+        <span class="hljs-attr">"book"</span>: {
+            <span class="hljs-attr">"title"</span>: <span class="hljs-string">"Reindeers World"</span>
+        }
+    }
+}</code></pre>
+<p>Quite simple, right?</p>
+<h2 id="vert-x-web-graphql-module">Vert.x Web GraphQL module</h2>
+<p>Note that the implementation above focuses on schema and fetchers only. So far it has nothing to do with HTTP. This is where the Vert.x implementation comes in handy. Vert.x provides an out of the box HTTP handler for GraphQL. We just need to provide it with a configured <code>GraphQL</code> object and it&#39;s ready to serve requests through HTTP.</p>
+<h2 id="get-the-best-out-of-graphql-and-knot-x">Get the best out of GraphQL and Knot.x</h2>
+<p>There are two steps to integrate GraphQL and Knot.x. The first is to define a GraphQL handler factory that will return a <code>GraphQLHandler</code> (the one from the Vert.x implementation). It will allow us to define and configure GraphQL endpoint in the Knot.x configuration.</p>
+<p>We could stop at implementing the factory but we wouldn&#39;t be using the full power of Knot.x. Knot.x has some great mechanisms for <em>fetching</em> data from 3rd parties, called <a href="http://knotx.io/blog/configurable-integrations/">Configurable Integrations</a>. Therefore, the second step is to create data fetchers that make use of Knot.x integration functionalities.</p>
+<blockquote>
+<p>It&#39;s assumed you have the project set up and ready for development. If you have troubles with that check the <a href="/tutorials/getting-started-with-knotx-stack/2_0/">Getting Started tutorials</a>.</p>
+</blockquote>
+<h3 id="step-0-google-books-api-schema-and-model">Step 0 - Google Books API, schema and model</h3>
+<p>Let&#39;s stick with books. We&#39;ll implement a sample service serving books from the <a href="https://developers.google.com/books">Google Books API</a>. Google Books is a typical REST API. It returns a lot of information. In this tutorial, we&#39;ll extract just a title, publisher and a list of authors (Google API returns authors as a list of strings). The response from the Google API looks like this:</p>
+<pre class="highlight"><code class="hljs undefined">{
+    "items": [
+        {
+            //...
+            "volumeInfo": {
+                "title": "...",
+                "publisher": "...",
+                "authors": ["Author1", "Author2"],
+                //...
+            }
+        }
+    ]
+}</code></pre>
+<p>Example calls on endpoints that we&#39;ll use:</p>
+<pre class="highlight"><code class="hljs bash">curl https://www.googleapis.com/books/v1/volumes\?q\=Java
+curl https://www.googleapis.com/books/v1/volumes/UEdjAgAAQBAJ</code></pre>
+<p>Our GraphQL schema should look like this:</p>
+<pre class="highlight"><code class="hljs ruby">schema {
+    <span class="hljs-symbol">query:</span> QueryType
+}
+
+type QueryType {
+    books(<span class="hljs-symbol">match:</span> String): [Book]
+    book(<span class="hljs-symbol">id:</span> String): Book
+}
+
+type Book {
+    <span class="hljs-symbol">title:</span> String!
+    <span class="hljs-symbol">publisher:</span> String!
+    <span class="hljs-symbol">authors:</span> [String]
+}</code></pre>
+<p>It defines two operations:</p>
+<ul>
+<li><code>books</code>: takes a string parameter (search keyword) and returns a list of books</li>
+<li><code>book</code>: takes a string parameter (google id) and returns a single book</li>
+</ul>
+<p>The schema also defines what a book is. The exclamation point means a field is mandatory (can&#39;t be null).</p>
+<p>Save it as a <code>books.graphqls</code> file in your app resources, that is: <code>\modules\books\src\main\resources\</code> (assuming your module is called &quot;books&quot;).</p>
+<p>We&#39;ll also need to implement a Java model for every type our operations can return. It needs to exactly match the schema. In this case, it&#39;s just one class, <code>Book</code>:</p>
+<pre class="highlight"><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Book</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">GraphQLDataObject</span> </span>{
+    <span class="hljs-keyword">private</span> String title;
+    <span class="hljs-keyword">private</span> String publisher;
+    <span class="hljs-keyword">private</span> List&lt;String&gt; authors;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">fromJson</span><span class="hljs-params">(JsonObject json, DataFetchingEnvironment environment)</span> </span>{
+        JsonObject volumeInfo = json.getJsonObject(<span class="hljs-string">"volumeInfo"</span>);
+
+        title = volumeInfo.getString(<span class="hljs-string">"title"</span>);
+        publisher = volumeInfo.getString(<span class="hljs-string">"publisher"</span>);
+        authors = <span class="hljs-keyword">new</span> LinkedList&lt;&gt;();
+
+        volumeInfo.getJsonArray(<span class="hljs-string">"authors"</span>, <span class="hljs-keyword">new</span> JsonArray()).forEach(object -&gt; authors.add((String) object));
+    }
+}</code></pre>
+<p>Note that it&#39;s implementing <code>GraphQLDataObject</code> interface with a <code>fromJson</code> method. It will come in handy later. It&#39;s not a standard interface, you have to define it:</p>
+<pre class="highlight"><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">GraphQLDataObject</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Serializable</span> </span>{
+  <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">fromJson</span><span class="hljs-params">(JsonObject json, DataFetchingEnvironment environment)</span></span>;
+}</code></pre>
+<h3 id="step-1-the-factory">Step 1 - The factory</h3>
+<p>Now, it&#39;s time to implement the <a href="https://github.com/Knotx/knotx-server-http/tree/master/api">Handler</a> factory that will setup a <code>GraphQL</code> object and produce a Vert.x <code>GraphQLHandler</code>.</p>
+<pre class="highlight"><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GraphQLHandlerFactory</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">RoutingHandlerFactory</span> </span>{
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"graphqlHandler"</span>;
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Handler&lt;RoutingContext&gt; <span class="hljs-title">create</span><span class="hljs-params">(Vertx vertx, JsonObject config)</span> </span>{
+        <span class="hljs-keyword">return</span> routingContext -&gt; {
+            GraphQL graphQL = setupGraphQL(vertx, config, routingContext);
+            GraphQLHandler
+                .create(graphQL)
+                .handle(routingContext);
+        }
+    }
+
+    <span class="hljs-comment">//setupGraphQL method implementation</span>
+}</code></pre>
+<p>It&#39;s a standard Knot.x handler factory. It returns a handler that creates a <code>GraphQL</code> object, uses it to create a Vert.x <code>GraphQLHandler</code> and lets it handle the request.</p>
+<p><code>GraphQL</code> object is created the standard way. See <a href="https://www.graphql-java.com/">graphql-java.com</a> for more explanation on Java GraphQL specific issues.</p>
+<pre class="highlight"><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> GraphQL <span class="hljs-title">setupGraphQL</span><span class="hljs-params">(Vertx vertx, JsonObject config, RoutingContext routingContext)</span> </span>{
+    <span class="hljs-comment">// Schema file path will be read from knot.x configuration</span>
+    Reader schema = loadResource(config.getString(<span class="hljs-string">"schema"</span>)); 
+
+    SchemaParser schemaParser = <span class="hljs-keyword">new</span> SchemaParser();
+    TypeDefinitionRegistry typeDefinitionRegistry = schemaParser.parse(schema);
+
+    RuntimeWiring runtimeWiring = newRuntimeWiring()
+        .type(<span class="hljs-string">"QueryType"</span>, builder -&gt; builder
+            <span class="hljs-comment">// Here we can assign data fetchers to operations from schema</span>
+            <span class="hljs-comment">// We'll implement them in Step 2. Normaly it'd look something like:</span>
+            .dataFetcher(<span class="hljs-string">"books"</span>, <span class="hljs-keyword">new</span> BooksFetcher())
+            .dataFetcher(<span class="hljs-string">"book"</span>, <span class="hljs-keyword">new</span> SingleBookFetcher())
+        )
+        .build();
+    SchemaGenerator schemaGenerator = <span class="hljs-keyword">new</span> SchemaGenerator();
+    GraphQLSchema graphQLSchema = schemaGenerator
+        .makeExecutableSchema(typeDefinitionRegistry, runtimeWiring);
+
+    <span class="hljs-keyword">return</span> GraphQL.newGraphQL(graphQLSchema).build();
+  }
+
+<span class="hljs-function"><span class="hljs-keyword">private</span> Reader <span class="hljs-title">loadResource</span><span class="hljs-params">(String path)</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> InputStreamReader(GraphQLHandlerFactory.class.getResourceAsStream(<span class="hljs-string">"/"</span> + path));
+}</code></pre>
+<p>Remember about updating services in the <code>META-INF</code>. With a handler factory, you can now configure a GraphQL endpoint. Add this path to <code>openapi.yml</code>:</p>
+<pre class="highlight"><code class="hljs yml"><span class="hljs-string">/api/graphql:</span>
+<span class="hljs-attr">    post:</span>
+<span class="hljs-attr">        operationId:</span> <span class="hljs-string">books-gql-operation</span>
+<span class="hljs-attr">        responses:</span>
+<span class="hljs-attr">            default:</span>
+<span class="hljs-attr">                description:</span> <span class="hljs-string">Books</span> <span class="hljs-string">Graphql</span> <span class="hljs-string">API</span></code></pre>
+<p>Note that it needs to be POST because GraphQL reads queries from the requests&#39; bodies. Now add the operation to <code>operations.conf</code>:</p>
+<pre class="highlight"><code class="hljs ruby">{
+    operationId = books-gql-operation
+    handlers = ${config.server.handlers.common.request} [
+        {
+            name = graphqlHandler
+            config = {
+                schema = <span class="hljs-string">"books.graphqls"</span>
+            }
+        }
+    ]
+}</code></pre>
+<p>Note the <code>${config.server.handlers.common.request}</code> part. We import some standard configuration because we&#39;ll need it later. Now the only thing left are data fetchers and you&#39;ll have a working GraphQL endpoint.</p>
+<h3 id="step-2-data-fetchers-and-fragmentsengine">Step 2 - Data fetchers and FragmentsEngine</h3>
+<p>We would like to fetch data from 3rd parties using existing Knot.x mechanisms, not to reinvent the wheel. Ideally we would have a generic data fetcher that can process Knot.x <a href="https://github.com/Knotx/knotx-fragments/tree/2.0.0/handler#how-does-it-work">Tasks</a> defined in configuration. </p>
+<p>Our fetcher will parse configuration to create Tasks and run them using <a href="https://github.com/Knotx/knotx-fragments/tree/2.0.0/handler/engine"><code>FragmentsEngine</code></a>. It will output a <code>Fragment</code> that will contain data fetched from Google in its payload. Fragment&#39;s payload is just a <code>JsonObject</code> where actions can store data.</p>
+<h4 id="execute-tasks-from-configuration">Execute tasks from configuration</h4>
+<p>Let&#39;s start with:</p>
+<pre class="highlight"><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TaskDataFetcher</span>&lt;<span class="hljs-title">T</span>&gt; <span class="hljs-keyword">implements</span> <span class="hljs-title">DataFetcher</span>&lt;<span class="hljs-title">CompletableFuture</span>&lt;<span class="hljs-title">T</span>&gt;&gt; </span>{
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Vertx vertx;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> JsonObject config;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> RoutingContext routingContext;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String taskName;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> FragmentsEngine engine;
+
+    TaskDataFetcher(VertX, JsonObject config, RoutingContext routingContext, String taskName) {
+        <span class="hljs-keyword">this</span>.vertx = vertx;
+        <span class="hljs-keyword">this</span>.config = config;
+        <span class="hljs-keyword">this</span>.routingContext = routingContext;
+        <span class="hljs-keyword">this</span>.taskName = taskName;
+        engine = <span class="hljs-keyword">new</span> FragmentsEngine(vertx);
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> CompletableFuture&lt;T&gt; <span class="hljs-title">get</span><span class="hljs-params">(DataFetchingEnvironment environment)</span> </span>{
+        FragmentEventContextTaskAware eventContextTaskAware = setupTask(vertx, config, routingContext, environment);
+        CompletableFuture&lt;T&gt; future = <span class="hljs-keyword">new</span> CompletableFuture&lt;&gt;();
+
+        engine
+            .execute(Collections.singletonList(eventContextTaskAware))
+            .subscribe(events -&gt; {
+                <span class="hljs-comment">// Here we'll get the outcome fragment's payload, parse it to model and complete the future with it</span>
+            });
+
+        <span class="hljs-keyword">return</span> future;
+    }
+
+    <span class="hljs-comment">//other methods that we'll implement in a moment</span>
+}</code></pre>
+<p>There&#39;s a couple of things to explain here. Firstly, our fetcher is abstract - it will have one abstract method for transforming payload into objects from our model (<code>Book</code>).
+Also, it&#39;s generic. That&#39;s because it doesn&#39;t matter for it what type will it return - it may be <code>Book</code>, it may be an array <code>Book[]</code> or it may be anything else.</p>
+<p><code>TaskDataFetcher</code> implements <code>DataFetcher</code> (every data fetcher needs to) of type <code>CompletableFuture&lt;T&gt;</code>. Java implementation of GraphQL allows us to return futures instead of plain objects. If a data fetcher returns a future, GraphQL will asynchronously wait for it to complete. Only when all futures returned by data fetchers complete, the GraphQL will construct a response.</p>
+<p>Our abstract fetcher creates an instance of <a href="https://github.com/Knotx/knotx-fragments/tree/2.0.0/handler/engine#fragments-engine">FragmentsEngine</a>. The engine can execute tasks. <code>Task</code> is a graph of executable nodes. Also, in the <code>get</code> method we create <code>FragmentEventContextTaskAware</code>. It&#39;s basicaly a task ready to be executed by the engine. Let&#39;s define the <code>setupTask</code> method that will take a configuration and parse it into a task. We&#39;ll also need one constant.</p>
+<pre class="highlight"><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String FRAGMENT_TYPE = <span class="hljs-string">"graphql-data"</span>;
+
+<span class="hljs-comment">//...</span>
+
+<span class="hljs-function"><span class="hljs-keyword">private</span> FragmentEventContextTaskAware <span class="hljs-title">setupTask</span><span class="hljs-params">(Vertx vertx, JsonObject config, RoutingContext routingContext, DataFetchingEnvironment env)</span>  </span>{
+    JsonObject fragmentConfig = <span class="hljs-keyword">new</span> JsonObject();
+    fragmentConfig.put(FRAGMENT_TYPE, taskName);
+    fragmentConfig.put(<span class="hljs-string">"gql"</span>, <span class="hljs-keyword">new</span> JsonObject(env.getArguments()));
+
+    Fragment fragment = <span class="hljs-keyword">new</span> Fragment(FRAGMENT_TYPE, fragmentConfig, <span class="hljs-string">""</span>);
+
+    RequestContext requestContext = routingContext.get(RequestContext.KEY);
+    ClientRequest clientRequest = requestContext.getRequestEvent().getClientRequest();
+
+    FragmentEvent event = <span class="hljs-keyword">new</span> FragmentEvent(fragment);
+    FragmentEventContext eventContext = <span class="hljs-keyword">new</span> FragmentEventContext(event, clientRequest);
+
+    FragmentsHandlerOptions options = <span class="hljs-keyword">new</span> FragmentsHandlerOptions(config);
+    ActionProvider proxyProvider = <span class="hljs-keyword">new</span> ActionProvider(options.getAction(), supplyFactories(), vertx.getDelegate());
+    TaskBuilder taskBuilder = <span class="hljs-keyword">new</span> TaskBuilder(FRAGMENT_TYPE, options.getTasks(), proxyProvider);
+
+    Task task = taskBuilder
+        .build(fragment)
+        .orElseThrow(() -&gt; <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">"No task built"</span>));
+
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> FragmentEventContextTaskAware(task, eventContext);
+}</code></pre>
+<p>Let&#39;s take a look at it piece by piece:</p>
+<pre class="highlight"><code class="hljs java">JsonObject fragmentConfig = <span class="hljs-keyword">new</span> JsonObject();
+fragmentConfig.put(FRAGMENT_TYPE, taskName);
+fragmentConfig.put(<span class="hljs-string">"gql"</span>, <span class="hljs-keyword">new</span> JsonObject(env.getArguments()));
+
+Fragment fragment = <span class="hljs-keyword">new</span> Fragment(FRAGMENT_TYPE, fragmentConfig, <span class="hljs-string">""</span>);</code></pre>
+<p>We create a new Fragment that will specify Task to be processed. Fragment&#39;s type is used as a Task name. We also put GraphQL environment arguments to the configuration under &quot;gql&quot; key. Environment arguments are just values passed as parameters of an operation. In our case &quot;match&quot; in <code>books(match: String)</code> and &quot;id&quot; in <code>book(id: String)</code>. By putting it into a Fragment configuration, we allow Task&#39;s nodes (in this case <a href="https://github.com/Knotx/knotx-data-bridge/tree/2.0.0/http#http-action">HTTP Actions</a>) to access it. Note that the &quot;gql&quot; key is arbitrary and you can call it anything you want. </p>
+<p>For the third argument in the fragment&#39;s constructor, we pass an empty string. It&#39;s our fragment&#39;s body which we&#39;re not interested in this tutorial.</p>
+<pre class="highlight"><code class="hljs java">RequestContext requestContext = routingContext.get(RequestContext.KEY);
+ClientRequest clientRequest = requestContext.getRequestEvent().getClientRequest();</code></pre>
+<p>We need to extract <code>ClientRequest</code> from <code>routingContext</code>. Remember the <code>${config.server.handlers.common.request}</code> part in the operation configuration in <code>operations.conf</code>? Without it there wouldn&#39;t be anything in <code>routingContext</code> under <code>RequestContext.KEY</code>.</p>
+<pre class="highlight"><code class="hljs java">FragmentEvent event = <span class="hljs-keyword">new</span> FragmentEvent(fragment);
+FragmentEventContext eventContext = <span class="hljs-keyword">new</span> FragmentEventContext(event, clientRequest);</code></pre>
+<p>Our final <code>Task</code> will need two things: Task&#39;s name and <code>FragmentEventContext</code>. Here we create the latter. It keeps the client request and our Fragment in the form of <code>FragmentEvent</code>.</p>
+<pre class="highlight"><code class="hljs java">FragmentsHandlerOptions options = <span class="hljs-keyword">new</span> FragmentsHandlerOptions(config);
+ActionProvider proxyProvider = <span class="hljs-keyword">new</span> ActionProvider(options.getAction(), supplyFactories(), vertx.getDelegate());
+TaskBuilder taskBuilder = <span class="hljs-keyword">new</span> TaskBuilder(FRAGMENT_TYPE, options.getTasks(), proxyProvider);</code></pre>
+<p>In order to create a task we need to use a <code>TaskBuilder</code>. It needs to be supplied with a few things from the configuration. We use <code>FragmentsHandlerOptions</code> to parse the configuration. We also need a supplier of action factories. We can retrieve it using the standard java <code>ServiceLoader</code>. We&#39;ll take a look at <code>supplyFactories</code> method in a moment.</p>
+<pre class="highlight"><code class="hljs java">Task task = taskBuilder
+        .build(fragment)
+        .orElseThrow(() -&gt; <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">"No task built"</span>));
+
+<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> FragmentEventContextTaskAware(task, eventContext);</code></pre>
+<p>Finally we use the task builder to construct a task and return <code>FragmentEventContextTaskAware</code> that is passed to the fragments engine in <code>get</code> method. Note that in a real application you would probably want to define a custom exception for when task builder fails. If that happens, it&#39;s most likely due to wrong or incomplete configuration.</p>
+<p>Now let&#39;s quickly implement <code>supplyFactories</code> method. It simply uses a service loader to retrieve action factories:</p>
+<pre class="highlight"><code class="hljs java"><span class="hljs-keyword">private</span> Supplier&lt;Iterator&lt;ActionFactory&gt;&gt; supplyFactories() {
+    <span class="hljs-keyword">return</span> () -&gt; {
+        ServiceLoader&lt;ActionFactory&gt; factories = ServiceLoader.load(ActionFactory.class);
+        <span class="hljs-keyword">return</span> factories.iterator();
+    };
+}</code></pre>
+<h4 id="retrieving-payload">Retrieving payload</h4>
+<p>Now that we can make our fetcher execute Knot.x tasks from the configuration, we need to retrieve the outcome. As noted before, the data retrieved from the 3rd party (google books api in our case) is stored in the outcome fragment&#39;s payload. Therefore our final <code>get</code> method should look like this:</p>
+<pre class="highlight"><code class="hljs java"><span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> CompletableFuture&lt;T&gt; <span class="hljs-title">get</span><span class="hljs-params">(DataFetchingEnvironment environment)</span> </span>{
+    FragmentEventContextTaskAware eventContextTaskAware = setupTask(vertx, config, routingContext, environment);
+    CompletableFuture&lt;T&gt; future = <span class="hljs-keyword">new</span> CompletableFuture&lt;&gt;();
+
+    engine
+        .execute(Collections.singletonList(eventContextTaskAware))
+        .subscribe(events -&gt; {
+            JsonObject payload = events.get(<span class="hljs-number">0</span>).getFragment().getPayload();
+            JsonObject fetchedData = payload.getJsonObject(<span class="hljs-string">"fetchedData"</span>);
+            T model = getDataObjectFromJson(fetchedData, environment);
+            future.complete(model);
+        });
+
+    <span class="hljs-keyword">return</span> future;
+}</code></pre>
+<p>After the engine is done executing the task we:</p>
+<ul>
+<li>retrieve the fragment and its payload</li>
+<li>get data from payload under &quot;fetchedData&quot; key</li>
+<li>transform this data into our model (in our case it would be <code>Book</code>)</li>
+<li>complete the future with our model so that GraphQL gets the data</li>
+</ul>
+<p>Two things require some explanation. Firstly, we assume that the data we need is under &quot;fetchedData&quot; key. It is not exactly the case but we&#39;ll deal with it later. Secondly, we use <code>getDataObjectFromJson</code> method to transform json into our model. This method is abstract because our <code>TaskDataFetcher</code> doesn&#39;t know how to do it.</p>
+<pre class="highlight"><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">abstract</span> T <span class="hljs-title">getDataObjectFromJson</span><span class="hljs-params">(JsonObject json, DataFetchingEnvironment environment)</span> <span class="hljs-keyword">throws</span> IllegalAccessException, InstantiationException</span>;</code></pre>
+<h4 id="transforming-json-into-model">Transforming json into model</h4>
+<p>Now we need to extend our <code>TaskDataFetcher</code> with something that can implement <code>getDataObjectFromJson</code> method. We&#39;ll create <code>TaskSingleDataFetcher</code> that&#39;ll transform json into a single model object, for example into <code>Book</code>.</p>
+<pre class="highlight"><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TaskSingleDataFetcher</span>&lt;<span class="hljs-title">T</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">GraphQLDataObject</span>&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title">TaskDataFetcher</span>&lt;<span class="hljs-title">T</span>&gt; </span>{
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Class&lt;T&gt; clazz;
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">TaskSingleDataFetcher</span><span class="hljs-params">(String task, Class&lt;T&gt; clazz, Vertx vertx, JsonObject config, RoutingContext routingContext)</span> </span>{
+    <span class="hljs-keyword">super</span>(vertx, config, routingContext, task);
+    <span class="hljs-keyword">this</span>.clazz = clazz;
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function">T <span class="hljs-title">getDataObjectFromJson</span><span class="hljs-params">(JsonObject json, DataFetchingEnvironment environment)</span> <span class="hljs-keyword">throws</span> IllegalAccessException, InstantiationException </span>{
+    T dataObject = clazz.newInstance();
+    dataObject.fromJson(json, environment);
+    <span class="hljs-keyword">return</span> dataObject;
+  }
+}</code></pre>
+<p>It&#39;s very simple. It takes a class of some object implementing <code>GraphQLDataObject</code> to be able to instantiate it. Please note that it must provide also the default constructor. Remember that <code>Book</code> implements this interface and it has a single method: <code>fromJson</code> that takes a json and populates the object.</p>
+<p>The overriden <code>getDataObjectFromJson</code> method just creates a new instance of the given class, calls <code>fromJson</code> on it in order to populate it with data, and then returns it.</p>
+<p>The only problem with this fetcher is that it returns single objects only. In our schema we have an operation <code>books(match: String): [Book]</code> that needs an array of objects. Therefore, we need a second fetcher extending our <code>TaskDataFetcher</code> that will return an array of objects:</p>
+<pre class="highlight"><code class="hljs undefined">public class TaskArrayDataFetcher&lt;T extends GraphQLDataObject&gt; extends TaskDataFetcher&lt;T[]&gt; {
+  private Class&lt;T&gt; clazz;
+  private Function&lt;JsonObject, JsonArray&gt; toArray;
+
+  public TaskArrayDataFetcher(String task, Class&lt;T&gt; clazz, Vertx vertx, JsonObject config, RoutingContext routingContext, Function&lt;JsonObject, JsonArray&gt; toArray) {
+    super(vertx, config, routingContext, task);
+    this.clazz = clazz;
+    this.toArray = toArray;
+  }
+
+  @Override
+  T[] getDataObjectFromJson(JsonObject json, DataFetchingEnvironment environment) throws IllegalAccessException, InstantiationException {
+    JsonArray jsonArray = toArray.apply(json);
+
+    T[] dataArray = (T[]) Array.newInstance(clazz, jsonArray.size());
+
+    for (int i = 0; i &lt; jsonArray.size(); i ++) {
+      T dataObject = clazz.newInstance();
+      dataObject.fromJson(jsonArray.getJsonObject(i), environment);
+      dataArray[i] = dataObject;
+    }
+
+    return dataArray;
+  }
+}</code></pre>
+<p>It&#39;s just a little bit more complicated. It extends <code>TaskDataFetcher&lt;T[]&gt;</code> instead of <code>TaskDataFetcher&lt;T&gt;</code> so it can return arrays. In the <code>getDataObjectFromJson</code> method it creates an array to return and populates it with individual model objects (for example, <code>Book</code> instances) just the way our previous fetcher did.</p>
+<p>Also, there&#39;s the <code>toArray</code> parameter passed to our fetcher. It&#39;s a <code>Function</code> used to transform <code>JsonObject</code> from payload into a <code>JsonArray</code>. In our case, google api returns something like:</p>
+<pre class="highlight"><code class="hljs undefined">{
+    "items": [
+        {/* book 1 */},
+        {/* book 2 */ },
+        //...
+    ]
+}</code></pre>
+<p>Therefore, we would pass the following function as <code>toArray</code>: </p>
+<pre class="highlight"><code class="hljs java">json -&gt; json.getJsonArray(<span class="hljs-string">"items"</span>)</code></pre>
+<h4 id="using-our-fetchers">Using our fetchers</h4>
+<p>We can now assign our fetchers to operations in runtime wiring builder in <code>GraphQLHandlerFactory</code>:</p>
+<pre class="highlight"><code class="hljs java">RuntimeWiring runtimeWiring = newRuntimeWiring()
+        .type(<span class="hljs-string">"QueryType"</span>, builder -&gt; builder
+            .dataFetcher(<span class="hljs-string">"books"</span>, <span class="hljs-keyword">new</span> TaskArrayDataFetcher&lt;&gt;(<span class="hljs-string">"get-books"</span>, Book.class, vertx, config, routingContext, json -&gt; json.getJsonArray(<span class="hljs-string">"items"</span>)))
+            .dataFetcher(<span class="hljs-string">"book"</span>, <span class="hljs-keyword">new</span> TaskSingleDataFetcher&lt;&gt;(<span class="hljs-string">"get-book"</span>, Book.class, vertx, config, routingContext))
+        )
+        .build();</code></pre>
+<p>We just assign operation <code>books</code> to a <code>TaskArrayDataFetcher</code> that uses task <code>get-books</code> from configuration and returns an array of <code>Book</code> objects. Also, we assign operation <code>book</code> to a <code>TaskSingleDataFetcher</code> that uses task <code>get-book</code> and returns a <code>Book</code>.</p>
+<p>Let&#39;s set it up in Knot.x configuration. It&#39;s best to extract our GraphQL configuration to a separate file. The GraphQL operation configuration in <code>operations.conf</code> should now look like this:</p>
+<pre class="highlight"><code class="hljs ruby">{
+    operationId = books-gql-operation
+    handlers = ${config.server.handlers.common.request} [
+        {
+            name = graphqlHandler
+            config = {<span class="hljs-keyword">include</span> required(classpath(<span class="hljs-string">"routes/handlers/graphqlHandler.conf"</span>))}
+        }
+    ]
+}</code></pre>
+<p>Now we can define GraphQL configuration in a new file, <code>routes/handlers/graphqlHandler.conf</code>:</p>
+<pre class="highlight"><code class="hljs ruby">schema = <span class="hljs-string">"books.graphqls"</span>
+
+tasks {
+  get-books {
+    action = getBooks
+  }
+
+  get-book {
+    action = getBook
+  }
+}
+
+actions {
+  getBooks {
+    factory = http
+    config {
+      endpointOptions {
+        path = <span class="hljs-string">"/books/v1/volumes?q={config.gql.match}"</span>
+        domain = www.googleapis.com
+        port = <span class="hljs-number">443</span>
+        allowedRequestHeaders = [<span class="hljs-string">"Content-Type"</span>]
+      }
+      webClientOptions {
+        ssl = <span class="hljs-literal">true</span>
+      }
+    }
+  }
+
+  getBook {
+    factory = http
+    config {
+      endpointOptions {
+        path = <span class="hljs-string">"/books/v1/volumes/{config.gql.id}"</span>
+        domain = www.googleapis.com
+        port = <span class="hljs-number">443</span>
+        allowedRequestHeaders = [<span class="hljs-string">"Content-Type"</span>]
+      }
+      webClientOptions {
+        ssl = <span class="hljs-literal">true</span>
+      }
+    }
+  }
+
+} </code></pre>
+<p>We simply define two tasks (one per each GraphQL operation, we reference their names in fetcher constructors) each with one HTTP action. Those actions call appropriate endpoints:</p>
+<ul>
+<li><code>/books/v1/volumes?q={config.gql.match}</code> to get books by a given keyword</li>
+<li><code>/books/v1/volumes/{config.gql.id}</code> to get a single book with a given id</li>
+</ul>
+<p>Note the <code>{config.gql.xxx}</code> parts. At runtime its swapped for values from the fragment configuration (remember, we put environment arguments in fragment&#39;s config under &quot;gql&quot; key). For example, if we request data like this: </p>
+<pre class="highlight"><code class="hljs ruby">{
+    book(<span class="hljs-symbol">id:</span> <span class="hljs-string">"cool_id"</span>) {
+        title
+    }
+}</code></pre>
+<p>Then the http action will swap <code>{config.gql.id}</code> for &quot;cool_id&quot; and call <code>/books/v1/volumes/cool_id</code>.</p>
+<h4 id="exposing-the-data-under-the-right-payload-key">Exposing the data under the right payload key</h4>
+<p>There is just one last thing we need to do. Every http action saves retrieved data in payload under the action&#39;s name and a &quot;_result&quot; subkey. <code>getBook</code> action will save the data under &quot;getBook._result&quot; key and <code>getBooks</code> action will save the data under &quot;getBooks._result&quot; key. Remember that our fetcher assumes the data is under &quot;fetchedData&quot; key. Therefore, we need an action that will transfer data in payload from one key to the other. We&#39;ll call it &quot;expose-payload-data&quot;.</p>
+<p>Let&#39;s create a simple action factory:</p>
+<pre class="highlight"><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExposePayloadActionFactory</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ActionFactory</span> </span>{
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"expose-payload-data"</span>;
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Action <span class="hljs-title">create</span><span class="hljs-params">(String alias, JsonObject config, Vertx vertx, Action doAction)</span> </span>{
+        String key = config.getString(<span class="hljs-string">"key"</span>);
+        String exposeAs = config.getString(<span class="hljs-string">"exposeAs"</span>);
+
+        <span class="hljs-keyword">return</span> (fragmentContext, resultHandler) -&gt;
+            Single.just(fragmentContext.getFragment())
+                .map(fragment -&gt; {
+                    JsonObject exposedData = fragment.getPayload().getJsonObject(key).getJsonObject(<span class="hljs-string">"_result"</span>);
+                    fragment.appendPayload(exposeAs, exposedData);
+                    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> FragmentResult(fragment, FragmentResult.SUCCESS_TRANSITION)
+                })
+                .subscribe(onSuccess -&gt; {
+                    Future&lt;FragmentResult&gt; resultFuture = Future.succeededFuture(onSuccess);
+                    resultFuture.setHandler(resultHandler);
+                }, onError -&gt; {
+                    Future&lt;FragmentResult&gt; resultFuture = Future.failedFuture(onError);
+                    resultFuture.setHandler(resultHandler);
+                });
+    }
+}</code></pre>
+<p>The action simply reads data from <code>key</code> key and puts in the <code>exposeAs</code> key. Remember about updating services in META-INF.</p>
+<p>Now we can update our configured tasks to call <code>expose-payload-data</code> action after succesfully finishing <code>http</code> action. In case of <code>get-book</code> task we will expose <code>getBook</code> as <code>fetchedData</code> and in case of <code>get-books</code> task we will expose <code>getBooks</code> as <code>fetchedData</code>.</p>
+<p>Add two new actions to <code>graphqlHandler.conf</code>:</p>
+<pre class="highlight"><code class="hljs ruby">exposeInPayload-getBooks {
+    factory = expose-payload-data
+    config {
+        key = getBooks
+        exposeAs = fetchedData
+    }
+}
+
+exposeInPayload-getBook {
+    factory = expose-payload-data
+    config {
+        key = getBook
+        exposeAs = fetchedData
+    }
+}</code></pre>
+<p>And then setup transitions in our tasks. They should now look like this:</p>
+<pre class="highlight"><code class="hljs ruby">tasks {
+  get-books {
+    action = getBooks
+    onTransitions {
+      _success {
+        action = exposeInPayload-getBooks
+      }
+    }
+  }
+
+  get-book {
+    action = getBook
+    onTransitions {
+      _success {
+        action = exposeInPayload-getBook
+      }
+    }
+  }
+}</code></pre>
+<h2 id="we-re-done">We&#39;re done</h2>
+<p>That&#39;s it. You can now run the application. Easiest way of seeing it in action is using postman, but you can use curl or anything else you want.</p>
+<p>Let&#39;s construct a sample query:</p>
+<pre class="highlight"><code class="hljs ruby">{
+    book(<span class="hljs-symbol">id:</span> <span class="hljs-string">"q5NoDwAAQBAJ"</span>) {
+        title
+        authors
+    }
+    books(<span class="hljs-symbol">match:</span> <span class="hljs-string">"java"</span>) {
+        publisher
+    }
+}</code></pre>
+<p>We&#39;re asking for the title and authors of the book with id <code>&quot;q5NoDwAAQBAJ&quot;</code> and a list of books about java with only their publishers listed. We&#39;ll send our request to <code>http://localhost:8092/api/graphql</code></p>
+<p>If you&#39;re using postman you can just choose predefined <code>GraphQL</code> body type and paste the query there. If you prefer curl:</p>
+<pre class="highlight"><code class="hljs bash">curl -i -H <span class="hljs-string">'Content-Type: application/json'</span> -X POST -d <span class="hljs-string">'{"query": "{book(id: \"q5NoDwAAQBAJ\") {title authors} books(match: \"java\") {publisher}}"}'</span> http://localhost:8092/api/graphql</code></pre>
+<p>You should get the following response:</p>
+<pre class="highlight"><code class="hljs json">{
+    <span class="hljs-attr">"data"</span>: {
+        <span class="hljs-attr">"book"</span>: {
+            <span class="hljs-attr">"title"</span>: <span class="hljs-string">"Learning GraphQL"</span>,
+            <span class="hljs-attr">"authors"</span>: [
+                <span class="hljs-string">"Eve Porcello"</span>,
+                <span class="hljs-string">"Alex Banks"</span>
+            ]
+        },
+        <span class="hljs-attr">"books"</span>: [
+            {
+                <span class="hljs-attr">"publisher"</span>: <span class="hljs-string">"Helion"</span>
+            },
+            {
+                <span class="hljs-attr">"publisher"</span>: <span class="hljs-string">"Helion"</span>
+            },
+            {
+                <span class="hljs-attr">"publisher"</span>: <span class="hljs-string">"Helion"</span>
+            },
+            {
+                <span class="hljs-attr">"publisher"</span>: <span class="hljs-string">"\"O'Reilly Media, Inc.\""</span>
+            },
+            {
+                <span class="hljs-attr">"publisher"</span>: <span class="hljs-string">"Morgan Kaufmann"</span>
+            },
+            //...
+        ]
+    }
+}</code></pre>
+<h2 id="few-notes-at-the-end">Few notes at the end</h2>
+<p>As you can see Knot.x is highly customizable. Data fetchers that we implemented are quite generic. You can use them to easily create more advanced GraphQL APIs without the need for writing more fetchers. For clarity purposes the code in this tutorial doesn&#39;t have advanced error handling and is quite error-prone. It&#39;s left as an exercise for you to implement better error handling.</p>
+<p>Also, you might have noted that our <code>fromJson</code> method in <code>GraphQLDataObject</code> interface has a <code>DataFetchingEnvironment</code> argument that we didn&#39;t use. This is because our example is very simple, but the argument is included in code to show the flexibility of our solution. You can imagine a more complex case where we need to parse JSON to model differently, depending on query parameters. This is where we could use our <code>DataFetchingEnvironment</code> argument.</p>
+<h2 id="summary-of-what-we-actually-did">Summary of what we actually did</h2>
+<p>GraphQL and Knot.x represent two seperate layers in our application. GraphQL takes care of gathering the data and outputing it in the desired form. What&#39;s important is that it&#39;s data-source agnostic. We delegate the responsibility of providing the data to Knot.x. With it comes the idea of <a href="http://knotx.io/blog/configurable-integrations/">Configurable Integrations</a>. We can focus on writing business logic, while error handling is defined in the configuration and therefore can be easily changed. Advanced error-handling systems (e.g. fallbacks, partial failures, timeouts, circuit breakers and other stability patterns) can be quickly set up without any custom logic.</p>
+<p>Hopefully, you now have a better understanding of Knot.x, Configurable Integrations and GraphQL.</p>
+<p>You can find the complete code of this tutorial in <a href="https://github.com/Knotx/knotx-example-project/tree/master/api-gateway/graphql-handler">our github repository</a>.</p>
+
+          </section>
+        </article>
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_config = function () {
+        this.page.url = "http://knotx.io/tutorials/graphql-usage/2_0/";
+        this.page.identifier = "dd0032754bd1676e7fb076a125db3a1d";
+        };
+        (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = '//knotx-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+    </div>
+</div>
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+         <p>Knot.x is <a href="https://github.com/Knotx/knotx">open source</a> and is licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0 License</a>.</p>
+      </div>
+      <div class="col-sm-5 col-sm-offset-1 text-right">
+        <p>Knot.x is brought to you with the support of <img src="/img/Cognified_Logo_white.png" alt="Cognifide"/></p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script defer="defer"  src="/scripts/vendor/jquery.min.js"></script><script defer="defer"  src="/scripts/vendor/bootstrap.min.js"></script><script defer="defer"  src="/scripts/vendor/highlight.pack.js"></script><script defer="defer"  src="/scripts/knotx.js"></script><script defer="defer"  src="/scripts/vendor/jquery.qtip.min.js"></script><script defer="defer"  src="/scripts/hovermap.js"></script>
+
+
+  </body>
+</html>
