@@ -10,10 +10,10 @@
 
   <meta property="og:title" content="Using GraphQL with Knot.x"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:url" content="http://knotx.io/tutorials/graphql-usage/2_0/"/>
+  <meta property="og:url" content="https://knotx.io/tutorials/graphql-usage/2_0/"/>
   <meta property="og:site_name" content="Knot.x Website"/>
   <meta property="og:description" content="Knot.x Website"/>
-  <meta property="og:image" content="http://knotx.io/img/logo-240x240.png"/>
+  <meta property="og:image" content="https://knotx.io/img/logo-240x240.png"/>
 
   <link rel="apple-touch-icon" sizes="57x57" href="/img/favicons/apple-icon-57x57.png">
   <link rel="apple-touch-icon" sizes="60x60" href="/img/favicons/apple-icon-60x60.png">
@@ -119,7 +119,7 @@
 
           <section class="post">
             <h2 id="overview">Overview</h2>
-<p>In this tutorial, we&#39;ll implement a sample <a href="https://graphql.org/">GraphQL</a> endpoint that makes use of <a href="http://knotx.io/blog/configurable-integrations/">Knot.x Configurable Integrations</a>. It&#39;s advised to complete the <a href="/tutorials/getting-started-with-knotx-stack/2_0/">Getting Started tutorials</a> first. You should also be familiar with fragments. Familiarity with GraphQL is not obligatory (but always welcome).</p>
+<p>In this tutorial, we&#39;ll implement a sample <a href="https://graphql.org/">GraphQL</a> endpoint that makes use of <a href="https://knotx.io/blog/configurable-integrations/">Knot.x Configurable Integrations</a>. It&#39;s advised to complete the <a href="/tutorials/getting-started-with-knotx-stack/2_0/">Getting Started tutorials</a> first. You should also be familiar with fragments. Familiarity with GraphQL is not obligatory (but always welcome).</p>
 <p>You&#39;ll learn how to:</p>
 <ul>
 <li>use Java and Vert.x GraphQL implementations</li>
@@ -209,7 +209,7 @@ RuntimeWiring runtimeWiring = newRuntimeWiring()
 <p>Note that the implementation above focuses on schema and fetchers only. So far it has nothing to do with HTTP. This is where the Vert.x implementation comes in handy. Vert.x provides an out of the box HTTP handler for GraphQL. We just need to provide it with a configured <code>GraphQL</code> object and it&#39;s ready to serve requests through HTTP.</p>
 <h2 id="get-the-best-out-of-graphql-and-knot-x">Get the best out of GraphQL and Knot.x</h2>
 <p>There are two steps to integrate GraphQL and Knot.x. The first is to define a GraphQL handler factory that will return a <code>GraphQLHandler</code> (the one from the Vert.x implementation). It will allow us to define and configure GraphQL endpoint in the Knot.x configuration.</p>
-<p>We could stop at implementing the factory but we wouldn&#39;t be using the full power of Knot.x. Knot.x has some great mechanisms for <em>fetching</em> data from 3rd parties, called <a href="http://knotx.io/blog/configurable-integrations/">Configurable Integrations</a>. Therefore, the second step is to create data fetchers that make use of Knot.x integration functionalities.</p>
+<p>We could stop at implementing the factory but we wouldn&#39;t be using the full power of Knot.x. Knot.x has some great mechanisms for <em>fetching</em> data from 3rd parties, called <a href="https://knotx.io/blog/configurable-integrations/">Configurable Integrations</a>. Therefore, the second step is to create data fetchers that make use of Knot.x integration functionalities.</p>
 <blockquote>
 <p>It&#39;s assumed you have the project set up and ready for development. If you have troubles with that check the <a href="/tutorials/getting-started-with-knotx-stack/2_0/">Getting Started tutorials</a>.</p>
 </blockquote>
@@ -716,7 +716,7 @@ exposeInPayload-getBook {
 <p>As you can see Knot.x is highly customizable. Data fetchers that we implemented are quite generic. You can use them to easily create more advanced GraphQL APIs without the need for writing more fetchers. For clarity purposes the code in this tutorial doesn&#39;t have advanced error handling and is quite error-prone. It&#39;s left as an exercise for you to implement better error handling.</p>
 <p>Also, you might have noted that our <code>fromJson</code> method in <code>GraphQLDataObject</code> interface has a <code>DataFetchingEnvironment</code> argument that we didn&#39;t use. This is because our example is very simple, but the argument is included in code to show the flexibility of our solution. You can imagine a more complex case where we need to parse JSON to model differently, depending on query parameters. This is where we could use our <code>DataFetchingEnvironment</code> argument.</p>
 <h2 id="summary-of-what-we-actually-did">Summary of what we actually did</h2>
-<p>GraphQL and Knot.x represent two seperate layers in our application. GraphQL takes care of gathering the data and outputing it in the desired form. What&#39;s important is that it&#39;s data-source agnostic. We delegate the responsibility of providing the data to Knot.x. With it comes the idea of <a href="http://knotx.io/blog/configurable-integrations/">Configurable Integrations</a>. We can focus on writing business logic, while error handling is defined in the configuration and therefore can be easily changed. Advanced error-handling systems (e.g. fallbacks, partial failures, timeouts, circuit breakers and other stability patterns) can be quickly set up without any custom logic.</p>
+<p>GraphQL and Knot.x represent two seperate layers in our application. GraphQL takes care of gathering the data and outputing it in the desired form. What&#39;s important is that it&#39;s data-source agnostic. We delegate the responsibility of providing the data to Knot.x. With it comes the idea of <a href="https://knotx.io/blog/configurable-integrations/">Configurable Integrations</a>. We can focus on writing business logic, while error handling is defined in the configuration and therefore can be easily changed. Advanced error-handling systems (e.g. fallbacks, partial failures, timeouts, circuit breakers and other stability patterns) can be quickly set up without any custom logic.</p>
 <p>Hopefully, you now have a better understanding of Knot.x, Configurable Integrations and GraphQL.</p>
 <p>You can find the complete code of this tutorial in <a href="https://github.com/Knotx/knotx-example-project/tree/master/api-gateway/graphql-handler">our github repository</a>.</p>
 
@@ -725,7 +725,7 @@ exposeInPayload-getBook {
         <div id="disqus_thread"></div>
         <script>
         var disqus_config = function () {
-        this.page.url = "http://knotx.io/tutorials/graphql-usage/2_0/";
+        this.page.url = "https://knotx.io/tutorials/graphql-usage/2_0/";
         this.page.identifier = "dd0032754bd1676e7fb076a125db3a1d";
         };
         (function() { // DON'T EDIT BELOW THIS LINE
