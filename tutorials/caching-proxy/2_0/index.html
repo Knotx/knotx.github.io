@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Knot.x Website">
+  <meta name="keywords" content="knotx, vertx, reactive, asynchronous, templating, java, polyglot, cms, tutorial">
+  <title>Caching Proxy</title>
+
+  <meta property="og:title" content="Caching Proxy"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="https://knotx.io/tutorials/caching-proxy/2_0/"/>
+  <meta property="og:site_name" content="Knot.x Website"/>
+  <meta property="og:description" content="Knot.x Website"/>
+  <meta property="og:image" content="https://knotx.io/img/logo-240x240.png"/>
+
+  <link rel="apple-touch-icon" sizes="57x57" href="/img/favicons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/img/favicons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/img/favicons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/img/favicons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/img/favicons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/img/favicons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/img/favicons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/favicons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicons/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/img/favicons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicons/favicon-16x16.png">
+  <link rel="manifest" href="/img/favicons/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/img/favicons/ms-icon-144x144.png">
+  <meta name="theme-color" content="#9f136c">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Montserrat:200,300,400,500,700|Ubuntu:300,400,500,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link  rel="stylesheet" href="/styles/bootstrap.css" /><link  rel="stylesheet" href="/styles/github.css" /><link  rel="stylesheet" href="/styles/knotx.css" />
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+  <body >
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-92165781-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    <!-- Header -->
+<header class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/img/logo-knotx.png" class="navbar-brand-logo" alt="Knot.x Logo"/>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        
+        <li><a href="/download/">Download</a></li>
+        
+        <li><a href="/tutorials/">Tutorials</a></li>
+        
+        <li><a href="https://github.com/Knotx/knotx/issues">Issues</a></li>
+        
+        <li><a href="/documentation/">Documentation</a></li>
+        
+        <li><a href="/community/">Community</a></li>
+        
+        <li><a href="/blog/">Blog</a></li>
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</header>
+
+    <!-- Content Header -->
+<div class="content-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>Caching Proxy</h1>
+      </div>
+    </div>    
+  </div>
+  
+</div>
+
+<div class="container flex blog">
+    <div class="row">
+      <div class="col-sm-12">
+        <article>
+          <header class="meta">
+  <a class="meta-item" href="https://github.com/oskarjerzyk">Oskar Jerzyk</a>
+  <time class="meta-item date"
+        datetime="2019-10-21">October 21st, 2019
+  </time>
+
+  <div class="post-versions">    
+    
+      <a class="post-btn" href="/tutorials/caching-proxy/2_0/">2.0.0</a>
+    
+  </div>
+</header>
+
+          <section class="post">
+            <h1 id="overview">Overview</h1>
+<p>In this tutorial, we will use Knot.x as the API gateway to show the usage of caching functionality. Knot.x will act as a proxy API to some external API and will cache its responses.
+The caching functionality can be implemented in a custom handler. We would implement API invocation logic and code caching logic using, for example, Guava cache. 
+However, this approach implies the need to implement both the API call and the cache mechanism. Moreover, what happens if we would have to implement a circuit breaker pattern for proxied API in the future? How will it affect our existing integration logic?
+In this tutorial, we would make use of Configurable Integrations. Thanks to this we would encapsulate our API invocation with an <a href="https://github.com/Knotx/knotx-data-bridge/tree/2.0.0/http#http-action">HTTP Action</a>, then wrap it with <a href="https://github.com/Knotx/knotx-fragments/tree/2.0.0/handler#in-memory-cache-action">In-memory Cache Action</a>.</p>
+<p>To fully understand this tutorial, it&#39;s highly recommended to get familiar with the previous ones:</p>
+<ul>
+<li><a href="http://knotx.io/tutorials/getting-started-with-knotx-stack/2_0/">Getting started with Knot.x Stack</a></li>
+<li><a href="http://knotx.io/tutorials/getting-started-with-docker/2_0/">Getting Started with Docker</a></li>
+<li><a href="http://knotx.io/tutorials/configurable-api-gateway/2_0/">Configurable API gateway</a></li>
+</ul>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>JDK 8</li>
+<li>Docker</li>
+</ul>
+<h2 id="what-you-re-going-to-learn-">What you&#39;re going to learn:</h2>
+<ul>
+<li>How to wrap an existing (external) API with a caching proxy</li>
+<li>How to use <a href="https://github.com/Knotx/knotx-fragments/tree/2.0.0/handler#behaviours">behaviours</a> and <a href="https://github.com/Knotx/knotx-fragments/tree/2.0.0/handler#actions">actions</a></li>
+</ul>
+<p>Download the <a href="https://github.com/Knotx/knotx-starter-kit/releases">Latest Knot.x Starter Kit release</a> and unzip it.</p>
+<p>Project has the following structure:</p>
+<pre class="highlight"><code class="hljs lasso">├── docker
+|   ├── Dockerfile                <span class="hljs-comment">// Docker file with image definition.</span>
+├── functional                    <span class="hljs-comment">// Keep here your functional tests. Example implementation included</span>
+├── gradle                        <span class="hljs-comment">// Gradle wrapper and common gradle scripts</span>
+├── knotx/conf                    <span class="hljs-comment">// Knotx configuration which will be copied to docker image</span>
+├── modules                       <span class="hljs-comment">// Sub-modules of your project</span>
+│   ├── <span class="hljs-params">...</span>                       <span class="hljs-comment">// example modules implementation</span></code></pre><h2 id="why-do-we-need-caching-">Why do we need caching?</h2>
+<p>The general purpose of using caching is faster data retrieval - when the user is calling the same endpoint a few times, we don&#39;t have to fetch the data
+from the server for every request - we can cache and reuse the response for incoming requests (until cached values are valid) - it allows quicker
+response times, which improve the overall user experience. Other benefits include reduced latency and traffic. Requests
+are satisfied in a shorter time with cached values.</p>
+<h2 id="actions-behaviours">Actions &amp; behaviours</h2>
+<p>Let&#39;s define our custom task that will retrieve data from an external API and cache its JSON response. 
+All future task&#39;s invocations should use stored values (until the cache entries are invalidated). 
+As explained in the previous tutorials, a task is a directed graph of actions. In our case, it will be a graph with two nodes. 
+Let&#39;s configure the <code>get-product-task</code> task in the <code>knotx/conf/routes/handlers/fragments-handler.conf</code> configuration file:</p>
+<pre class="highlight"><code class="hljs ruby">tasks {
+  get-product-task {
+    action = fetch-product-with-cache
+    onTransitions {
+      _success {
+        action = product-to-body
+      }
+    }
+  }
+}
+
+actions {
+  <span class="hljs-comment"># Target API caching proxy</span>
+  fetch-product-with-cache {
+    <span class="hljs-comment"># https://github.com/Knotx/knotx-fragments/blob/2.0.0/handler/core/src/main/java/io/knotx/fragments/handler/action/InMemoryCacheActionFactory.java</span>
+    factory = <span class="hljs-keyword">in</span>-memory-cache
+    config {
+      cache {
+        maximumSize = <span class="hljs-number">1000</span>
+        ttl = <span class="hljs-number">5000</span>
+      }
+      cacheKey = <span class="hljs-string">"product-{param.id}"</span>
+      payloadKey = fetch-product
+    }
+    doAction = fetch-product
+  }
+
+  <span class="hljs-comment"># Target API</span>
+  fetch-product {
+    <span class="hljs-comment"># https://github.com/Knotx/knotx-data-bridge/blob/2.0.0/http/action/src/main/java/io/knotx/databridge/http/action/HttpActionFactory.java</span>
+    factory = http
+    config {
+      endpointOptions {
+        path = <span class="hljs-regexp">/product/id</span>
+        domain = webapi
+        port = <span class="hljs-number">8080</span>
+        allowedRequestHeaders = [<span class="hljs-string">"Content-Type"</span>]
+      }
+    }
+
+  }
+
+  product-to-body {
+    <span class="hljs-comment"># https://github.com/Knotx/knotx-fragments/blob/2.0.0/handler/core/src/main/java/io/knotx/fragments/handler/action/PayloadToBodyActionFactory.java</span>
+    factory = payload-to-body
+    config {
+      key = <span class="hljs-string">"fetch-product._result"</span>
+    }
+  }
+}</code></pre>
+<p>We declared the <code>get-product-task</code> task. It&#39;s entry node is the <code>fetch-product-with-cache</code> action. The action declares one success transition (<code>onTransitions</code>) that points to the <code>product-to-body</code> action node upon execution success (<code>_success</code>).</p>
+<p>Below the task definition, you can see all necessary action&#39;s definitions.
+The <code>fetch-product</code> action is responsible for the target RESTful HTTP API invocation. In our case, it is the <code>http://webapi:8080/product/id</code>. The action logic is delivered via <a href="https://github.com/Knotx/knotx-data-bridge/tree/2.0.0/http#http-action">HTTP Action</a> implementation available out of the box from Knot.x. 
+Now it is time to add the cache. For this purpose, we define a separate 
+<code>fetch-product-with-cache</code> action that:</p>
+<ul>
+<li>uses <a href="https://github.com/Knotx/knotx-fragments/tree/2.0.0/handler#in-memory-cache-action">In-memory Cache Action</a> implementation</li>
+<li>decorates/wraps the <code>fetch-product</code> action (see the <code>doAction</code> attribute), it is responsible for caching only</li>
+<li>declares the key name in the fragment&#39;s payload that would contain cached values (it is the decorated action name)</li>
+<li>configures cache parameters such as maximum size and time to live for stored entries
+cache key
+This action is declared as the task root node. Knot.x defines those kinds of actions as behaviours. They wrap a target action and add some functionality. <a href="https://github.com/Knotx/knotx-fragments/tree/2.0.0/handler#circuit-breaker-action">Circuit Breaker Action</a> is also the example of default behaviours implementations.
+Finally, we define the <code>product-to-body</code> action to rewrite the previously fetched data from the fragment&#39;s payload to the response body.</li>
+</ul>
+<p>You may be wondering if we can replace this cache with another one, for example with <a href="https://redis.io/">Redis</a>. The answer is yes, you can do it very simply!
+The only thing needed here is to create appropriate custom action factory which will handle caching in the desired way and then properly link it to an action
+in the config file (the same way as we did above).</p>
+<h2 id="operations-configuration">Operations configuration</h2>
+<p>Now we have to configure <code>knotx/conf/routes/operations.conf</code> and define two operations:</p>
+<ul>
+<li><code>healthcheck-operation</code></li>
+<li><code>product-api-caching-proxy-operation</code></li>
+</ul>
+<p>These operations are configured in the <code>openapi.yaml</code> specification which we&#39;ll do next. This file specifies which handlers should be invoked<br>to process the requests. Let&#39;s specify the <code>product-api-caching-proxy-operation</code> operation first:</p>
+<pre class="highlight"><code class="hljs ruby">routingOperations = ${routingOperations} [
+  {
+    operationId = product-api-caching-proxy-operation
+    handlers = ${config.server.handlers.common.request} [
+      {
+        name = singleFragmentSupplier
+        config = {
+          type = json
+          configuration {
+            data-knotx-task = get-product-task
+          }
+        }
+      },
+      {
+        name = fragmentsHandler
+        config = { <span class="hljs-keyword">include</span> required(classpath(<span class="hljs-string">"routes/handlers/fragments-handler.conf"</span>)) }
+      },
+
+      {
+        name = fragmentsAssembler
+      }
+    ] ${config.server.handlers.common.response}
+  }
+  {
+    operationId = healthcheck-operation
+    handlers = [
+      {
+        name = healthcheck
+      }
+    ]
+  }
+]</code></pre>
+<p>The operation consists of three handlers:</p>
+<ul>
+<li><code>singleFragmentSupplier</code> that converts incoming HTTP request to <a href="https://github.com/Knotx/knotx-fragments/tree/2.0.0/api#knotx-fragment-api">Fragment</a> and assign a task to it</li>
+<li><code>fragmentsHandler</code> handler that reads task configuration and evaluates graph logic</li>
+<li><code>fragmentsAssembler</code> handler that rewrite fragment&#39;s body into the final HTTP response</li>
+</ul>
+<h2 id="openapi">OpenAPI</h2>
+<p>Finally, we need to declare the exposed the new API containing caching functionality, its path and HTTP method. We add it in the <code>./knotx/conf/openapi.yaml</code> <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md">OpenAPI 3.0 specification</a>: </p>
+<pre class="highlight"><code class="hljs yaml"><span class="hljs-attr">openapi:</span> <span class="hljs-string">"3.0.0"</span>
+<span class="hljs-attr">info:</span>
+<span class="hljs-attr">  version:</span> <span class="hljs-number">1.0</span><span class="hljs-number">.0</span>
+<span class="hljs-attr">  title:</span> <span class="hljs-string">API</span> <span class="hljs-string">gateway</span> <span class="hljs-string">caching</span> <span class="hljs-string">example</span>
+<span class="hljs-attr">  description:</span> <span class="hljs-string">API</span> <span class="hljs-string">gateway</span> <span class="hljs-string">caching</span> <span class="hljs-string">example</span>
+
+<span class="hljs-attr">servers:</span>
+<span class="hljs-attr">  - url:</span> <span class="hljs-attr">https://{domain}:{port}</span>
+<span class="hljs-attr">    description:</span> <span class="hljs-string">The</span> <span class="hljs-string">local</span> <span class="hljs-string">API</span> <span class="hljs-string">server</span>
+<span class="hljs-attr">    variables:</span>
+<span class="hljs-attr">      domain:</span>
+<span class="hljs-attr">        default:</span> <span class="hljs-string">localhost</span>
+<span class="hljs-attr">        description:</span> <span class="hljs-string">api</span> <span class="hljs-string">domain</span>
+<span class="hljs-attr">      port:</span>
+<span class="hljs-attr">        enum:</span>
+<span class="hljs-bullet">          -</span> <span class="hljs-string">'8092'</span>
+<span class="hljs-attr">        default:</span> <span class="hljs-string">'8092'</span>
+
+<span class="hljs-attr">paths:</span>
+  <span class="hljs-string">/healthcheck:</span>
+<span class="hljs-attr">    get:</span>
+<span class="hljs-attr">      operationId:</span> <span class="hljs-string">healthcheck-operation</span>
+<span class="hljs-attr">      responses:</span>
+<span class="hljs-attr">        default:</span>
+<span class="hljs-attr">          description:</span> <span class="hljs-string">example</span> <span class="hljs-string">vert.x</span> <span class="hljs-string">healthcheck</span>
+
+  <span class="hljs-string">/product/id:</span>
+<span class="hljs-attr">    get:</span>
+<span class="hljs-attr">      operationId:</span> <span class="hljs-string">product-api-caching-proxy-operation</span>
+<span class="hljs-attr">      responses:</span>
+<span class="hljs-attr">        default:</span>
+<span class="hljs-attr">          description:</span> <span class="hljs-string">External</span> <span class="hljs-string">API</span> <span class="hljs-string">(Product</span> <span class="hljs-string">API)</span> <span class="hljs-string">caching</span> <span class="hljs-string">proxy.</span></code></pre>
+<p>The API is exposed by the <code>product/id</code> path and GET HTTP method. It delegates its processing logic to the <code>product-api-caching-proxy-operation</code> operation.  </p>
+<p>We have all Knot.x specific files created, now we are going to focus on project setup and deployment.  </p>
+<h2 id="environment-configuration">Environment configuration</h2>
+<p>The first thing we need to specify the Docker Swarm configuration file. Let&#39;s create the<code>./api-cache.yml</code> file containing our environment definition: target API and Knot.x instance. For the target API, we used Wiremock.</p>
+<p>Let&#39;s copy the following configuration:</p>
+<pre class="highlight"><code class="hljs yml"><span class="hljs-attr">version:</span> <span class="hljs-string">'3.7'</span>
+
+<span class="hljs-attr">networks:</span>
+<span class="hljs-attr">  knotnet:</span>
+
+<span class="hljs-attr">services:</span>
+
+<span class="hljs-attr">  webapi:</span>
+<span class="hljs-attr">    image:</span> <span class="hljs-string">rodolpheche/wiremock</span>
+<span class="hljs-attr">    volumes:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">"./common-services/webapi:/home/wiremock"</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">"./common-services/webapi/extensions:/var/wiremock/extensions"</span>
+<span class="hljs-attr">    ports:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">"3000:8080"</span>
+<span class="hljs-attr">    networks:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">knotnet</span>
+<span class="hljs-attr">    command:</span> <span class="hljs-string">["--global-response-templating",</span> <span class="hljs-string">"--extensions"</span><span class="hljs-string">,</span> <span class="hljs-string">"com.opentable.extension.BodyTransformer"</span><span class="hljs-string">]</span>
+
+<span class="hljs-attr">  knotx:</span>
+<span class="hljs-attr">    image:</span> <span class="hljs-string">knotx-example/api-cache:latest</span>
+<span class="hljs-attr">    command:</span> <span class="hljs-string">["knotx",</span> <span class="hljs-string">"run-knotx"</span><span class="hljs-string">]</span>
+<span class="hljs-attr">    ports:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">"8092:8092"</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">"18092:18092"</span>
+<span class="hljs-attr">    networks:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">knotnet</span></code></pre>
+<p>First and foremost it specifies Docker virtual network in which our services will be deployed. Then we have some service configs.
+The first one is <code>webapi</code></p>
+<ul>
+<li><code>image</code> - docker image is provided here, </li>
+<li><code>volumes</code> - directories to which Docker will have access, in our case it&#39;s directory where all Wiremock configs are stored,</li>
+<li><code>ports</code> - port accessible from <code>localhost</code> is specified on the left side, and a port available in the virtual environment is specified on the right </li>
+<li><code>networks</code> - specifies in which docker network the service will be deployed.</li>
+</ul>
+<p>Then we have <code>knotx</code> service specification. It&#39;s very similar to the previous one, so only one property is worth explaining. </p>
+<ul>
+<li><code>command</code> - this property is used to specify Knot.x starting commands.</li>
+</ul>
+<p>The <code>webapi</code> service is the second piece of our environment. It is a flexible API mocking tool, called Wiremock, that serves preconfigured responses for matched requests (based on path and method). It is our target <code>/product/id</code> API.</p>
+<p>One additional change is required for Wiremock to work correctly. We need to include it&#39;s dependency used for response templating in container&#39;s <code>/var/wiremock/extensions</code> directory. As seen above, we mounted the volume to <code>./common-services/webapi/extensions</code> directory on the host machine. Luckily Gradle will do the downloading/copying for us. Just make the following changes to <code>build.gradle.kts</code>:</p>
+<pre class="highlight"><code class="hljs kotlin"><span class="hljs-comment">// ...</span>
+configurations {
+    register(<span class="hljs-string">"wiremockExtensions"</span>)  <span class="hljs-comment">// create new configuration for our task</span>
+}
+<span class="hljs-comment">// ...</span>
+dependencies {
+    <span class="hljs-comment">// ...</span>
+    <span class="hljs-string">"wiremockExtensions"</span>(<span class="hljs-string">"com.opentable:wiremock-body-transformer:1.1.3"</span>) { isTransitive = <span class="hljs-literal">false</span> }  <span class="hljs-comment">// download the needed jar (we don't need any transitive dependencies) </span>
+}
+<span class="hljs-comment">// ...</span>
+
+<span class="hljs-keyword">val</span> downloadWireMockExtensions = tasks.register&lt;Copy&gt;(<span class="hljs-string">"downloadWiremockExtensions"</span>) { <span class="hljs-comment">// copy downloaded JAR to the desired directory</span>
+    from(configurations.named(<span class="hljs-string">"wiremockExtensions"</span>))
+    into(<span class="hljs-string">"./common-services/webapi/extensions"</span>)
+}
+
+tasks.named(<span class="hljs-string">"build"</span>) {
+    dependsOn(downloadWireMockExtensions, <span class="hljs-string">"runFunctionalTest"</span>)  <span class="hljs-comment">// add our task as a build dependency</span>
+}</code></pre>
+<p>Let&#39;s define the custom Docker image name for Knot.x instance. We can specify it by the <code>docker.image.name</code> property in the <code>./gradle.properties</code> file:</p>
+<pre class="highlight"><code class="hljs gradle">version=<span class="hljs-number">2.0</span>.<span class="hljs-number">0</span>-SNAPSHOT
+knotx.version=<span class="hljs-number">2.0</span>.<span class="hljs-number">0</span>
+knotx.conf=knotx
+docker.image.name=knotx-example<span class="hljs-regexp">/api-cache</span></code></pre>
+<h2 id="target-api-mock">Target API mock</h2>
+<p>We use Wiremock to mock our target API behaviour. We can easily specify the response body, code and delay. To do it let&#39;s create following directories:</p>
+<ul>
+<li><code>./common-services/webapi/__files/</code></li>
+<li><code>./common-services/webapi/mappings/</code></li>
+</ul>
+<p>In the <code>./common-services/webapi/__files/</code> directory please create the <code>product.json</code> file with following body:</p>
+<pre class="highlight"><code class="hljs json">{
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">21762532</span>,
+  <span class="hljs-attr">"url"</span>: <span class="hljs-string">"http://knotx.io"</span>,
+  <span class="hljs-attr">"label"</span>: <span class="hljs-string">"Product"</span>
+}</code></pre>
+<p>In the <code>./common-services/webapi/mappings/</code> directory please create the <code>product.json</code> file with following body:</p>
+<pre class="highlight"><code class="hljs json">{
+  <span class="hljs-attr">"request"</span>: {
+    <span class="hljs-attr">"method"</span>: <span class="hljs-string">"GET"</span>,
+    <span class="hljs-attr">"url"</span>: <span class="hljs-string">"/product/id"</span>
+  },
+  <span class="hljs-attr">"response"</span>: {
+    <span class="hljs-attr">"status"</span>: <span class="hljs-number">200</span>,
+    <span class="hljs-attr">"fixedDelayMilliseconds"</span>: <span class="hljs-number">100</span>,
+    <span class="hljs-attr">"bodyFileName"</span>: <span class="hljs-string">"product.json"</span>,
+    <span class="hljs-attr">"currentTime"</span>: <span class="hljs-string">"{{now format='yyyy-MM-dd HH:mm:ss'}}"</span>,
+    <span class="hljs-attr">"promoCode"</span>: <span class="hljs-string">"{{randomValue length=6 type='ALPHANUMERIC'}}"</span>
+  }
+}</code></pre>
+<p>Make sure that the <code>volume</code> property from <code>./api-cache.yml</code> points to the <code>./common-services/webapi</code> directory. </p>
+<p>Note the <a href="http://wiremock.org/docs/response-templating/">response templating</a> usage in <code>product.json</code>. Each response from Wiremock will have some unique content: timestamp and some random string - an excellent way to demonstrate caching functionality!</p>
+<h2 id="build-and-run">Build and run</h2>
+<p>From project level directory execute following commands which will build project and run Docker Swarm:
+<code>`</code>shell script
+$ gradlew clean build
+$ docker swarm init
+$ docker stack deploy -c api-cache.yml api-cache</p>
+<pre class="highlight"><code class="hljs smali">
+After a while the stack will be deployed<span class="hljs-built_in"> and </span>both `wiremock` (port `3000`)<span class="hljs-built_in"> and </span>`api-cache` (port `8092`) containers should be up. Now you can<span class="hljs-built_in"> invoke </span>Wiremock's<span class="hljs-built_in"> and </span>Knot.x's endpoints:
+</code></pre><blockquote>
+<p>curl -X GET <a href="http://localhost:3000/product/id">http://localhost:3000/product/id</a>
+{
+  &quot;id&quot;: 21762532,
+  &quot;url&quot;: &quot;<a href="http://knotx.io&quot;">http://knotx.io&quot;</a>,
+  &quot;label&quot;: &quot;Product&quot;,
+  &quot;currentTime&quot;: &quot;2019-10-29 13:57:51&quot;,
+  &quot;promoCode&quot;: &quot;1tpm41&quot;
+}
+curl -X GET <a href="http://localhost:3000/product/id">http://localhost:3000/product/id</a>
+{
+  &quot;id&quot;: 21762532,
+  &quot;url&quot;: &quot;<a href="http://knotx.io&quot;">http://knotx.io&quot;</a>,
+  &quot;label&quot;: &quot;Product&quot;,
+  &quot;currentTime&quot;: &quot;2019-10-29 13:57:57&quot;,
+  &quot;promoCode&quot;: &quot;ymhvkg&quot;
+}</p>
+</blockquote>
+<blockquote>
+<p>curl -X GET <a href="http://localhost:8092/product/id">http://localhost:8092/product/id</a>
+{
+  &quot;id&quot; : 21762532,
+  &quot;url&quot; : &quot;<a href="http://knotx.io&quot;">http://knotx.io&quot;</a>,
+  &quot;label&quot; : &quot;Product&quot;,
+  &quot;currentTime&quot; : &quot;2019-10-29 13:58:09&quot;,
+  &quot;promoCode&quot; : &quot;y8v7u2&quot;
+}
+curl -X GET <a href="http://localhost:8092/product/id">http://localhost:8092/product/id</a>
+{
+  &quot;id&quot; : 21762532,
+  &quot;url&quot; : &quot;<a href="http://knotx.io&quot;">http://knotx.io&quot;</a>,
+  &quot;label&quot; : &quot;Product&quot;,
+  &quot;currentTime&quot; : &quot;2019-10-29 13:58:09&quot;,
+  &quot;promoCode&quot; : &quot;y8v7u2&quot;
+}
+<code>`</code></p>
+</blockquote>
+<p>You should be able to receive a HTTP response at <a href="localhost:3000/product/id"><code>localhost:3000/product/id</code></a>. This is the endpoint served by Wiremock. The response is different with each request - it&#39;s not cached.</p>
+<p>If you invoke Knot.x at <a href="localhost:8092/product/id"><code>localhost:8092/product/id</code></a> and refresh it a few times, you can see that neither the timestamp nor the random string in the JSON response changes - we have successfully cached external API response!</p>
+<h2 id="summary">Summary</h2>
+<p>In this tutorial, we used Knot.x as a simple API gateway providing very flexible API caching functionality. 
+With <a href="https://knotx.io/blog/configurable-integrations/">Configurable Integrations</a> we achieved it without writing any line of code, using only Knot.x built-in features. 
+With <a href="https://github.com/Knotx/knotx-fragments/tree/2.0.0/handler#actions">Actions</a> and <a href="https://github.com/Knotx/knotx-fragments/tree/2.0.0/handler#behaviours">Behaviours</a>, 
+we&#39;ve focused on creating it in a declarative way instead of implementing caching functionality on our own. 
+Now you&#39;ll understand how quickly you can &quot;decorate&quot; your existing API with cross-cutting functionalities such as 
+caching or circuit breaker. </p>
+<p>You can find the complete code of this tutorial <a href="https://github.com/Knotx/knotx-example-project/tree/master/api-gateway/caching-api-response/">in our github repository</a></p>
+
+          </section>
+        </article>
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_config = function () {
+        this.page.url = "https://knotx.io/tutorials/caching-proxy/2_0/";
+        this.page.identifier = "dd0032754bd1676e7fb076a125db3a1d";
+        };
+        (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = '//knotx-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+    </div>
+</div>
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+         <p>Knot.x is <a href="https://github.com/Knotx/knotx">open source</a> and is licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0 License</a>.</p>
+      </div>
+      <div class="col-sm-5 col-sm-offset-1 text-right">
+        <p>Knot.x is brought to you with the support of <img src="/img/Cognified_Logo_white.png" alt="Cognifide"/></p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script defer="defer"  src="/scripts/vendor/jquery.min.js"></script><script defer="defer"  src="/scripts/vendor/bootstrap.min.js"></script><script defer="defer"  src="/scripts/vendor/highlight.pack.js"></script><script defer="defer"  src="/scripts/knotx.js"></script><script defer="defer"  src="/scripts/vendor/jquery.qtip.min.js"></script><script defer="defer"  src="/scripts/hovermap.js"></script>
+
+
+  </body>
+</html>
