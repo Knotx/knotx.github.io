@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Knot.x Website">
+  <meta name="keywords" content="knotx, vertx, reactive, asynchronous, templating, java, polyglot, cms, tutorial">
+  <title>SwaggerUI and Advanced OpenAPI usecases</title>
+
+  <meta property="og:title" content="SwaggerUI and Advanced OpenAPI usecases"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="https://knotx.io/tutorials/openapi-and-swagger-ui/2_0/"/>
+  <meta property="og:site_name" content="Knot.x Website"/>
+  <meta property="og:description" content="Knot.x Website"/>
+  <meta property="og:image" content="https://knotx.io/img/logo-240x240.png"/>
+
+  <link rel="apple-touch-icon" sizes="57x57" href="/img/favicons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/img/favicons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/img/favicons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/img/favicons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/img/favicons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/img/favicons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/img/favicons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/favicons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicons/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/img/favicons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicons/favicon-16x16.png">
+  <link rel="manifest" href="/img/favicons/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/img/favicons/ms-icon-144x144.png">
+  <meta name="theme-color" content="#9f136c">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Montserrat:200,300,400,500,700|Ubuntu:300,400,500,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link  rel="stylesheet" href="/styles/bootstrap.css" /><link  rel="stylesheet" href="/styles/github.css" /><link  rel="stylesheet" href="/styles/knotx.css" />
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+  <body >
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-92165781-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    <!-- Header -->
+<header class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/img/logo-knotx.png" class="navbar-brand-logo" alt="Knot.x Logo"/>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        
+        <li><a href="/download/">Download</a></li>
+        
+        <li><a href="/tutorials/">Tutorials</a></li>
+        
+        <li><a href="https://github.com/Knotx/knotx/issues">Issues</a></li>
+        
+        <li><a href="/documentation/">Documentation</a></li>
+        
+        <li><a href="/community/">Community</a></li>
+        
+        <li><a href="/blog/">Blog</a></li>
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</header>
+
+    <!-- Content Header -->
+<div class="content-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>SwaggerUI and Advanced OpenAPI usecases</h1>
+      </div>
+    </div>    
+  </div>
+  
+</div>
+
+<div class="container flex blog">
+    <div class="row">
+      <div class="col-sm-12">
+        <article>
+          <header class="meta">
+  <a class="meta-item" href="https://github.com/Voycawojka">Filip Kowalski</a>
+  <time class="meta-item date"
+        datetime="2019-10-16">October 16th, 2019
+  </time>
+
+  <div class="post-versions">    
+    
+      <a class="post-btn" href="/tutorials/openapi-and-swagger-ui/2_0/">2.0.0</a>
+    
+  </div>
+</header>
+
+          <section class="post">
+            <h2 id="overview">Overview</h2>
+<p>In this tutorial, we will explain more advanced possibilities of <a href="https://swagger.io/docs/specification/about/">OpenAPI</a> specification that Knot.x uses. We&#39;ll also demonstrate how to make use of the API visualization tool, <a href="https://swagger.io/tools/swagger-ui/">Swagger UI</a>, with Knot.x. It&#39;s a beginner-friendly tutorial, but you should go through the <a href="/tutorials/getting-started-with-knotx-stack/2_0/">Getting Started tutorials</a> first. For purposes of this article, it&#39;s assumed you have a basic project set up.</p>
+<p>You&#39;ll learn how to:</p>
+<ul>
+<li>define more detailed APIs in OpenAPI standard</li>
+<li>visualize them with Swagger UI</li>
+</ul>
+<h2 id="openapi">OpenAPI</h2>
+<p>OpenAPI is a standard specification for describing REST APIs. It allows defining endpoints, parameters, data types, constraints and metadata. This format is also the integral part of Knot.x, so it&#39;s important to know it.</p>
+<p>OpenAPI can be written either in JSON or YAML format. Knot.x prefers YAML, though. You have to specify your endpoints in <code>knotx/conf/openapi.yaml</code> file. Let&#39;s take a look at the default one (coming with the <a href="https://github.com/Knotx/knotx-starter-kit">Starter Kit template</a>). It starts like this:</p>
+<pre class="highlight"><code class="hljs yaml"><span class="hljs-attr">openapi:</span> <span class="hljs-string">"3.0.0"</span>
+<span class="hljs-attr">info:</span>
+<span class="hljs-attr">  version:</span> <span class="hljs-number">1.0</span><span class="hljs-number">.0</span>
+<span class="hljs-attr">  title:</span> <span class="hljs-string">Knot.x</span> <span class="hljs-string">Starter</span> <span class="hljs-string">Kit</span>
+<span class="hljs-attr">  description:</span> <span class="hljs-string">Knotx</span> <span class="hljs-string">Starter</span> <span class="hljs-string">Kit</span>
+
+<span class="hljs-attr">servers:</span>
+<span class="hljs-attr">  - url:</span> <span class="hljs-attr">https://{domain}:{port}</span>
+<span class="hljs-attr">    description:</span> <span class="hljs-string">The</span> <span class="hljs-string">local</span> <span class="hljs-string">API</span> <span class="hljs-string">server</span>
+<span class="hljs-attr">    variables:</span>
+<span class="hljs-attr">      domain:</span>
+<span class="hljs-attr">        default:</span> <span class="hljs-string">localhost</span>
+<span class="hljs-attr">        description:</span> <span class="hljs-string">api</span> <span class="hljs-string">domain</span>
+<span class="hljs-attr">      port:</span>
+<span class="hljs-attr">        enum:</span>
+<span class="hljs-bullet">          -</span> <span class="hljs-string">'8092'</span>
+<span class="hljs-attr">        default:</span> <span class="hljs-string">'8092'</span></code></pre>
+<p>It defines the OpenAPI specification version used and some metadata about our API (version, title, description). Then it specifies a list of servers our API is available on. In this case, it&#39;s just one server: <code>localhost:8092</code>. Additionally, we provide some servers metadata such as descriptions. 
+We can also define some variables. They are not necessary in this case, but let&#39;s imagine that your API is available on 3 ports and 2 domains. Instead of listing all 6 possible combinations, you can just use variables. Also, note that all variables here have to be strings and that they don&#39;t have to just be <code>port</code> and <code>domain</code>. They can be anything.</p>
+<p>Next in the file, there are paths defined. Let&#39;s see:</p>
+<pre class="highlight"><code class="hljs yaml"><span class="hljs-attr">paths:</span>
+  <span class="hljs-string">/api/v1/example:</span>
+<span class="hljs-attr">    get:</span>
+<span class="hljs-attr">      operationId:</span> <span class="hljs-string">example-api-with-handlers-operation</span>
+<span class="hljs-attr">      responses:</span>
+<span class="hljs-attr">        default:</span>
+<span class="hljs-attr">          description:</span> <span class="hljs-string">Example</span> <span class="hljs-string">API</span> <span class="hljs-string">response</span>
+  <span class="hljs-string">/api/v2/example:</span>
+<span class="hljs-attr">    get:</span>
+<span class="hljs-attr">      operationId:</span> <span class="hljs-string">example-api-with-fragments-operation</span>
+<span class="hljs-attr">      responses:</span>
+<span class="hljs-attr">        default:</span>
+<span class="hljs-attr">          description:</span> <span class="hljs-string">Example</span> <span class="hljs-string">API</span> <span class="hljs-string">response</span>
+  <span class="hljs-string">/healthcheck:</span>
+<span class="hljs-attr">    get:</span>
+<span class="hljs-attr">      operationId:</span> <span class="hljs-string">healthcheck-operation</span>
+<span class="hljs-attr">      responses:</span>
+        <span class="hljs-string">'200'</span><span class="hljs-string">:</span>
+<span class="hljs-attr">          description:</span> <span class="hljs-string">Everything</span> <span class="hljs-string">is</span> <span class="hljs-string">fine</span>
+        <span class="hljs-string">'204'</span><span class="hljs-string">:</span>
+<span class="hljs-attr">          description:</span> <span class="hljs-literal">No</span> <span class="hljs-string">procedure</span> <span class="hljs-string">are</span> <span class="hljs-string">registered.</span>
+        <span class="hljs-string">'501'</span><span class="hljs-string">:</span>
+<span class="hljs-attr">          description:</span> <span class="hljs-string">At</span> <span class="hljs-string">least</span> <span class="hljs-string">one</span> <span class="hljs-string">procedure</span> <span class="hljs-string">has</span> <span class="hljs-string">reported</span> <span class="hljs-string">a</span> <span class="hljs-string">non-healthy</span> <span class="hljs-string">stat</span>
+        <span class="hljs-string">'500'</span><span class="hljs-string">:</span>
+<span class="hljs-attr">          description:</span> <span class="hljs-string">One</span> <span class="hljs-string">procedure</span> <span class="hljs-string">has</span> <span class="hljs-string">thrown</span> <span class="hljs-string">an</span> <span class="hljs-string">error</span> <span class="hljs-string">or</span> <span class="hljs-string">has</span> <span class="hljs-string">not</span> <span class="hljs-string">reported</span> <span class="hljs-string">a</span> <span class="hljs-string">status</span> <span class="hljs-string">in</span> <span class="hljs-string">time</span>
+</code></pre>
+<p>Endpoints are defined as a dictionary of paths. In this case, there are 3 of them: <code>/api/v1/example</code>, <code>/api/v2/example/</code> and <code>/healthcheck</code>. The first two are very simple. Both specify only one HTTP method (GET). Those simple method definitions consist of operation and possible responses the endpoint may return. The <code>/healthcheck</code> path is similar but it lists multiple possible responses. </p>
+<p>Note that there is nothing Knot.x specific in this file, it&#39;s all just the OpenAPI standard. Knot.x parses this file and assigns endpoints to appropriate operations. For example, <code>/api/v2/example/</code> path will be assigned to the operation with id <code>example-api-with-fragments-operation</code>. Remember that operations are defined in <code>/knotx/conf/routes/operations.conf</code> file which is, indeed, specific to Knot.x. </p>
+<p>If you try to call an undefined endpoint or use an undefined HTTP method (e.g. call <code>/healthcheck</code> with POST), Knot.x would automatically return <code>404 Not Found</code> response. Otherwise, it will delegate the request to the assigned operation.</p>
+<h2 id="implementing-advanced-openapi-concepts">Implementing advanced OpenAPI concepts</h2>
+<h3 id="response-body">Response body</h3>
+<p>Let&#39;s define some more advanced endpoints. First, we&#39;ll create <code>/api/user</code> endpoint that will return information about the logged-in user (note that we&#39;ll just mock the data for the sake of this tutorial). Add this to <code>paths</code> section of <code>openapi.yaml</code>:</p>
+<pre class="highlight"><code class="hljs yaml"><span class="hljs-string">/api/user:</span>
+<span class="hljs-attr">  get:</span>
+<span class="hljs-attr">    operationId:</span> <span class="hljs-string">userinfo-operation</span>
+<span class="hljs-attr">    summary:</span> <span class="hljs-string">Returns</span> <span class="hljs-string">basic</span> <span class="hljs-string">info</span> <span class="hljs-string">about</span> <span class="hljs-string">a</span> <span class="hljs-string">logged-in</span> <span class="hljs-string">user</span>
+<span class="hljs-attr">    responses:</span>
+      <span class="hljs-number">200</span><span class="hljs-string">:</span>
+<span class="hljs-attr">        description:</span> <span class="hljs-string">OK</span>
+<span class="hljs-attr">        content:</span>
+          <span class="hljs-string">application/json:</span>
+<span class="hljs-attr">            schema:</span>
+<span class="hljs-attr">              type:</span> <span class="hljs-string">object</span>
+<span class="hljs-attr">              properties:</span>
+<span class="hljs-attr">                id:</span>
+<span class="hljs-attr">                  type:</span> <span class="hljs-string">integer</span>
+<span class="hljs-attr">                username:</span>
+<span class="hljs-attr">                  type:</span> <span class="hljs-string">string</span></code></pre>
+<p>We&#39;ll define operations later. What is new in this piece of code is the <code>content</code> part of the response. It&#39;s a dictionary of all possible bodies of the response. In this case, we say that the endpoint will always return a JSON in the form defined by a schema. Such a JSON would look like this:</p>
+<pre class="highlight"><code class="hljs json">{
+  <span class="hljs-attr">"id"</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">"username"</span>: <span class="hljs-string">"string"</span>
+}</code></pre>
+<p>We&#39;ll talk more about schemas later.</p>
+<h3 id="reusing-schemas">Reusing schemas</h3>
+<p>Let&#39;s say that we want multiple endpoints to return this kind of data. It would be nice to be able to reuse the same schema. We can do that in the <code>components</code> dictionary. Add it at the bottom of the file like this:</p>
+<pre class="highlight"><code class="hljs yaml"><span class="hljs-attr">paths:</span>
+  <span class="hljs-string">//...</span>
+
+<span class="hljs-attr">components:</span>
+<span class="hljs-attr">  schemas:</span>
+<span class="hljs-attr">    UserId:</span>
+<span class="hljs-attr">      type:</span> <span class="hljs-string">integer</span>
+<span class="hljs-attr">      minimum:</span> <span class="hljs-number">1</span>
+<span class="hljs-attr">    BasicUser:</span>
+<span class="hljs-attr">      type:</span> <span class="hljs-string">object</span>
+<span class="hljs-attr">      properties:</span>
+<span class="hljs-attr">        id:</span>
+          <span class="hljs-string">$ref:</span> <span class="hljs-string">'#/components/schemas/UserId'</span>
+<span class="hljs-attr">        username:</span>
+<span class="hljs-attr">          type:</span> <span class="hljs-string">string</span>
+<span class="hljs-attr">        email:</span>
+<span class="hljs-attr">          type:</span> <span class="hljs-string">string</span>
+<span class="hljs-attr">          example:</span> <span class="hljs-string">test@test.test</span>
+<span class="hljs-attr">        avatar:</span>
+<span class="hljs-attr">          type:</span> <span class="hljs-string">string</span></code></pre>
+<p>We&#39;ve defined two types of data: <code>UserId</code> and <code>BasicUser</code>. <code>UserId</code> is just an integer. What&#39;s new here is the constraint <code>minimum</code>. This way we describe that this data is always greater than or equal to 1. There are many possible constraints we can define. You can read more about it in the <a href="https://swagger.io/docs/specification/data-models/">OpenAPI documentation</a>.</p>
+<p><code>BasicUser</code> is an object with <code>id</code>, <code>username</code>, <code>email</code> and <code>avatar</code> properties. Two things may need an explanation here. Firstly, in the <code>id</code> we used a <code>$ref</code> property. It allows us to reference other types (<code>UserId</code> in this case). Note that referencing already defined type is <strong>not</strong> the same as defining it &quot;inline&quot;. The difference is basically like defining a class in Java versus using a <code>Map</code>. It&#39;ll become more clear later. At this point in the tutorial, you don&#39;t have to worry about it but keep it in the back of your head.
+Secondly, we used an <code>example</code> property for the email. It&#39;s just metadata that can be used by visualization tools (more on that later).</p>
+<p>Now, that we have our schemas defined in one place, we can reference them in our <code>/api/user</code> endpoint. While we&#39;re on it, let&#39;s also define a POST method for this endpoint. It should now look like this:</p>
+<pre class="highlight"><code class="hljs yaml"><span class="hljs-string">/api/user:</span>
+<span class="hljs-attr">    get:</span>
+<span class="hljs-attr">      operationId:</span> <span class="hljs-string">userinfo-operation</span>
+<span class="hljs-attr">      summary:</span> <span class="hljs-string">Returns</span> <span class="hljs-string">basic</span> <span class="hljs-string">info</span> <span class="hljs-string">about</span> <span class="hljs-string">a</span> <span class="hljs-string">logged</span> <span class="hljs-string">in</span> <span class="hljs-string">user</span>
+<span class="hljs-attr">      responses:</span>
+        <span class="hljs-number">200</span><span class="hljs-string">:</span>
+<span class="hljs-attr">          description:</span> <span class="hljs-string">OK</span>
+<span class="hljs-attr">          content:</span>
+            <span class="hljs-string">application/json:</span>
+<span class="hljs-attr">              schema:</span>
+                <span class="hljs-string">$ref:</span> <span class="hljs-string">'#/components/schemas/BasicUser'</span>
+<span class="hljs-attr">    post:</span>
+<span class="hljs-attr">      operationId:</span> <span class="hljs-string">deprecated-userinfo-operation</span>
+<span class="hljs-attr">      deprecated:</span> <span class="hljs-literal">true</span>
+<span class="hljs-attr">      summary:</span> <span class="hljs-string">Returns</span> <span class="hljs-string">basic</span> <span class="hljs-string">info</span> <span class="hljs-string">about</span> <span class="hljs-string">a</span> <span class="hljs-string">logged</span> <span class="hljs-string">in</span> <span class="hljs-string">user</span>
+<span class="hljs-attr">      responses:</span>
+        <span class="hljs-number">200</span><span class="hljs-string">:</span>
+<span class="hljs-attr">          description:</span> <span class="hljs-string">OK</span>
+<span class="hljs-attr">          content:</span>
+            <span class="hljs-string">application/json:</span>
+<span class="hljs-attr">              schema:</span>
+                <span class="hljs-string">$ref:</span> <span class="hljs-string">'#/components/schemas/BasicUser'</span></code></pre>
+<p>Thanks to <code>$ref</code> properties, we didn&#39;t have to define the user twice. Note that the POST method behaves the same way as the GET method. It is, however, marked as <code>deprecated</code>. It&#39;s another piece of metadata that can be used by various tools.</p>
+<p>Next, let&#39;s quickly define an endpoint that will return an array of users:</p>
+<pre class="highlight"><code class="hljs yaml">  <span class="hljs-string">/api/users:</span>
+<span class="hljs-attr">    get:</span>
+<span class="hljs-attr">      operationId:</span> <span class="hljs-string">userlist-operation</span>
+<span class="hljs-attr">      summary:</span> <span class="hljs-string">Returns</span> <span class="hljs-string">a</span> <span class="hljs-string">list</span> <span class="hljs-string">of</span> <span class="hljs-string">users</span> <span class="hljs-string">with</span> <span class="hljs-string">basic</span> <span class="hljs-string">info</span> <span class="hljs-string">about</span> <span class="hljs-string">each</span>
+<span class="hljs-attr">      responses:</span>
+        <span class="hljs-number">200</span><span class="hljs-string">:</span>
+<span class="hljs-attr">          description:</span> <span class="hljs-string">OK</span>
+<span class="hljs-attr">          content:</span>
+            <span class="hljs-string">application/json:</span>
+<span class="hljs-attr">              schema:</span>
+<span class="hljs-attr">                type:</span> <span class="hljs-string">array</span>
+<span class="hljs-attr">                items:</span>
+                  <span class="hljs-string">$ref:</span> <span class="hljs-string">'#/components/schemas/BasicUser'</span></code></pre>
+<p>The thing to note here is that we define a custom array of the existing datatype. As you can see, the <code>$ref</code> property can be really powerful. </p>
+<h3 id="request-body">Request body</h3>
+<p>Let&#39;s move on to the usage of schemas to define request bodies:</p>
+<pre class="highlight"><code class="hljs yaml"><span class="hljs-string">/api/user/avatar:</span>
+<span class="hljs-attr">  put:</span>
+<span class="hljs-attr">    operationId:</span> <span class="hljs-string">uploadavatar-operation</span>
+<span class="hljs-attr">    summary:</span> <span class="hljs-string">Uploads</span> <span class="hljs-string">a</span> <span class="hljs-string">new</span> <span class="hljs-string">avatar</span> <span class="hljs-string">for</span> <span class="hljs-string">the</span> <span class="hljs-string">logged</span> <span class="hljs-string">in</span> <span class="hljs-string">user</span>
+<span class="hljs-attr">    requestBody:</span>
+<span class="hljs-attr">      content:</span>
+        <span class="hljs-string">image/png:</span>
+<span class="hljs-attr">          schema:</span>
+<span class="hljs-attr">            type:</span> <span class="hljs-string">string</span>
+<span class="hljs-attr">            format:</span> <span class="hljs-string">binary</span>
+<span class="hljs-attr">    responses:</span>
+      <span class="hljs-number">200</span><span class="hljs-string">:</span>
+<span class="hljs-attr">        description:</span> <span class="hljs-string">uploaded</span>
+      <span class="hljs-number">400</span><span class="hljs-string">:</span>
+<span class="hljs-attr">        description:</span> <span class="hljs-string">bad</span> <span class="hljs-string">request</span>
+<span class="hljs-attr">  get:</span>
+<span class="hljs-attr">    operationId:</span> <span class="hljs-string">getavatar-operation</span>
+<span class="hljs-attr">    summary:</span> <span class="hljs-string">Gets</span> <span class="hljs-string">a</span> <span class="hljs-string">link</span> <span class="hljs-string">to</span> <span class="hljs-string">the</span> <span class="hljs-string">user's</span> <span class="hljs-string">avatar</span>
+<span class="hljs-attr">    responses:</span>
+      <span class="hljs-number">200</span><span class="hljs-string">:</span>
+<span class="hljs-attr">        description:</span> <span class="hljs-string">OK</span>
+<span class="hljs-attr">        content:</span>
+          <span class="hljs-string">application/json:</span>
+<span class="hljs-attr">            schema:</span>
+<span class="hljs-attr">              type:</span> <span class="hljs-string">object</span>
+<span class="hljs-attr">              properties:</span>
+<span class="hljs-attr">                avatarUrl:</span>
+<span class="hljs-attr">                  type:</span> <span class="hljs-string">string</span></code></pre>
+<p>We define two methods for this path. The <code>GET</code> method is nothing special. We just define one possible response with an in-place defined schema. The <code>PUT</code> method has two possible responses without bodies and a request body of type <code>image/png</code>. It&#39;s defined in the same way as response bodies. A schema might even be shared between request and response bodies, if necessary.
+One thing to note here is the schema type. It has a <code>binary</code> <code>format</code>. It&#39;s a special subtype of <code>string</code> commonly used for images. Another possible <code>format</code> would be <code>base64</code>. More on image uploading can be found in the <a href="https://swagger.io/docs/specification/describing-request-body/file-upload/">OpenAPI documentation</a>.</p>
+<h3 id="parameters">Parameters</h3>
+<p>Now, let&#39;s talk about parameters. Four types of parameters can be defined: query, path, header and cookie. Last two aren&#39;t covered in this tutorial, because they are analogical to <code>query</code> parameters. </p>
+<h4 id="query-parameters">Query parameters</h4>
+<p>Parameters can be defined like this:</p>
+<pre class="highlight"><code class="hljs yaml"><span class="hljs-string">/api/user/isadmin:</span>
+<span class="hljs-attr">  get:</span>
+<span class="hljs-attr">    operationId:</span> <span class="hljs-string">admininfo-operation</span>
+<span class="hljs-attr">    summary:</span> <span class="hljs-string">Returns</span> <span class="hljs-string">detailed</span> <span class="hljs-string">information</span> <span class="hljs-string">about</span> <span class="hljs-string">user's</span> <span class="hljs-string">account</span>
+<span class="hljs-attr">    parameters:</span>
+<span class="hljs-attr">      - in:</span> <span class="hljs-string">query</span>
+<span class="hljs-attr">        name:</span> <span class="hljs-string">datatype</span>
+<span class="hljs-attr">        description:</span> <span class="hljs-string">mime-type</span> <span class="hljs-string">that</span> <span class="hljs-string">client</span> <span class="hljs-string">want</span> <span class="hljs-string">to</span> <span class="hljs-string">be</span> <span class="hljs-string">returned</span>
+<span class="hljs-attr">        schema:</span>
+<span class="hljs-attr">          type:</span> <span class="hljs-string">string</span>
+<span class="hljs-attr">          enum:</span>
+<span class="hljs-bullet">            -</span> <span class="hljs-string">json</span>
+<span class="hljs-bullet">            -</span> <span class="hljs-string">xml</span>
+<span class="hljs-attr">        required:</span> <span class="hljs-literal">true</span></code></pre>
+<p>We define a list of parameters. In this case, we only have one. We specify its name, type (as <code>query</code>) and metadata (description). It uses a schema in the same way as request and response bodies do. The new thing here is the <code>enum</code> property. It specifies that this type can only have one of the specified values. Also, note the <code>required: true</code> part. It means the client can&#39;t omit this parameter. Therefore the only two correct requests are:</p>
+<ul>
+<li>/api/user/isadmin?datatype=json</li>
+<li>/api/user/isadmin?datatype=xml</li>
+</ul>
+<p>If a client omits the <code>datatype</code> parameter or sets it as something other than <code>json</code> or <code>xml</code>, then Knot.x will automatically respond with <code>400 Bad Request</code>.</p>
+<p>Now, the <code>api/user/isadmin</code> endpoint definition is not correct. We have to define responses:</p>
+<pre class="highlight"><code class="hljs yaml"><span class="hljs-attr">responses:</span>
+  <span class="hljs-number">200</span><span class="hljs-string">:</span>
+<span class="hljs-attr">    description:</span> <span class="hljs-string">OK</span>
+<span class="hljs-attr">    content:</span>
+      <span class="hljs-string">application/json:</span>
+<span class="hljs-attr">        schema:</span>
+          <span class="hljs-string">$ref:</span> <span class="hljs-string">'#/components/schemas/IsAdmin'</span>
+      <span class="hljs-string">application/xml:</span>
+<span class="hljs-attr">        schema:</span>
+          <span class="hljs-string">$ref:</span> <span class="hljs-string">'#/components/schemas/IsAdmin'</span>
+  <span class="hljs-number">400</span><span class="hljs-string">:</span>
+<span class="hljs-attr">    description:</span> <span class="hljs-string">Bad</span> <span class="hljs-string">request</span></code></pre>
+<p>In case of a success response, we defined two possible content types to be returned: <code>json</code> and <code>xml</code>. This demonstrates that schemas are abstract from any specific format and therefore, like here, can be reused between multiple content types. For JSON it&#39;ll be interpreted like this:</p>
+<pre class="highlight"><code class="hljs json">{
+  <span class="hljs-attr">"admin"</span>: <span class="hljs-literal">true</span>
+}</code></pre>
+<p>And the same schema for XML will be interpreted like this:</p>
+<pre class="highlight"><code class="hljs xml"><span class="hljs-meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">IsAdmin</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">admin</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">admin</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">IsAdmin</span>&gt;</span></code></pre>
+<h4 id="path-parametrs">Path parametrs</h4>
+<p>Path parameters are very similar. Actually, the only difference is that they are defined in the path itself (apart from standard <code>parameters</code> property). Let&#39;s add this path:</p>
+<pre class="highlight"><code class="hljs yaml"> <span class="hljs-string">/api/users/{id}/send/{message}:</span>
+<span class="hljs-attr">    post:</span>
+<span class="hljs-attr">      operationId:</span> <span class="hljs-string">sendmsg-operation</span>
+<span class="hljs-attr">      summary:</span> <span class="hljs-string">Send</span> <span class="hljs-string">a</span> <span class="hljs-string">message</span> <span class="hljs-string">to</span> <span class="hljs-string">a</span> <span class="hljs-string">specific</span> <span class="hljs-string">user</span>
+<span class="hljs-attr">      parameters:</span>
+<span class="hljs-attr">        - in:</span> <span class="hljs-string">path</span>
+<span class="hljs-attr">          name:</span> <span class="hljs-string">id</span>
+<span class="hljs-attr">          description:</span> <span class="hljs-string">ID</span> <span class="hljs-string">of</span> <span class="hljs-string">a</span> <span class="hljs-string">user</span> <span class="hljs-string">to</span> <span class="hljs-string">send</span> <span class="hljs-string">the</span> <span class="hljs-string">message</span> <span class="hljs-string">to</span>
+<span class="hljs-attr">          required:</span> <span class="hljs-literal">true</span>
+<span class="hljs-attr">          schema:</span>
+            <span class="hljs-string">$ref:</span> <span class="hljs-string">'#/components/schemas/UserId'</span>
+<span class="hljs-attr">        - in:</span> <span class="hljs-string">path</span>
+<span class="hljs-attr">          name:</span> <span class="hljs-string">message</span>
+<span class="hljs-attr">          description:</span> <span class="hljs-string">message</span> <span class="hljs-string">to</span> <span class="hljs-string">be</span> <span class="hljs-string">sent</span> <span class="hljs-string">to</span> <span class="hljs-string">the</span> <span class="hljs-string">user</span>
+<span class="hljs-attr">          required:</span> <span class="hljs-literal">true</span>
+<span class="hljs-attr">          schema:</span>
+<span class="hljs-attr">            type:</span> <span class="hljs-string">string</span>
+<span class="hljs-attr">            pattern:</span> <span class="hljs-string">'^[a-zA-Z0-9_]*</span>
+<span class="hljs-attr">      responses:</span>
+        <span class="hljs-number">200</span><span class="hljs-string">:</span>
+<span class="hljs-attr">          description:</span> <span class="hljs-string">OK</span>
+        <span class="hljs-number">400</span><span class="hljs-string">:</span>
+<span class="hljs-attr">          description:</span> <span class="hljs-string">Bad</span> <span class="hljs-string">request</span></code></pre>
+<p>In the path, the parameters are defined using <code>{}</code> brackets. They are treated like wildcards, therefore our path will match all requests in the form of <code>/api/users/.../send/...</code>. Next, we define the same parameters in the <code>parameters</code> property, the same way as with <code>query</code> parameters. Note that the <code>name</code> in the parameter list must exactly match the name specified in the brackets. Also, path parameters have to be <code>required</code>.</p>
+<p>We&#39;ve also introduced a new schema constraint - <code>pattern</code>. It&#39;s just a regular expression that the parameter must match. If it doesn&#39;t, Knot.x will return <code>400 Bad Request</code> response.</p>
+<p>As already mentioned, we won&#39;t discuss <code>header</code> and <code>cookie</code> parameters, because they work the same way as <code>query</code> parameters. Just specify <code>in: header</code> or <code>in: cookie</code>.</p>
+<h3 id="undefined-operation">Undefined operation</h3>
+<p>In the last path we&#39;ll define, let&#39;s use a non-existent operation. Knot.x will return <code>501 Not Implemented</code> for this endpoint:</p>
+<pre class="highlight"><code class="hljs yaml"><span class="hljs-string">/api/future-feature:</span>
+<span class="hljs-attr">  get:</span>
+<span class="hljs-attr">    operationId:</span> <span class="hljs-string">future-feature-operation</span> <span class="hljs-comment"># we won't implement this operation</span>
+<span class="hljs-attr">    summary:</span> <span class="hljs-string">This</span> <span class="hljs-string">will</span> <span class="hljs-string">be</span> <span class="hljs-string">implemented</span> <span class="hljs-string">in</span> <span class="hljs-string">the</span> <span class="hljs-string">future</span>
+<span class="hljs-attr">    responses:</span>
+      <span class="hljs-number">501</span><span class="hljs-string">:</span>
+<span class="hljs-attr">        description:</span> <span class="hljs-string">Not</span> <span class="hljs-string">implemeneted</span></code></pre>
+<p>As far as OpenAPI is concerned, there&#39;s nothing wrong or new in this path definition.</p>
+<h2 id="implementing-operations-with-mocked-data">Implementing operations with mocked data</h2>
+<p>The endpoints we defined in the <code>openapi.yaml</code> file reference operations that they will invoke. Let&#39;s define the operations now. We&#39;ll use three custom handlers:</p>
+<ul>
+<li><code>static-json</code> - takes data from its configuration and returns it as JSON</li>
+<li><code>static-status</code> - just returns a configured response code</li>
+<li><code>admin-info</code> - returns harcoded data either as JSON or XML, depending on query parameter</li>
+</ul>
+<h3 id="configuration">Configuration</h3>
+<p>Define operations in the <code>operations.conf</code> as follows:</p>
+<p><code>GET api/user/avatar</code> returns JSON with an avatar link:</p>
+<pre class="highlight"><code class="hljs ruby">{
+  operationId = getavatar-operation
+  handlers = [
+    {
+      name = static-json
+      config.json = {
+        avatarUrl = ${mocked.loggedUser.avatar}
+      }
+    }
+  ]
+}</code></pre>
+<p><code>POST api/user/avatar</code> always returns <code>200 OK</code>:</p>
+<pre class="highlight"><code class="hljs ruby">{
+  operationId = uploadavatar-operation
+  handlers = [
+    {
+      name = static-status
+      config.code = <span class="hljs-number">200</span>
+    }
+  ]
+}</code></pre>
+<p><code>GET api/users</code> returns JSON with the list of users</p>
+<pre class="highlight"><code class="hljs ruby">{
+  operationId = userlist-operation
+  handlers = [
+    {
+      name = static-json
+      config.json = ${mocked.userList}
+    }
+  ]
+}</code></pre>
+<p><code>GET api/user</code> and <code>POST api/user</code> return data about one user</p>
+<pre class="highlight"><code class="hljs ruby">{
+  operationId = userinfo-operation
+  handlers = [
+    {
+      name = static-json
+      config.json = ${mocked.loggedUser}
+    }
+  ]
+}
+{
+  operationId = deprecated-userinfo-operation
+  handlers = [
+    {
+      name = static-json
+      config.json = ${mocked.loggedUser}
+    }
+  ]
+}</code></pre>
+<p><code>GET api/user/isadmin</code> invokes <code>admin-info</code> handler that returns harcoded data as either JSON or XML</p>
+<pre class="highlight"><code class="hljs ruby">{
+  operationId = admininfo-operation
+  handlers = ${config.server.handlers.common.request} [
+    {
+      name = admin-info
+    }
+  ]
+}</code></pre>
+<p><code>POST /api/user/{id}/send/{message}</code> always returns <code>200 OK</code></p>
+<pre class="highlight"><code class="hljs ruby">{
+  operationId = sendmsg-operation
+  handlers = [
+    {
+      name = static-status
+      config.code = <span class="hljs-number">200</span>
+    }
+  ]
+}</code></pre>
+<p>You&#39;ve probably noticed our handlers&#39; configurations reference an object called <code>mocked</code>. It&#39;s a <a href="https://github.com/lightbend/config/blob/master/HOCON.md">HOCON</a> syntax and we use it just so we don&#39;t need to copy and paste hardcoded user data. Let&#39;s add the object to the file:</p>
+<pre class="highlight"><code class="hljs ruby">routingOperations = ${routingOperations} [
+  <span class="hljs-comment"># ...</span>
+]
+
+mocked = {
+  loggedUser = {
+    id = <span class="hljs-number">1</span>
+    username = <span class="hljs-string">"UserNr1"</span>
+    email = <span class="hljs-string">"usernr1@test.test"</span>
+    avatar = <span class="hljs-string">"https://api.adorable.io/avatars/285/1"</span>
+  }
+  userList = [
+    ${mocked.loggedUser}
+    {id = <span class="hljs-number">2</span>, username = <span class="hljs-string">"Lorem"</span>, email = <span class="hljs-string">"lorem@test.test"</span>, avatar = <span class="hljs-string">"https://api.adorable.io/avatars/285/2"</span>}
+    {id = <span class="hljs-number">3</span>, username = <span class="hljs-string">"Ipsum"</span>, email = <span class="hljs-string">"ipsum@test.test"</span>, avatar = <span class="hljs-string">"https://api.adorable.io/avatars/285/3"</span>}
+  ]
+} </code></pre>
+<h3 id="java-handlers">Java handlers</h3>
+<p>Now let&#39;s define three <a href="https://github.com/Knotx/knotx-server-http#routing-handler">handlers</a> we used above. They&#39;re really simple.</p>
+<p>The <code>static-status</code> handler just returns a response with a given response code:</p>
+<pre class="highlight"><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StaticStatusHandlerFactory</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">RoutingHandlerFactory</span> </span>{
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"static-status"</span>;
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> Handler&lt;RoutingContext&gt; <span class="hljs-title">create</span><span class="hljs-params">(Vertx vertx, JsonObject config)</span> </span>{
+    <span class="hljs-keyword">return</span> routingContext -&gt; routingContext
+        .response()
+        .setStatusCode(config.getInteger(<span class="hljs-string">"code"</span>))
+        .end();
+  }
+}</code></pre>
+<p>Nothing to explain here. The <code>static-json</code> handlers just read its <code>json</code> property from the configuration, parses it to a JSON string and returns it:</p>
+<pre class="highlight"><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StaticJsonHandlerFactory</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">RoutingHandlerFactory</span> </span>{
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"static-json"</span>;
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> Handler&lt;RoutingContext&gt; <span class="hljs-title">create</span><span class="hljs-params">(Vertx vertx, JsonObject config)</span> </span>{
+    <span class="hljs-keyword">return</span> routingContext -&gt; {
+      Object json = config.getMap().get(<span class="hljs-string">"json"</span>);
+      routingContext.response().end(encodeJson(json));
+    };
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">encodeJson</span><span class="hljs-params">(Object object)</span> </span>{
+    <span class="hljs-keyword">if</span> (object <span class="hljs-keyword">instanceof</span> JsonObject) {
+      <span class="hljs-keyword">return</span> ((JsonObject) object).encode();
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (object <span class="hljs-keyword">instanceof</span> JsonArray) {
+      <span class="hljs-keyword">return</span> ((JsonArray) object).encode();
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">"Can't encode non-json object as JSON"</span>);
+    }
+  }
+}</code></pre>
+<p>One thing that may look suspicious is the <code>encodeJson</code> method. It just calls the <code>encode</code> method on either <code>JsonObject</code> or <code>JsonArray</code> read from configuration. Its needed because, unfortunately, those classes don&#39;t share any interface with the <code>encode</code> method.</p>
+<p>Last is the <code>admin-info</code> handler. It reads request query parameters and checks for the value of <code>datatype</code> param. It then returns hardcoded data in the form depending on its value:</p>
+<pre class="highlight"><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AdminInfoHandlerFactory</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">RoutingHandlerFactory</span> </span>{
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"admin-info"</span>;
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> Handler&lt;RoutingContext&gt; <span class="hljs-title">create</span><span class="hljs-params">(Vertx vertx, JsonObject config)</span> </span>{
+    <span class="hljs-keyword">return</span> routingContext -&gt; {
+      RequestContext requestContext = routingContext.get(RequestContext.KEY);
+      ClientRequest clientRequest = requestContext.getRequestEvent().getClientRequest();
+
+      String type = clientRequest.getParams().get(<span class="hljs-string">"datatype"</span>);
+      respondByType(routingContext.response(), type);
+    };
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">respondByType</span><span class="hljs-params">(HttpServerResponse response, String type)</span> </span>{
+    String contentType = <span class="hljs-string">"text/plain"</span>;
+    String content = <span class="hljs-string">""</span>;
+
+    <span class="hljs-keyword">if</span> (<span class="hljs-string">"json"</span>.equals(type)) {
+      contentType = <span class="hljs-string">"application/json"</span>;
+      content = <span class="hljs-string">"{\"admin\": false}"</span>;
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-string">"xml"</span>.equals(type)) {
+      contentType = <span class="hljs-string">"application/xml"</span>;
+      content = <span class="hljs-string">"&lt;?xml version=\"1.0\" encoding=\"UTF-8\"?&gt;&lt;IsAdmin&gt;&lt;admin&gt;false&lt;/admin&gt;&lt;/IsAdmin&gt;"</span>;
+    }
+
+    response
+        .putHeader(<span class="hljs-string">"Content-Type"</span>, contentType)
+        .end(content);
+  }
+}</code></pre>
+<p>Note that our <code>if..else</code> statement doesn&#39;t have any case for when the parameter is neither <code>json</code> nor <code>xml</code>. That&#39;s because this handler won&#39;t even be called in such a case. Knot.x will return <code>400 Bad Request</code> response, because of our schema in <code>openapi.yaml</code>.</p>
+<blockquote>
+<p>While Knot.x validates requests based on OpenAPI schemas and handles incorrect cases, there is no such validation for responses. Handlers are responsible for delivering correct data and not breaking the contract.</p>
+</blockquote>
+<p>Remember about adding our handlers to service loader in META-INF.</p>
+<h2 id="swagger-ui">Swagger UI</h2>
+<p>Our application is basically working. If you run it should be able to call our endpoints. For example:</p>
+<pre class="highlight"><code class="hljs bash">curl -X GET <span class="hljs-string">"http://localhost:8092/api/future-feature"</span></code></pre>
+<p>Should return <code>501</code> because we didn&#39;t define any handlers for it. Or:</p>
+<pre class="highlight"><code class="hljs bash">curl -X GET <span class="hljs-string">"http://localhost:8092/api/user/isadmin?datatype=xml"</span></code></pre>
+<p>Should return an XML that looks like this:</p>
+<pre class="highlight"><code class="hljs xml"><span class="hljs-meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">IsAdmin</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">admin</span>&gt;</span>false<span class="hljs-tag">&lt;/<span class="hljs-name">admin</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">IsAdmin</span>&gt;</span></code></pre>
+<p>However, we can use <a href="https://swagger.io/tools/swagger-ui/">Swagger UI</a> to make even better use of our <code>openapi.yaml</code> file. It&#39;s an interactive tool that lists all of our endpoints in a nice to look way and allows us to test them. It&#39;s a web application so we have to serve it on some endpoint. First, let&#39;s create an HTML file that will display Swagger UI. Note that it&#39;s recommended that you use non-standalone version if possible (or even a React component version, if your frontend uses React). It requires frontend build tools, though, so for simplicity, we&#39;ll use a standalone version hosted on <a href="https://unpkg.com/">unpkg.com</a>. </p>
+<p>Let&#39;s create <code>resources/webroot/swagger/index.html</code> file:</p>
+<pre class="highlight"><code class="hljs xml"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1.0"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"X-UA-Compatible"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"ie=edge"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Swagger UI<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/css"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://unpkg.com/swagger-ui-dist@3.24.0/swagger-ui.css"</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/swagger-ui-dist@3.24.0/swagger-ui-standalone-preset.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/swagger-ui-dist@3.24.0/swagger-ui-bundle.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"swagger-ui"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+    <span class="hljs-comment">// initialize SwaggerUI on window load</span>
+    <span class="hljs-built_in">window</span>.onload = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+      <span class="hljs-built_in">window</span>.ui = SwaggerUIBundle({
+        <span class="hljs-attr">url</span>: <span class="hljs-string">"/swagger/spec"</span>,
+        <span class="hljs-attr">dom_id</span>: <span class="hljs-string">'#swagger-ui'</span>,
+        <span class="hljs-attr">deepLinking</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">presets</span>: [
+          SwaggerUIBundle.presets.apis,
+          SwaggerUIBundle.SwaggerUIStandalonePreset
+        ],
+        <span class="hljs-attr">plugins</span>: [
+          SwaggerUIBundle.plugins.DownloadUrl
+        ]
+      })
+    }
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span> </code></pre>
+<p>Most of the code here is a Swagger UI specific configuration needed for it to run. For more explanation check the <a href="https://github.com/swagger-api/swagger-ui">Swagger UI docs</a>. One important thing is the <code>url: &quot;/swagger/spec&quot;</code> part. It&#39;s an URL that Swagger UI will call to retrieve the OpenAPI specification file. We will expose the <code>openapi.yaml</code> file under this path.</p>
+<p>Let&#39;s add two endpoints to the <code>openapi.yaml</code> file that will serve our <code>index.html</code> file and the <code>openapi.yaml</code> file itself:</p>
+<pre class="highlight"><code class="hljs yaml"><span class="hljs-string">/swagger/spec:</span>
+<span class="hljs-attr">  get:</span>
+<span class="hljs-attr">    operationId:</span> <span class="hljs-string">openapi-operation</span>
+<span class="hljs-attr">    responses:</span>
+<span class="hljs-attr">      default:</span>
+<span class="hljs-attr">        description:</span> <span class="hljs-string">exposes</span> <span class="hljs-string">openapi</span> <span class="hljs-string">spec</span> <span class="hljs-string">file</span> <span class="hljs-string">to</span> <span class="hljs-string">be</span> <span class="hljs-string">consumed</span> <span class="hljs-string">by</span> <span class="hljs-string">swagger</span> <span class="hljs-string">ui</span>
+<span class="hljs-string">/swagger/ui:</span>
+<span class="hljs-attr">  get:</span>
+<span class="hljs-attr">    operationId:</span> <span class="hljs-string">swaggerui-operation</span>
+<span class="hljs-attr">    responses:</span>
+<span class="hljs-attr">      default:</span>
+<span class="hljs-attr">        description:</span> <span class="hljs-string">swagger-ui</span> <span class="hljs-string">web</span> <span class="hljs-string">app</span></code></pre>
+<p>And define the operations in <code>operations.conf</code>:</p>
+<pre class="highlight"><code class="hljs ruby">{
+  operationId = openapi-operation
+  handlers = [
+    {
+      name = static
+      config.webroot = openapi.yaml
+    }
+  ]
+}
+{
+  operationId = swaggerui-operation
+  handlers = [
+    {
+      name = static
+      config.webroot = webroot/swagger/
+    }
+  ]
+}</code></pre>
+<p>The first operation serves the <code>openapi.yaml</code> file from as a static resource and the second operation serves the Swagger UI web app. Now we need to define <code>static</code> handler. It just serves static resources from a classpath:</p>
+<pre class="highlight"><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StaticHandlerFactory</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">RoutingHandlerFactory</span> </span>{
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"static"</span>;
+  }
+
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> Handler&lt;RoutingContext&gt; <span class="hljs-title">create</span><span class="hljs-params">(Vertx vertx, JsonObject config)</span> </span>{
+    <span class="hljs-keyword">return</span> StaticHandler.create(config.getString(<span class="hljs-string">"webroot"</span>));
+  }
+}</code></pre>
+<p>Remember about updating the META-INF.</p>
+<h3 id="using-swagger-ui">Using Swagger UI</h3>
+<p>We&#39;re done. After you run the application you can go to <code>http://localhost:8092/swagger/ui</code> in your browser. It&#39;ll download the <code>openapi.yaml</code> file from the <code>/swagger/spec</code> path, parse it and display the graphical interface.</p>
+<p>Top part should look like this:</p>
+<p><img src="/img/blog/openapi-and-swagger-ui/swagger-ui-top.png" alt="Top part of Swagger UI interface"></p>
+<p>It shows some metadata we specified in the OpenAPI file. It also allows us to choose a server and its variables that we defined. It&#39;s used for testing the endpoints.</p>
+<p>The next part shows the list of all endpoints and their methods:</p>
+<p><img src="/img/blog/openapi-and-swagger-ui/swagger-ui-endpoints.png" alt="Swagger UI endpoints"></p>
+<p>We can see <code>summary</code> is displayed here as well. We can also clearly see that <code>POST /api/user</code> is deprecated. Let&#39;s click on the <code>GET /api/user/isadmin</code> endpoint. You should see all the information about this endpoint. It consumes one required query parameter <code>datatype</code> that can either be <code>json</code> or <code>xml</code>. It can also return one of those two content types. Example responses are also provided. You can click on the <code>Try it out</code> button, specify the query parameter and <code>Execute</code>. Swagger UI will call this endpoint and show you the response. Curl commands are also provided. Swagger UI can handle many things, such as image uploading or even different types of authorization. You can read more about it <a href="https://swagger.io/tools/swagger-ui/">here</a>.</p>
+<p>If you scroll down you&#39;ll see the <code>Schemas</code> section:</p>
+<p><img src="/img/blog/openapi-and-swagger-ui/swagger-ui-schemas.png" alt="Swagger UI schemas"></p>
+<p>All schemas defined in <code>components</code> section can be viewed here. You cannot see schemas defined in an &#39;inline&#39; way here. This is an important distinction.</p>
+<h2 id="summing-up">Summing up</h2>
+<p>There are also other tools that can greatly improve your experience with OpenAPI (check out <a href="https://openapi.tools/">this list</a>). Because Knot.x uses open standards you can easily transfer your knowledge between frameworks and make use of existing tools. In this tutorial we exposed our OpenAPI specification to be consumed by Swagger UI but, you could, for example, share it with your API clients or even get the specification file from someone you&#39;re constructing the API for. There exist tools that can generate code based on an OpenAPI file. Such things are not needed with Knot.x, because this standard is already a part of it.</p>
+
+          </section>
+        </article>
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_config = function () {
+        this.page.url = "https://knotx.io/tutorials/openapi-and-swagger-ui/2_0/";
+        this.page.identifier = "dd0032754bd1676e7fb076a125db3a1d";
+        };
+        (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = '//knotx-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+    </div>
+</div>
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+         <p>Knot.x is <a href="https://github.com/Knotx/knotx">open source</a> and is licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0 License</a>.</p>
+      </div>
+      <div class="col-sm-5 col-sm-offset-1 text-right">
+        <p>Knot.x is brought to you with the support of <img src="/img/Cognified_Logo_white.png" alt="Cognifide"/></p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script defer="defer"  src="/scripts/vendor/jquery.min.js"></script><script defer="defer"  src="/scripts/vendor/bootstrap.min.js"></script><script defer="defer"  src="/scripts/vendor/highlight.pack.js"></script><script defer="defer"  src="/scripts/knotx.js"></script><script defer="defer"  src="/scripts/vendor/jquery.qtip.min.js"></script><script defer="defer"  src="/scripts/hovermap.js"></script>
+
+
+  </body>
+</html>

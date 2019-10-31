@@ -6,11 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Knot.x Website">
   <meta name="keywords" content="knotx, vertx, reactive, asynchronous, templating, java, polyglot, cms, tutorial">
-  <title>Caching Proxy</title>
+  <title>API Gateway: Caching</title>
 
-  <meta property="og:title" content="Caching Proxy"/>
+  <meta property="og:title" content="API Gateway: Caching"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:url" content="https://knotx.io/tutorials/caching-proxy/2_0/"/>
+  <meta property="og:url" content="https://knotx.io/tutorials/api-gateway-caching/2_0/"/>
   <meta property="og:site_name" content="Knot.x Website"/>
   <meta property="og:description" content="Knot.x Website"/>
   <meta property="og:image" content="https://knotx.io/img/logo-240x240.png"/>
@@ -93,7 +93,7 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-12">
-        <h1>Caching Proxy</h1>
+        <h1>API Gateway: Caching</h1>
       </div>
     </div>    
   </div>
@@ -112,7 +112,7 @@
 
   <div class="post-versions">    
     
-      <a class="post-btn" href="/tutorials/caching-proxy/2_0/">2.0.0</a>
+      <a class="post-btn" href="/tutorials/api-gateway-caching/2_0/">2.0.0</a>
     
   </div>
 </header>
@@ -401,50 +401,44 @@ docker.image.name=knotx-example<span class="hljs-regexp">/api-cache</span></code
 <p>Make sure that the <code>volume</code> property from <code>./api-cache.yml</code> points to the <code>./common-services/webapi</code> directory. </p>
 <p>Note the <a href="http://wiremock.org/docs/response-templating/">response templating</a> usage in <code>product.json</code>. Each response from Wiremock will have some unique content: timestamp and some random string - an excellent way to demonstrate caching functionality!</p>
 <h2 id="build-and-run">Build and run</h2>
-<p>From project level directory execute following commands which will build project and run Docker Swarm:
-<code>`</code>shell script
-$ gradlew clean build
-$ docker swarm init
-$ docker stack deploy -c api-cache.yml api-cache</p>
-<pre class="highlight"><code class="hljs smali">
-After a while the stack will be deployed<span class="hljs-built_in"> and </span>both `wiremock` (port `3000`)<span class="hljs-built_in"> and </span>`api-cache` (port `8092`) containers should be up. Now you can<span class="hljs-built_in"> invoke </span>Wiremock's<span class="hljs-built_in"> and </span>Knot.x's endpoints:
-</code></pre><blockquote>
-<p>curl -X GET <a href="http://localhost:3000/product/id">http://localhost:3000/product/id</a>
-{
-  &quot;id&quot;: 21762532,
-  &quot;url&quot;: &quot;<a href="http://knotx.io&quot;">http://knotx.io&quot;</a>,
-  &quot;label&quot;: &quot;Product&quot;,
-  &quot;currentTime&quot;: &quot;2019-10-29 13:57:51&quot;,
-  &quot;promoCode&quot;: &quot;1tpm41&quot;
-}
-curl -X GET <a href="http://localhost:3000/product/id">http://localhost:3000/product/id</a>
-{
-  &quot;id&quot;: 21762532,
-  &quot;url&quot;: &quot;<a href="http://knotx.io&quot;">http://knotx.io&quot;</a>,
-  &quot;label&quot;: &quot;Product&quot;,
-  &quot;currentTime&quot;: &quot;2019-10-29 13:57:57&quot;,
-  &quot;promoCode&quot;: &quot;ymhvkg&quot;
-}</p>
-</blockquote>
+<p>From project level directory execute following commands which will build project and run Docker Swarm:</p>
+<pre class="highlight"><code class="hljs elixir"><span class="hljs-variable">$ </span>gradlew clean build
+<span class="hljs-variable">$ </span>docker swarm init
+<span class="hljs-variable">$ </span>docker stack deploy -c api-cache.yml api-cache</code></pre><p>After a while the stack will be deployed and both <code>wiremock</code> (port <code>3000</code>) and <code>api-cache</code> (port <code>8092</code>) containers should be up. Now you can invoke Wiremock&#39;s and Knot.x&#39;s endpoints:</p>
 <blockquote>
-<p>curl -X GET <a href="http://localhost:8092/product/id">http://localhost:8092/product/id</a>
-{
-  &quot;id&quot; : 21762532,
-  &quot;url&quot; : &quot;<a href="http://knotx.io&quot;">http://knotx.io&quot;</a>,
-  &quot;label&quot; : &quot;Product&quot;,
-  &quot;currentTime&quot; : &quot;2019-10-29 13:58:09&quot;,
-  &quot;promoCode&quot; : &quot;y8v7u2&quot;
+<p>curl -X GET <a href="http://localhost:3000/product/id">http://localhost:3000/product/id</a></p>
+<pre class="highlight"><code class="hljs awk">{
+  <span class="hljs-string">"id"</span>: <span class="hljs-number">21762532</span>,
+  <span class="hljs-string">"url"</span>: <span class="hljs-string">"http://knotx.io"</span>,
+  <span class="hljs-string">"label"</span>: <span class="hljs-string">"Product"</span>,
+  <span class="hljs-string">"currentTime"</span>: <span class="hljs-string">"2019-10-29 13:57:51"</span>,
+  <span class="hljs-string">"promoCode"</span>: <span class="hljs-string">"1tpm41"</span>
 }
-curl -X GET <a href="http://localhost:8092/product/id">http://localhost:8092/product/id</a>
+curl -X GET http:<span class="hljs-regexp">//</span>localhost:<span class="hljs-number">3000</span><span class="hljs-regexp">/product/i</span>d
 {
-  &quot;id&quot; : 21762532,
-  &quot;url&quot; : &quot;<a href="http://knotx.io&quot;">http://knotx.io&quot;</a>,
-  &quot;label&quot; : &quot;Product&quot;,
-  &quot;currentTime&quot; : &quot;2019-10-29 13:58:09&quot;,
-  &quot;promoCode&quot; : &quot;y8v7u2&quot;
+  <span class="hljs-string">"id"</span>: <span class="hljs-number">21762532</span>,
+  <span class="hljs-string">"url"</span>: <span class="hljs-string">"http://knotx.io"</span>,
+  <span class="hljs-string">"label"</span>: <span class="hljs-string">"Product"</span>,
+  <span class="hljs-string">"currentTime"</span>: <span class="hljs-string">"2019-10-29 13:57:57"</span>,
+  <span class="hljs-string">"promoCode"</span>: <span class="hljs-string">"ymhvkg"</span>
+}</code></pre></blockquote>
+<blockquote>
+<p>curl -X GET <a href="http://localhost:8092/product/id">http://localhost:8092/product/id</a></p>
+<pre class="highlight"><code class="hljs awk">{
+  <span class="hljs-string">"id"</span> : <span class="hljs-number">21762532</span>,
+  <span class="hljs-string">"url"</span> : <span class="hljs-string">"http://knotx.io"</span>,
+  <span class="hljs-string">"label"</span> : <span class="hljs-string">"Product"</span>,
+  <span class="hljs-string">"currentTime"</span> : <span class="hljs-string">"2019-10-29 13:58:09"</span>,
+  <span class="hljs-string">"promoCode"</span> : <span class="hljs-string">"y8v7u2"</span>
 }
-<code>`</code></p>
-</blockquote>
+curl -X GET http:<span class="hljs-regexp">//</span>localhost:<span class="hljs-number">8092</span><span class="hljs-regexp">/product/i</span>d
+{
+  <span class="hljs-string">"id"</span> : <span class="hljs-number">21762532</span>,
+  <span class="hljs-string">"url"</span> : <span class="hljs-string">"http://knotx.io"</span>,
+  <span class="hljs-string">"label"</span> : <span class="hljs-string">"Product"</span>,
+  <span class="hljs-string">"currentTime"</span> : <span class="hljs-string">"2019-10-29 13:58:09"</span>,
+  <span class="hljs-string">"promoCode"</span> : <span class="hljs-string">"y8v7u2"</span>
+}</code></pre></blockquote>
 <p>You should be able to receive a HTTP response at <a href="localhost:3000/product/id"><code>localhost:3000/product/id</code></a>. This is the endpoint served by Wiremock. The response is different with each request - it&#39;s not cached.</p>
 <p>If you invoke Knot.x at <a href="localhost:8092/product/id"><code>localhost:8092/product/id</code></a> and refresh it a few times, you can see that neither the timestamp nor the random string in the JSON response changes - we have successfully cached external API response!</p>
 <h2 id="summary">Summary</h2>
@@ -461,7 +455,7 @@ caching or circuit breaker. </p>
         <div id="disqus_thread"></div>
         <script>
         var disqus_config = function () {
-        this.page.url = "https://knotx.io/tutorials/caching-proxy/2_0/";
+        this.page.url = "https://knotx.io/tutorials/api-gateway-caching/2_0/";
         this.page.identifier = "dd0032754bd1676e7fb076a125db3a1d";
         };
         (function() { // DON'T EDIT BELOW THIS LINE
