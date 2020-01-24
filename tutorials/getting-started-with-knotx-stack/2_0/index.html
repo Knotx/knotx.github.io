@@ -141,10 +141,10 @@
 <p>Please note that the support for ZIP distribution was added <a href="https://github.com/Knotx/knotx-starter-kit/pull/17">here</a>. If your version does not contain those changes you can easily apply them with upgrade notes.</p>
 <p>Project has the following structure:</p>
 <pre class="highlight"><code class="hljs lasso">├── docker
-|   ├── Dockerfile                <span class="hljs-comment">// Docker file with image definition.</span>
+|   ├── Dockerfile                <span class="hljs-comment">// Docker file with image definition. It will be not used in this tutorial.</span>
 ├── functional                    <span class="hljs-comment">// Keep here your functional tests. Example implementation included</span>
 ├── gradle                        <span class="hljs-comment">// Gradle wrapper and common gradle scripts</span>
-├── knotx/conf                    <span class="hljs-comment">// Knotx configuration which will be copied to docker image</span>
+├── knotx/conf                    <span class="hljs-comment">// Knotx configuration which will be copied to distribution ZIP</span>
 ├── modules                       <span class="hljs-comment">// Sub-modules of your project</span>
 │   ├── <span class="hljs-params">...</span>                       <span class="hljs-comment">// example modules implementation</span></code></pre><h2 id="configure-api-specify-path-and-method">Configure API: specify path and method</h2>
 <p>When it comes to API development, two approaches are available: The “Design First” and the “Code First”. You can read more details <a href="https://swagger.io/blog/api-design/design-first-or-code-first-api-development/">here</a> to understand the differences between them. Knot.x uses the Design First approach focusing on developer experience and API design quality. It uses the <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md">OpenAPI 3.0 specification</a> to configure HTTP request routing.</p>
