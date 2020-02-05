@@ -165,7 +165,7 @@ The JWT allows verifying the owner of some JSON data. The JSON data stored in a 
         <span class="hljs-string">'200'</span><span class="hljs-string">:</span>
 <span class="hljs-attr">          description:</span> <span class="hljs-string">Hello</span> <span class="hljs-string">World</span> <span class="hljs-string">API</span> <span class="hljs-string">protected</span> <span class="hljs-string">with</span> <span class="hljs-string">JWT</span>
         <span class="hljs-string">'401'</span><span class="hljs-string">:</span>
-<span class="hljs-attr">          description:</span> <span class="hljs-string">Anauthorized</span> <span class="hljs-string">access</span></code></pre>
+<span class="hljs-attr">          description:</span> <span class="hljs-string">Unauthorized</span> <span class="hljs-string">access</span></code></pre>
 <p>Notice different responses defined for the secured endpoint. For more info on different responses see <a href="/tutorials/openapi-and-swagger-ui/2_0/">this tutorial</a>.</p>
 <p>Now let&#39;s create security scheme definitions. We&#39;ll place it in a separate place in the same file as above in <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#componentsObject"><code>components</code></a> section. For now we&#39;ll have only one <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#securitySchemeObject"><code>securityScheme</code></a> called <code>helloJwtAuth</code>:</p>
 <pre class="highlight"><code class="hljs yaml"><span class="hljs-attr">components:</span>
@@ -363,7 +363,7 @@ Unauthorized</code></pre><p>We were not authorized to access this endpoint.</p>
          <p>Knot.x is <a href="https://github.com/Knotx/knotx">open source</a> and is licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0 License</a>.</p>
       </div>
       <div class="col-sm-5 col-sm-offset-1 text-right">
-        <p>Knot.x is brought to you with the support of <img src="/img/Cognified_Logo_white.png" alt="Cognifide"/></p>
+        <p>Knot.x is brought to you with the support of <img src="/img/Cognifide_WT_Logo.png" alt="Cognifide"/></p>
       </div>
     </div>
   </div>
