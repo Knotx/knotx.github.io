@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Presentation of our open source Chrome extension for Knot.x Fragments. Available also in a video format.">
+  <meta name="keywords" content="knotx, vertx, reactive, asynchronous, templating, java, polyglot, cms, tutorial">
+  <title>Using Knot.x Chrome Extension for Fragments Debugging</title>
+
+  <meta property="og:title" content="Using Knot.x Chrome Extension for Fragments Debugging"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="https://knotx.io/tutorials/chrome-extension/2_2/"/>
+  <meta property="og:site_name" content="Knot.x Website"/>
+  <meta property="og:description" content="Presentation of our open source Chrome extension for Knot.x Fragments. Available also in a video format."/>
+  <meta property="og:image" content="https://knotx.io/img/logo-240x240.png"/>
+
+  <link rel="apple-touch-icon" sizes="57x57" href="/img/favicons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/img/favicons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/img/favicons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/img/favicons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/img/favicons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/img/favicons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/img/favicons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/favicons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicons/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/img/favicons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicons/favicon-16x16.png">
+  <link rel="manifest" href="/img/favicons/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/img/favicons/ms-icon-144x144.png">
+  <meta name="theme-color" content="#9f136c">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Montserrat:200,300,400,500,700|Ubuntu:300,400,500,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link  rel="stylesheet" href="/styles/bootstrap.css" /><link  rel="stylesheet" href="/styles/github.css" /><link  rel="stylesheet" href="/styles/knotx.css" />
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+  <body >
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-92165781-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    <!-- Header -->
+<header class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/img/logo-knotx.png" class="navbar-brand-logo" alt="Knot.x Logo"/>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        
+        <li><a href="/download/">Download</a></li>
+        
+        <li><a href="/tutorials/">Tutorials</a></li>
+        
+        <li><a href="https://github.com/Knotx/knotx/issues">Issues</a></li>
+        
+        <li><a href="/documentation/">Documentation</a></li>
+        
+        <li><a href="/community/">Community</a></li>
+        
+        <li><a href="/blog/">Blog</a></li>
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</header>
+
+    <!-- Content Header -->
+<div class="content-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>Using Knot.x Chrome Extension for Fragments Debugging</h1>
+      </div>
+    </div>    
+  </div>
+  
+</div>
+
+<div class="container flex blog">
+    <div class="row">
+      <div class="col-sm-12">
+        <article>
+          <header class="meta">
+  <a class="meta-item" href="https://github.com/Voycawojka">Filip Kowalski</a>
+  <time class="meta-item date"
+        datetime="2020-05-06">May 6th, 2020
+  </time>
+
+  <div class="post-versions">    
+    
+      <a class="post-btn" href="/tutorials/chrome-extension/2_2/">2.2</a>
+    
+  </div>
+</header>
+
+          <section class="post">
+            <h2 id="overview">Overview</h2>
+<p>In this tutorial, we&#39;ll go through a process of implementing a page populated with dynamic data using <a href="https://github.com/Knotx/knotx-fragments">Fragments</a> and <a href="https://github.com/Knotx/knotx-fragments-chrome-extension">Fragments Chrome Extension</a>.
+In this post, we&#39;ll focus on a relationship between Fragments and the Chrome Extension so you should already know how to <a href="https://knotx.io/tutorials/getting-started-with-knotx-stack/2_0/">set up a project</a> and preferably have at least basic understanding of what Fragments are (although it&#39;s not necessary).</p>
+<p>You&#39;ll learn how to:</p>
+<ul>
+<li>integrate with 3rd party APIs</li>
+<li>design a data flow architecture with Fragments</li>
+<li>visualize and debug the flow with the Fragments Chrome Extension</li>
+</ul>
+<p>This tutorial is also available as a video:</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/EWoHqzYGv0w" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<h2 id="fragments">Fragments</h2>
+<p>Before explaining what the Extension can help us with, we need to recall what Fragments are. In abstract terms, they are a mechanism for describing data flow and are used primarily to compose data from various sources, e.g. integrate with third-party services (APIs), cloude cache or datatbases. We can use them to define graphs (trees), where each node acts either retrieving or processing data. Those graphs are then evaluated by Knot.x.</p>
+<p>For example, imagine a scenario where we need to display what weather is in the user&#39;s location. We have a service that can tell us about the user&#39;s preferred format (e.g. Celsius or Fahrenheit) and another service for retrieving actual weather information based on the specified format. Fragments make this case trivial. Here&#39;s how the simplest case could look like:</p>
+<p><img src="/img/blog/chrome-extension/fragments-example.png" alt="Fragments Example"></p>
+<p>There are three nodes defined. First for fetching user&#39;s preferred format, second for fetching weather, and third for rendering the fragment. When a node is finished it chooses a state (e.g. <em>success</em>, represented by the color green) and then triggers the next node based on its edges. A node with a <em>success</em> state triggers the node defined in its <code>_success</code> edge.</p>
+<p>If we want to handle errors (e.g. one of the services returns code 500) we can just define additional edges that are triggered when an action fails. All of this without writing a single line of code.</p>
+<h2 id="fragments-chrome-extension">Fragments Chrome Extension</h2>
+<p>The Fragments Chrome Extension is an open-source tool for visualizing and debugging fragments. If you enable debug mode, the rendered HTML page (or JSON in case of a restful API) is injected with additional data about fragments processing, that can be read by the extension. The tool displays information about:</p>
+<ul>
+<li>the execution time of fragments and individual nodes inside them</li>
+<li>fragments&#39; structure (in fact, the diagram above is a screenshot from the tool)</li>
+<li>data flow in the graph</li>
+<li>additional data for individual nodes, e.g. a response a node got from a service</li>
+</ul>
+<p>The usage of the extension is explained throughout this tutorial. You can download it (TODO: link to the chrome store).</p>
+<h2 id="writing-a-simple-fragment">Writing a simple fragment</h2>
+<p>As already mentioned, we won&#39;t be going into details about how to set up the project. In this tutorial, we model a scenario where an incoming request triggers fetching an HTML page content from some external content repository (like CMS, e.g. AEM or Wordpress). The rendered HTML page looks like this:</p>
+<p><img src="/img/blog/chrome-extension/raw-page.png" alt="Raw Page"></p>
+<p>As you can see, it&#39;s not even processed right now. There is a raw templating engine markup rendered. In code, it&#39;s just a plain HTML with two Knot.x snippets inside. One of them contains markup for the User Details section, and the other for Payment Providers and Offers sections. It&#39;s worth noting that while the first snippet uses <a href="https://handlebarsjs.com/">Handlebars</a>, the second one uses <a href="https://pebbletemplates.io/">Pebble</a> templating engine. It&#39;s possible for multiple markups to exist in the same HTML file because snippets are processed independently from each other.</p>
+<p>This is how the first snippet looks like in code:</p>
+<pre class="highlight"><code class="hljs handlebars"><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">knotx:snippet</span> <span class="hljs-attr">data-knotx-task</span>=<span class="hljs-string">"user-task"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>User details<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Id: </span><span class="hljs-template-variable">{{fetch-user-info._result.id}}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Name: </span><span class="hljs-template-variable">{{fetch-user-info._result.first_name}}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Surname: </span><span class="hljs-template-variable">{{fetch-user-info._result.last_name}}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Email: </span><span class="hljs-template-variable">{{fetch-user-info._result.email}}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">knotx:snippet</span>&gt;</span></span></code></pre>
+<p>The most important thing here is the <code>data-knotx-task</code> declaration. It provides information about what <a href="https://github.com/Knotx/knotx-fragments/tree/master/engine#task">task</a> should process this snippet. In this context &quot;task&quot; basically means &quot;graph&quot;. In order for this snippet to be processed by Knot.x Fragments, we need to define a task called <code>user-task</code>. Detailed instructions on how to create a configuration for Fragments can be found in the <a href="https://github.com/Knotx/knotx-fragments/tree/master/handler">Fragments Handler Documentation</a>.</p>
+<p>Let&#39;s start with the following task:</p>
+<pre class="highlight"><code class="hljs ruby">user-task {
+  action = fetch-user-info
+}</code></pre>
+<p>We defined <code>user-task</code> as an object that represents a root node of the graph. Right now, this node contains a single property <code>action</code> that defines what action this node is supposed to call.</p>
+<p>In this tutorial, we are using mocks with JSON data, so fetching a user should call an appropriate endpoint via HTTP. This is the configuration for the <code>fetch-user-info</code> action:</p>
+<pre class="highlight"><code class="hljs undefined">fetch-user-info {
+  factory = http
+  config.endpointOptions {
+    path = /user
+    domain = webapi
+    port = 8080
+  }
+}</code></pre>
+<p>The most important property to explain is the <code>factory</code> property. It defines which factory should produce the action (thanks to the SPI under the hood). For simplicity, think of the <code>factory</code> value as the type of action. In the example, we use the factory that can produce the <code>http</code> action - a built-in action that calls a specified address and retrieves data from it. The <code>config.endpointOptions</code> property should be self-explanatory. In case you&#39;re wondering why the domain is defined as <code>webapi</code> - this example runs as a docker swarm configured so that mocks are available at this host. If you&#39;re not using docker, it&#39;d be localhost.</p>
+<p>Note that we can also write and register our own factories, but it&#39;s not in the scope of this tutorial.</p>
+<p>If we were to leave the configuration like this we would only fetch data without actually returning anything. We want to render a page though, so we need another node in our task. When the first node succeeds (so user data is fetched), we want to call a node that renders a fragment. This is the updated code for the <code>user-task</code>:</p>
+<pre class="highlight"><code class="hljs ruby">user-task {
+  action = fetch-user-info
+  on._success {
+    action = te-hbs
+  }
+}</code></pre>
+<p>The <code>on</code> object contains all transitions (graph edges) we want to be able to handle. The format looks like this:</p>
+<pre class="highlight"><code class="hljs undefined">on {
+  transition1 { node1 }
+  transition2 = node2
+  // ...
+}</code></pre>
+<p>In this case we define that after a node with action <code>fetch-user-info</code> Knot.x should call a node with action <code>te-hbs</code>. This action will render the fragment using handlebars. This is how it looks like:</p>
+<pre class="highlight"><code class="hljs ruby">te-hbs {
+  factory = knot
+  config.address = knotx.knot.te.handlebars
+}</code></pre>
+<p>Perhaps not what you were expecting. The <code>knot</code> factory allows for registering actions on the <a href="https://vertx.io/docs/vertx-core/java/#event_bus">Vert.x Event Bus</a>, thus providing more scalability. Knot actions delegate the processing to whatever is defined at the address. With that, we can fully utilise CPU resources (horizontal scaling) or use cluster mode to deploy modules vertically (on different machines) not affecting the graph simplicity.</p>
+<p>Here&#39;s how the actual handlebars configuration looks like:</p>
+<pre class="highlight"><code class="hljs ruby">modules {
+  hbsTemplateEngine = <span class="hljs-string">"io.knotx.te.core.TemplateEngineKnot"</span>
+}
+
+config.hbsTemplateEngine.options {
+  instances = <span class="hljs-number">4</span>
+
+  config {
+    address = knotx.knot.te.handlebars
+
+    engine {
+      factory = handlebars
+
+      config = {
+        cacheSize = <span class="hljs-number">1000</span>
+      }
+    }
+  }
+}</code></pre>
+<p>The entire configuration for the first snippet:</p>
+<pre class="highlight"><code class="hljs undefined">// tasks.conf
+
+user-task {
+  action = fetch-user-info
+  on._success {
+    action = te-hbs
+  }
+}
+
+// actions.conf
+
+fetch-user-info {
+  factory = http
+  config.endpointOptions {
+    path = /user
+    host = webapi
+    port = 8080
+  }
+}
+te-hbs {
+  factory = knot
+  config.address = knotx.knot.te.handlebars
+}</code></pre>
+<p>Now the User Details section of the first snippet should render like this:</p>
+<p><img src="/img/blog/chrome-extension/filled-user-details.png" alt="Rendered User Details"></p>
+<p>Here&#39;s when the chrome extension comes in. If we have <a href="https://github.com/Knotx/knotx-fragments/tree/master/handler/consumer/html">Fragment HTML Body Writer</a> configured
+adequately, the extension can read data about fragments from the HTML page. Assuming the extension is installed, let&#39;s open the inspector and go to the &quot;Knot.x&quot; tab. We can see a list of fragments on the page:</p>
+<p><img src="/img/blog/chrome-extension/list-of-fragments.png" alt="Rendered User Details"></p>
+<p>There are two fragments because we have two Knot.x snippets in HTML. We haven&#39;t defined a task for the second one thus it displays a grey square next to it. It means it wasn&#39;t processed. Ignore it for now and focus on the first one. It&#39;s green so it ended with success. There&#39;s also a randomly generated ID, a type (in this tutorial we define every fragment as &quot;snippet&quot;), and the time it took to process the fragment. If we click on the arrow pointing down next to the ID, we should see a list of top-level HTML elements in the snippet. In this case, it&#39;s just one div. Hover over it to highlight the div on the page.</p>
+<p>Fragment details is the most interesting and useful part of the extension. Click on the fragment on the list to view its details. It should look like this:</p>
+<p><img src="/img/blog/chrome-extension/first-snippet-graph.png" alt="Rendered User Details"></p>
+<p>We can drag and zoom using our mouse. The structure of the displayed graph matches the structure we defined in the <code>user-task</code> task. Click on the <code>fetch-user-info</code> node to see the details of its execution. We can, for example, see what request it sent and exactly what response it got in the <code>response</code> property. We can also view node&#39;s configuration in the <code>operation</code> property.</p>
+<p><img src="/img/blog/chrome-extension/node-details.png" alt="Node Details"></p>
+<p>This snippet was simple so let&#39;s move on to something more advanced.</p>
+<h2 id="writing-a-more-complex-fragment">Writing A More Complex Fragment</h2>
+<p>Now it&#39;s time to handle the second snippet. This is how it looks like in the HTML:</p>
+<pre class="highlight"><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">knotx:snippet</span> <span class="hljs-attr">data-knotx-task</span>=<span class="hljs-string">"payments-task"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Payment providers<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+      {% for provider in data['fetch-payment-providers']._result %}
+      <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Payment provider: {{provider.name}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Payment URL: {{provider.paymentUrl}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+      {% endfor %}
+    <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Offers<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+      {% for offer in data['fetch-offers']._result %}
+      <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Offer: {{offer.method}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Price: {{offer.price}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+      {% endfor %}
+    <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">knotx:snippet</span>&gt;</span></code></pre>
+<p>It contains two sections: Payment Providers and Offers. For the sake of this tutorial, we assume that we retrieve payment information from one service and offers from another. We also assume that both of those sections are user-specific, so we&#39;ll need to fetch information about the user too.</p>
+<p>Property <code>data-knotx-task</code> is defined as <code>payments-task</code> so this snippet will be processed by a task with that name. The most straightforward (although far from ideal) configuration for this task would look like this:</p>
+<pre class="highlight"><code class="hljs ruby">payments-task {
+  action = fetch-user-info
+
+  on._success {
+    action = fetch-payment-providers
+
+    on._success {
+      action = fetch-offers
+
+      on._success {
+        action = te-pebble
+      }
+    }
+  }
+}</code></pre>
+<p>We defined four nodes that execute sequentially one after another. The first one reuses an already defined action called <code>fetch-user-info</code>. There are also <code>fetch-payment-providers</code> and <code>fetch-offers</code> actions that we haven&#39;t defined yet. Finally, in the end, there is a node with <code>te-pebble</code> action. This snippet uses Pebble templating engine so we have to define a new action for rendering it. If it used handlebars we could reuse our <code>te-hbs</code> action.</p>
+<p>New actions we have to define are very similar to what we already have. Both fetching actions have <code>http</code> factory that calls mocks and <code>te-pebble</code> is referencing a knot defined on the event bus. In practice <a href="https://github.com/lightbend/config/blob/master/HOCON.md">HOCON</a> (the language we are writing the configuration in) allows us to use variables and other means of avoiding copy and paste. For this tutorial, we&#39;ll keep it simple though. This is the needed configuration:</p>
+<pre class="highlight"><code class="hljs undefined">fetch-payment-providers {
+  factory = http
+  config.endpointOptions {
+    path = /payments
+    domain = webapi
+    port = 8080
+  }
+}
+fetch-offers {
+  factory = http
+  config.endpointOptions {
+    path = /offers
+    domain = webapi
+    port = 8080
+  }
+}
+te-pebble {
+  factory = knot
+  config.address = knotx.knot.te.pebble
+}</code></pre>
+<p>Nothing we haven&#39;t seen already. When we load the page now we should see that the second snippet is filled with data. In the Knot.x extension we still see two fragments but this time they both have green boxes next to them - both were processed and ended with success. Click the second fragment on the list to view its details:</p>
+<p><img src="/img/blog/chrome-extension/naive-second-snippet.png" alt="Naive Approach"></p>
+<p>It works, but it&#39;s not the best approach. Right now the <code>fetch-offers</code> node waits for the <code>fetch-payment-providers</code> to succeed. There is no reason for that (remember, we assumed that those pieces of information can be retrieved independently). There would also be a problem if <code>fetch-payment-providers</code> failed for some reason. Then <code>fetch-offers</code> would not execute, even if it would be able to retrieve data and show them to the user. It&#39;d be more efficient and safer if those two nodes could execute in parallel.</p>
+<p>There are two types of nodes. Everything we&#39;ve seen up to this point was so-called &quot;single nodes&quot;. They just execute an action. The second type is a composite node. This kind of node contains an array of other root nodes (in fact, those are subgraphs). It executes them in parallel and waits for all of them to complete. If all of them succeed then the composite succeeds. Otherwise, the composite fails. This is how we can reorder our nodes to make use of a composite:</p>
+<pre class="highlight"><code class="hljs ruby">payments-task {
+  action = fetch-user-info
+
+  on._success {
+    actions = [
+      {
+        action = fetch-payment-providers
+      },
+      {
+        action = fetch-offers
+      }
+    ]
+
+    on._success {
+      action = te-pebble
+    }
+  }
+}</code></pre>
+<p>After <code>fetch-user-info</code> succeeds the composite is started to be processed. It calls <code>fetch-payment-providers</code> and <code>fetch-offers</code> in parallel. When both of them succeeds the pebble node starts to be processed. We don&#39;t need to change any actions, because we&#39;ve only modified the structure of the graph and not what we do with data.</p>
+<p>When we load the page now nothing seems to have changed. However, when we open the chrome extension we can see that the second fragment looks like this:</p>
+<p><img src="/img/blog/chrome-extension/composite.png" alt="Composite"></p>
+<p>The white circle represents the beginning of a composite. The second circle is where the composite ended. All subtasks (nodes in the composite) ended with success thus the composite did too. That&#39;s why the second circle is green.</p>
+<p>This is a good moment to introduce the performance tab. When we open the tab called &quot;Performance View&quot; we&#39;ll see a timeline of node execution:</p>
+<p><img src="/img/blog/chrome-extension/timeline.png" alt="Timeline"></p>
+<p>By looking at this it&#39;s clear that <code>fetch-payment-providers</code> and <code>fetch-offers</code> executed simultaneously and that the next node (<code>te-pebble</code>) executed only after both of them finished.</p>
+<p>This is far better from what we had before. There is still room for improvement though. Right now we don&#39;t handle any errors. In a real application errors are unavoidable. Let&#39;s say that the service that we call to retrieve offers has a long response time. We can simulate it by using a mock <code>/timeout</code>. It responds with the same data as <code>/offers</code> but it takes three seconds to do so. Swap the endpoint in the <code>fetch-offers</code> action:</p>
+<pre class="highlight"><code class="hljs undefined">fetch-offers {
+  factory = http
+  config.endpointOptions {
+    path = /timeout
+    domain = webapi
+    port = 8080
+  }
+}</code></pre>
+<p>When we load the page now it should take about three seconds. If we open the Knot.x extension we can immediately spot on the fragment list that the second fragment executed for a long time. When we open the fragments performance view we can see that the problem lays in the composite and specifically in the <code>fetch-offers</code> node.</p>
+<p>What if such a long time is unacceptable? One approach would be to define a timeout in the <code>fetch-offers</code> action. However, we can do better. Knot.x provides us with a built-in implementation of a <a href="https://en.wikipedia.org/wiki/Circuit_breaker_design_pattern">Circuit Breaker Pattern</a>. It does so by a <a href="TODO-find-a-link-to-documentation">Circuit Breaker Factory</a> that acts as a wrapper. Let&#39;s see how it can be configured:</p>
+<pre class="highlight"><code class="hljs ruby">fetch-offers-cb {
+  factory = cb
+  doAction = fetch-offers
+
+  config.circuitBreakerOptions {
+    maxFailures = <span class="hljs-number">3</span>
+    timeout = <span class="hljs-number">500</span>
+    resetTimeout = <span class="hljs-number">20000</span>
+  }
+}</code></pre>
+<p>The circuit breaker calls the <code>fetch-offers</code> action inside of itself (<code>doAction</code> property). If the action failed then the circuit breaker assumes something is wrong and won&#39;t actually call the action next time it&#39;s invoked. It&#39;ll just assume failure instead.</p>
+<p>We defined the following properties:</p>
+<ul>
+<li><code>maxFailures</code> - number of failures it takes for circuit breaker to assume the action is not working</li>
+<li><code>timeout</code> - the circuit breaker will assume failure after this time</li>
+<li><code>resetTimeout</code> - how long the circuit breaker should wait until it&#39;ll allow the action to execute again</li>
+</ul>
+<p>Now we need to adjust the task. This is how it should look like now:</p>
+<pre class="highlight"><code class="hljs properties"><span class="hljs-meta">payments-task</span> <span class="hljs-string">{</span>
+  <span class="hljs-attr">action</span> = <span class="hljs-string">fetch-user-info</span>
+
+  <span class="hljs-meta">on._success</span> <span class="hljs-string">{</span>
+    <span class="hljs-attr">actions</span> = <span class="hljs-string">[</span>
+      <span class="hljs-attr">{</span>
+        <span class="hljs-attr">action</span> = <span class="hljs-string">fetch-payment-providers</span>
+      <span class="hljs-attr">},</span>
+      <span class="hljs-attr">{</span>
+        <span class="hljs-attr">action</span> = <span class="hljs-string">fetch-offers-cb</span>
+      <span class="hljs-attr">}</span>
+    <span class="hljs-attr">]</span>
+
+    <span class="hljs-attr">on</span> <span class="hljs-string">{</span>
+      <span class="hljs-attr">_success</span> <span class="hljs-string">{</span>
+        <span class="hljs-attr">action</span> = <span class="hljs-string">te-pebble</span>
+      <span class="hljs-attr">}</span>
+      <span class="hljs-attr">_error</span> <span class="hljs-string">{</span>
+        <span class="hljs-attr">action</span> = <span class="hljs-string">te-pebble</span>
+      <span class="hljs-attr">}</span>
+    <span class="hljs-attr">}</span>
+  <span class="hljs-attr">}</span>
+<span class="hljs-attr">}</span></code></pre><p>First, we call <code>fetch-offers-cb</code> instead of <code>fetch-offers</code> in the composite. That&#39;s because the <code>fetch-offers</code> action will be called inside of <code>fetch-offers-cb</code>. Also, since we expect the task to fail, the composite should handle the <code>_error</code> transition. It will be called if any subtask ends with anything different than success. In this case, we still want to render the page so we call the <code>te-pebble</code> action.</p>
+<p>When we reload the page we can see that the Offers section is empty. However, the Payment Providers section should still be filled with data. The tool will show this graph:</p>
+<p><img src="/img/blog/chrome-extension/missing-node.png" alt="Missing Node"></p>
+<p>There&#39;s a lot of going on here. The <code>fetch-offers-cb</code> node is blue. That&#39;s because it returned a <code>_fallback</code> transition. It&#39;s a custom transition. Transitions are nothing more than strings. <code>_success</code> and <code>_error</code> are standard and they display respectively as green and red. Anything else is a custom transition and is displayed as blue. If we click on the <code>fetch-offers-cb</code> node we can see why it returned fallback: <code>Exception: operation timeout</code>.</p>
+<p><img src="/img/blog/chrome-extension/cb-details.png" alt="Circuit Breaker Details"></p>
+<p>The yellow node with an exclamation mark is a so-called &quot;missing node&quot;. It doesn&#39;t exist during processing. It&#39;s just displayed in the tool as a way to catch the developer&#39;s attention. It means that a transition was triggered (in this case <code>_fallback</code>) but there was no node to handle it. Because of that, the <code>_fallback</code> state was returned to the composite and thus the composite ended with an error (composites can only end with <code>_success</code> or <code>_error</code>).</p>
+<p>Also, note the dashed transitions. They represent a transition that could potentially be triggered, but in this case wasn&#39;t.</p>
+<p>Finally, let&#39;s implement a node to handle the fallback case. The task should now look like this:</p>
+<pre class="highlight"><code class="hljs ruby">payments-task {
+  action = fetch-user-info
+
+  onTransitions._success {
+    actions = [
+      {
+        action = fetch-payment-providers
+      },
+      {
+        action = fetch-offers-cb
+
+        on._fallback {
+          action = fetch-offers-fallback
+        }
+      }
+    ]
+
+    onTransitions {
+      _success {
+        action = te-pebble
+      }
+      _error {
+        action = te-pebble
+      }
+    }
+  }
+}</code></pre>
+<p>We&#39;ve added an action called <code>fetch-offers-fallback</code> that will be triggered when the circuit breaker returns a <code>_fallback</code> transition. This is a transition for the composite&#39;s subtask and not for the composite.</p>
+<p>The <code>fetch-offers-fallback</code> action could retrieve data from cache or another service. In our case it&#39;ll just call the <code>/offers</code> endpoint:</p>
+<pre class="highlight"><code class="hljs undefined">fetch-offers-fallback {
+  factory = http
+  config.endpointOptions {
+    path = /offers
+    domain = webapi
+    port = 8080
+  }
+}</code></pre>
+<p>When we refresh the page we still won&#39;t see any offers displayed on the page. We&#39;ll get to this in a minute. The graph should look like this:</p>
+<p><img src="/img/blog/chrome-extension/with-fallback.png" alt="Fallback"></p>
+<p>As we can see, even though the circuit breaker ended with fallback, the composite as a whole ended with success because of the <code>fetch-offers-fallback</code> node.</p>
+<p>The only problem left is that we can&#39;t see any offers displayed, even though they were retrieved (we can check they were by viewing details of the fallback node). Let&#39;s take a look at the HTML snippet:</p>
+<pre class="highlight"><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">knotx:snippet</span> <span class="hljs-attr">data-knotx-task</span>=<span class="hljs-string">"payments-task"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Payment providers<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+      {% for provider in data['fetch-payment-providers']._result %}
+      <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Payment provider: {{provider.name}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Payment URL: {{provider.paymentUrl}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+      {% endfor %}
+    <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Offers<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+      {% for offer in data['fetch-offers']._result %}
+      <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Offer: {{offer.method}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Price: {{offer.price}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+      {% endfor %}
+    <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">knotx:snippet</span>&gt;</span></code></pre>
+<p>Pebble retrieves offers data from a key called <code>fetch-offers</code>. By default, every action saves data under its name. The problem is that in case of a timeout the action that retrieves data is called <code>fetch-offers-fallback</code> and therefore that&#39;s where the data is stored. One way to resolve this would be to use an action that rewrites data from one key to another. For the sake of this tutorial, we&#39;ll just create additional markup for fallback messages. The Offers section of the snippet will look like this:</p>
+<pre class="highlight"><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Offers<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+  {% for offer in data['fetch-offers']._result %}
+  <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Offer: {{offer.method}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Price: {{offer.price}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+  {% endfor %}
+  {% for offer in data['fetch-offers-fallback']._result %}
+  <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Fallback offer: {{offer.method}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Fallback price: {{offer.price}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+  {% endfor %}
+<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></code></pre>
+<p>If we render the page now, we&#39;ll be able to see the fallback offers:</p>
+<p><img src="/img/blog/chrome-extension/fallback-offers.png" alt="Fallback Offers"></p>
+<h2 id="summary">Summary</h2>
+<p>As you can see Knot.x Fragments allows us to easily define data flow when integrating with 3rd party services. In this example, we rendered a page, but note this mechanism can be used to build restful APIs as well. The Knot.x extension can be used during many processes of building an application. It can be used by developers for debugging purposes, new team members to familiarize themselves with the application&#39;s architecture, quality assurance/testers to detect flaws and identify root causes of bugs (is it a frontend, backend or integration problem?) or architects and business people to visualize the data flow and business cases.</p>
+<p>The code used in this example can be found <a href="https://github.com/Knotx/knotx-example-project/tree/master/chrome-extension">in our samples repository</a>.</p>
+
+          </section>
+        </article>
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_config = function () {
+        this.page.url = "https://knotx.io/tutorials/chrome-extension/2_2/";
+        this.page.identifier = "2c317a803787660cfa9e781f79a12185";
+        };
+        (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = '//knotx-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+    </div>
+</div>
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+         <p>Knot.x is <a href="https://github.com/Knotx/knotx">open source</a> and is licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0 License</a>.</p>
+      </div>
+      <div class="col-sm-5 col-sm-offset-1 text-right">
+        <p>Knot.x is brought to you with the support of <img src="/img/Cognifide_WT_Logo.png" alt="Cognifide"/></p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script defer="defer"  src="/scripts/vendor/jquery.min.js"></script><script defer="defer"  src="/scripts/vendor/bootstrap.min.js"></script><script defer="defer"  src="/scripts/vendor/highlight.pack.js"></script><script defer="defer"  src="/scripts/knotx.js"></script><script defer="defer"  src="/scripts/vendor/jquery.qtip.min.js"></script><script defer="defer"  src="/scripts/hovermap.js"></script>
+
+
+  </body>
+</html>
