@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="We have just released a minor release Knot.x 2.2.0.">
+  <meta name="keywords" content="knotx, vertx, reactive, asynchronous, templating, java, polyglot, cms, release">
+  <title>Knot.x 2.2.0 released! - Knot.x Blog Post</title>
+
+  <meta property="og:title" content="Knot.x 2.2.0 released! - Knot.x Blog Post"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="https://knotx.io/blog/release-2_2_0/"/>
+  <meta property="og:site_name" content="Knot.x Website"/>
+  <meta property="og:description" content="We have just released a minor release Knot.x 2.2.0."/>
+  <meta property="og:image" content="https://knotx.io/img/logo-240x240.png"/>
+
+  <link rel="apple-touch-icon" sizes="57x57" href="/img/favicons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/img/favicons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/img/favicons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/img/favicons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/img/favicons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/img/favicons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/img/favicons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/favicons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicons/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/img/favicons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicons/favicon-16x16.png">
+  <link rel="manifest" href="/img/favicons/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/img/favicons/ms-icon-144x144.png">
+  <meta name="theme-color" content="#9f136c">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Montserrat:200,300,400,500,700|Ubuntu:300,400,500,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link  rel="stylesheet" href="/styles/bootstrap.css" /><link  rel="stylesheet" href="/styles/github.css" /><link  rel="stylesheet" href="/styles/knotx.css" />
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+  <body >
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-92165781-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    <!-- Header -->
+<header class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/img/logo-knotx.png" class="navbar-brand-logo" alt="Knot.x Logo"/>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        
+        <li><a href="/download/">Download</a></li>
+        
+        <li><a href="/tutorials/">Tutorials</a></li>
+        
+        <li><a href="https://github.com/Knotx/knotx/issues">Issues</a></li>
+        
+        <li><a href="/documentation/">Documentation</a></li>
+        
+        <li><a href="/community/">Community</a></li>
+        
+        <li><a href="/blog/">Blog</a></li>
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</header>
+
+    <!-- Content Header -->
+<div class="content-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>Knot.x 2.2 released!</h1>
+      </div>
+    </div>    
+  </div>
+  
+</div>
+
+<div class="container flex blog">
+    <div class="row">
+      <div class="col-sm-12">
+        <article>
+          <header class="meta">
+  <a class="meta-item" href="https://github.com/tomaszmichalak">Tomasz Michalak</a>
+  <time class="meta-item date"
+        datetime="2020-05-20">May 20th, 2020
+  </time>
+
+  <div class="meta-item">
+    
+      <a class="meta-item" href="https://github.com/Knotx/knotx">2.2</a>
+    
+  </div>
+</header>
+
+          <section class="post">
+            <h1 id="knot-x-2-2">Knot.x 2.2</h1>
+<h2 id="release-notes">Release Notes</h2>
+<h3 id="knot-x-gradle-plugins">Knot.x Gradle Plugins</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-gradle-plugins/pull/10">PR-10</a> Knot.x release gradle plugins</li>
+</ul>
+<h3 id="knot-x-dependencies">Knot.x Dependencies</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-dependencies/pull/33">PR-33</a> - Migrate from Maven to Gradle.</li>
+</ul>
+<h3 id="knot-x-commons">Knot.x Commons</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-commons/pull/14">PR-14</a> - KnotxServer response configuration - wildcards <a href="https://github.com/Knotx/knotx-server-http/issues/41">41</a></li>
+<li><a href="https://github.com/Knotx/knotx-commons/pull/8">PR-8</a> - Unit Test for HTTP request commons</li>
+</ul>
+<h3 id="knot-x-launcher">Knot.x Launcher</h3>
+<p>No important changes in this version.</p>
+<h3 id="knot-x-junit5">Knot.x Junit5</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-junit5/pull/56">PR-56</a> - Move <code>HoconLoader</code> from the <code>Fragments</code> module to <code>JUnit5</code>.</li>
+</ul>
+<h3 id="knot-x-server-http">Knot.x Server Http</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-server-http/pull/53">PR-53</a> - Enable resolving placeholders without encoding.</li>
+<li><a href="https://github.com/Knotx/knotx-server-http/pull/46">PR-46</a> - KnotxServer response configuration - wildcards <a href="https://github.com/Knotx/knotx-server-http/issues/41">41</a></li>
+</ul>
+<h3 id="knot-x-repository-connector">Knot.x Repository Connector</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-repository-connector/pull/10">PR-14</a> - Make filtering allowed headers case-insensitive</li>
+</ul>
+<h3 id="knot-x-fragments">Knot.x Fragments</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/154">PR-154</a> - Cleanup Fragments modules: renamed modules (<code>Actions</code> and all Task related once) to be more self-descriptive. Remove hidden API dependencies.</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/149">PR-149</a> - Enable invalid fragments processing when a request param or header specified.</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/148">PR-148</a> - Add <a href="https://github.com/Knotx/knotx-fragments/tree/master/task/handler/log/json">Fragment JSON Execution Log Consumer</a> supporting debug data for JSON responses.</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/138">PR-138</a> - Extract <a href="https://github.com/Knotx/knotx-fragments/tree/master/task/handler/log/api">Fragment Execution Log Consumer API</a> and <a href="https://github.com/Knotx/knotx-fragments/tree/master/task/handler/log/html">Fragment HTML Body Writer</a>.</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/136">PR-136</a> - Extract <a href="https://github.com/Knotx/knotx-fragments/tree/master/action">Actions API &amp; Core</a> modules.</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/119">PR-119</a> - Introduce <a href="https://github.com/Knotx/knotx-fragments/tree/master/api#fragment-operation">Fragment Operation</a> to link <a href="https://github.com/Knotx/knotx-fragments/tree/master/action/api#action">Action</a> and <a href="https://github.com/Knotx/knotx-fragments/tree/master/task/factory/default#action-node-factory">Task Action Node</a>.</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/120">PR-120</a> - HTTP methods for <a href="https://github.com/Knotx/knotx-fragments/tree/master/action/library#http-action">Http Action</a> - support for <code>POST</code>/<code>PUT</code>/<code>PATCH</code>/<code>DELETE</code>/<code>HEAD</code> and sending body.</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/106">PR-106</a> - Extract <a href="https://github.com/Knotx/knotx-fragments/tree/master/task/engine">Task Engine</a>.</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/100">PR-100</a> - KnotxServer response configuration - wildcards, case-insensitive filtering allowed headers</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/99">PR-99</a> - <a href="https://github.com/Knotx/knotx-fragments/tree/master/action/library#http-action">Http Action</a> instances can be reused between requests.</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/96">PR-96</a> - Move <a href="https://github.com/Knotx/knotx-fragments/tree/master/action/library#http-action">Http Action</a> from <a href="https://github.com/Knotx/knotx-data-bridge">Knot.x Data Bridge</a> to Fragments repository. Actions moved to a new module <code>knotx-fragments-action-library</code>.</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/80">PR-80</a> - <a href="https://github.com/Knotx/knotx-fragments/tree/master/action/library#circuit-breaker-behaviour">Circuit Breaker Behaviour</a> understands which custom transitions mean error.</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/84">PR-84</a> - Add the <a href="https://github.com/Knotx/knotx-fragments/tree/master/action/api#action-log">action log</a> support <a href="https://github.com/Knotx/knotx-fragments/tree/master/action/library#inline-payload-action">Inline Payload Action</a>.</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/83">PR-83</a> - Add the <a href="https://github.com/Knotx/knotx-fragments/tree/master/action/api#action-log">action log</a> support to <a href="https://github.com/Knotx/knotx-fragments/tree/master/action/library#inline-body-action">Inline Body Action</a>.</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/82">PR-82</a> - Add the <a href="https://github.com/Knotx/knotx-fragments/tree/master/action/api#action-log">action log</a> support to <a href="https://github.com/Knotx/knotx-fragments/tree/master/action/library#in-memory-cache-behaviour">In-memory Cache Behaviour</a>.</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/60">PR-60</a> - Add the <a href="https://github.com/Knotx/knotx-fragments/tree/master/action/api#action-log">action log</a> support to <a href="https://github.com/Knotx/knotx-fragments/tree/master/action/library#circuit-breaker-behaviour">Circuit Breaker Behaviour</a>. Enforce the <code>fallback</code> on error strategy.</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/46">PR-45</a> - <a href="https://github.com/Knotx/knotx-fragments/tree/master/task/handler/log">Fragment Event Consumer</a> mechanism implementation.</li>
+</ul>
+<h3 id="knot-x-template-engine">Knot.x Template Engine</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-template-engine/pull/38">PR-38</a> - Knotx/knotx-fragments#135 Extract actions Core &amp; API.</li>
+<li><a href="https://github.com/Knotx/knotx-template-engine/pull/21">PR-21</a> - Pebble Template Engine</li>
+</ul>
+<h3 id="knot-x-stack">Knot.x Stack</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-stack/pull/110">PR-110</a> - Knotx/knotx-fragments#154 Fragments modules refactor.</li>
+<li><a href="https://github.com/Knotx/knotx-stack/pull/100">PR-100</a> - Knotx/knotx-fragments#135 Extract actions Core &amp; API.</li>
+<li><a href="https://github.com/Knotx/knotx-stack/pull/97">PR-97</a> - Knotx/knotx-fragments#92 Extract HTML Fragment Event Consumer.</li>
+<li><a href="https://github.com/Knotx/knotx-stack/pull/96">PR-96</a> - Knotx/knotx-fragements#73 Functional test for various HTTP methods.</li>
+<li><a href="https://github.com/Knotx/knotx-stack/pull/94">PR-94</a> - Gradle 6.2.2</li>
+<li><a href="https://github.com/Knotx/knotx-stack/pull/92">PR-92</a> - Knotx/knotx-fragments#92 Functional tests for exposing task metadata.</li>
+<li><a href="https://github.com/Knotx/knotx-stack/pull/89">PR-89</a> - #71 Remove deprecated tests: ResponseHeadersTest.</li>
+<li><a href="https://github.com/Knotx/knotx-stack/pull/88">PR-88</a> - #71 Remove deprecated tests: TemplatingIntegrationTest.</li>
+<li><a href="https://github.com/Knotx/knotx-stack/pull/87">PR-87</a> - Knotx/knotx-fragments#92 Update scenario with more validations.</li>
+<li><a href="https://github.com/Knotx/knotx-stack/pull/86">PR-86</a> - #85 Different TE (handlebars and pebble) in fragments integration test.</li>
+<li><a href="https://github.com/Knotx/knotx-stack/pull/84">PR-83</a> - Upgrade to Gradle 6.2</li>
+<li><a href="https://github.com/Knotx/knotx-stack/pull/83">PR-83</a> - Upgrade to Gradle 6.1.1</li>
+<li><a href="https://github.com/Knotx/knotx-stack/pull/78">PR-78</a> - Knotx/knotx-fragments#95 Move HTTP Action from Knotx/knotx-data-bridge to Knotx/knotx-fragments.</li>
+<li><a href="https://github.com/Knotx/knotx-stack/pull/77">PR-77</a> - Knotx/knotx-fragments#92 Demo scenario for exposing data from task.</li>
+<li><a href="https://github.com/Knotx/knotx-stack/pull/76">PR-76</a> - Knotx/knotx-template-engine#20 Pebble Template Engine Integration Test</li>
+<li><a href="https://github.com/Knotx/knotx-stack/pull/74">PR-74</a> - knotx/knotx-dependecies#28 Migrate BOM to Gradle &amp; add BOM to Gradle composite build.</li>
+<li><a href="https://github.com/Knotx/knotx-stack/pull/72">PR-72</a> - knotx/knotx-fragments#79 Configuration changes &amp; functional tests..</li>
+<li><a href="https://github.com/Knotx/knotx-stack/pull/69">PR-69</a> - Circuit breaker: <code>_fallback</code> transition &amp;&amp; fallback on failure strategy</li>
+</ul>
+<h3 id="knot-x-docker">Knot.x Docker</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-docker/pull/3">PR-3</a> - migrate build to Gradle</li>
+</ul>
+<h3 id="knot-x-starter-kit">Knot.x Starter Kit</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-starter-kit/pull/34">PR-34</a> - Knotx/knotx-aggregator#19 Releasing with Gradle.</li>
+<li><a href="https://github.com/Knotx/knotx-starter-kit/pull/35">PR-35</a> - Knotx/knotx-fragments#154 Update Fragment modules dependencies.</li>
+<li><a href="https://github.com/Knotx/knotx-starter-kit/pull/31">PR-31</a> - Knotx/knotx-fragments#135 Extract actions Core &amp; API.</li>
+<li><a href="https://github.com/Knotx/knotx-starter-kit/pull/27">PR-27</a> - Knotx/knotx-fragments#118 Update imports.</li>
+<li><a href="https://github.com/Knotx/knotx-starter-kit/pull/24">PR-24</a> - #15 Update Knot.x version and apply API changes.</li>
+</ul>
+
+          </section>
+        </article>
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_config = function () {
+        this.page.url = "https://knotx.io/blog/release-2_2_0/";
+        this.page.identifier = "e154461d24abe0f5b5308c60602561ea";
+        };
+        (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = '//knotx-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+    </div>
+</div>
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+         <p>Knot.x is <a href="https://github.com/Knotx/knotx">open source</a> and is licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0 License</a>.</p>
+      </div>
+      <div class="col-sm-5 col-sm-offset-1 text-right">
+        <p>Knot.x is brought to you with the support of <img src="/img/Cognifide_WT_Logo.png" alt="Cognifide"/></p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script defer="defer"  src="/scripts/vendor/jquery.min.js"></script><script defer="defer"  src="/scripts/vendor/bootstrap.min.js"></script><script defer="defer"  src="/scripts/vendor/highlight.pack.js"></script><script defer="defer"  src="/scripts/knotx.js"></script><script defer="defer"  src="/scripts/vendor/jquery.qtip.min.js"></script><script defer="defer"  src="/scripts/hovermap.js"></script>
+
+<script id="dsq-count-scr" src="//knotx-io.disqus.com/count.js" async></script>
+
+
+  </body>
+</html>
