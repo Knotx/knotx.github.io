@@ -119,6 +119,116 @@
 
           <section class="post">
             <h1 id="knot-x-2-2">Knot.x 2.2</h1>
+<p>We are extremely pleased to announce that the Knot.x version 2.2.0 has been released.</p>
+<h2 id="new-features">New Features</h2>
+<h3 id="debuggable-fragments">Debuggable Fragments</h3>
+<p>With Knot.x, you can easily transform your business logic into a configurable graph structure.
+The graph (<a href="https://github.com/Knotx/knotx-fragments/tree/2.2.0/task/api#task">task</a>) defines
+business operations (such as integration with an API) and decisions (if API
+responds with <code>A</code> then...). Task belongs to a <a href="https://github.com/Knotx/knotx-fragments/tree/2.2.0/api#fragment">fragment</a>,
+an abstraction that represents a client request (in some cases it can be an HTTP request, in other, a part of the page). Read more about configurable
+integrations <a href="https://knotx.io/blog/configurable-integrations/">here</a>.</p>
+<p>From now, you can easily debug your business logic directly in your browser. See the
+<a href="https://github.com/Knotx/knotx-fragments/tree/master/task/handler/log">Fragments Execution Log</a>
+modules for more details.</p>
+<h3 id="chrome-extension">Chrome Extension</h3>
+<p>It is an awesome tool that extends the Chrome Developer Tools, providing intuitive business logic
+debugging opportunities for developers, QAs and business analysts. It reads fragment(s) debug data
+(provided by Fragments Execution Log modules) and visualizes it.</p>
+<p align="center">
+  <img src="https://github.com/Knotx/knotx-fragments-chrome-extension/raw/master/assets/images/preview.gif" alt="Knot.x Fragments Chrome Extension"/>
+</p>
+
+<p>You can read more about this new feature <a href="https://knotx.io/tutorials/chrome-extension/2_2/">here</a>
+or watch the <a href="https://www.youtube.com/watch?v=EWoHqzYGv0w">live coding</a> session.</p>
+<h3 id="pebble-template-engine">Pebble Template Engine</h3>
+<p>Next to Handlebars, we add <a href="https://pebbletemplates.io/">Pebble templates</a> support! From now, you can
+use various templates within the single page. What is more, the same as Handlebars, the Pebble processing
+is thoroughly scalable with the <a href="https://vertx.io/docs/vertx-core/java/#event_bus">Vert.x Event Bus</a>.</p>
+<pre class="highlight"><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">knotx:snippet</span> <span class="hljs-attr">data-knotx-task</span>=<span class="hljs-string">"payments-task"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Payment providers<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+      {% for this in root['fetchPayments']['_result'] %}
+      <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Payment provider: {{this.name}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Payment URL: {{this.paymentUrl}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+      {% endfor %}
+    <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">knotx:snippet</span>&gt;</span></code></pre>
+<p>You can read more about this new feature <a href="https://github.com/Knotx/knotx-template-engine/tree/2.2.0/pebble">here</a>
+and see the <a href="https://github.com/Knotx/knotx-example-project/tree/master/chrome-extension">example</a>.</p>
+<h3 id="restfulapi-support">RestfulAPI support</h3>
+<p>API Communication logic is provided by configurable HTTP Action (note: you can easily provide your
+custom implementation). HTTP Action configures endpoint details, HTTP request params and expected
+response data. With Knot.x 2.2 you can fully configure your <code>POST</code>/<code>PUT</code>/<code>PATCH</code>/<code>DELETE</code>/<code>HEAD</code> API
+requests in the same way as you did it for <code>GET</code> requests.</p>
+<p>You can read more about this new feature <a href="https://github.com/Knotx/knotx-fragments/tree/master/action/library#http-action">here</a>.</p>
+<h3 id="hocon-configs-testing">HOCON configs testing</h3>
+<p>HoconLoader loads the HOCON configuration files and converts them to JSON. With it, writing contract
+tests is even simpler.</p>
+<p>You can read more about this new feature <a href="https://github.com/Knotx/knotx-junit5/tree/2.2.0#hoconloader">here</a>.</p>
+<h2 id="upgrade-notes">Upgrade notes</h2>
+<p>Please note that we upgraded the Knot.x Examples to Knot.x <code>2.2</code>. See this <a href="https://github.com/Knotx/knotx-example-project/pull/76">PR</a>
+for more details.</p>
+<h3 id="api-updates">API updates</h3>
+<h4 id="fragment-api">Fragment API</h4>
+<p><a href="https://github.com/Knotx/knotx-fragments/tree/master/api">Fragment API</a> introduces the <a href="https://github.com/Knotx/knotx-fragments/tree/2.2.0/api#fragment-operation">Fragment Operation</a>
+and contains the <a href="https://github.com/Knotx/knotx-fragments/blob/master/api/docs/asciidoc/dataobjects.adoc#fragmentresult">FragmentResult</a>
+model. <strong>This upgrade is required only if you implemented custom actions in your project.</strong></p>
+<ul>
+<li>update package from <code>io.knotx.fragments.handler.api.domain.FragmentResult</code> to <code>io.knotx.fragments.api.FragmentResult</code></li>
+</ul>
+<h4 id="action-api">Action API</h4>
+<p><a href="https://github.com/Knotx/knotx-fragments/tree/2.2.0/action/api">Action API</a> is extracted from
+<a href="https://github.com/Knotx/knotx-fragments/tree/2.2.0/task/handler">Fragments Handler</a>. <strong>This upgrade
+is required only if you implemented custom actions in your project.</strong></p>
+<ul>
+<li>replace dependency: <code>knotx-fragments-handler-api</code> -&gt; <code>knotx-fragments-action-api</code></li>
+<li>update packages:<ul>
+<li><code>io.knotx.fragments.handler.api.Action</code> -&gt; <code>io.knotx.fragments.action.api.Action</code></li>
+<li><code>io.knotx.fragments.handler.api.ActionFactory</code> -&gt; <code>io.knotx.fragments.action.api.ActionFactory</code></li>
+</ul>
+</li>
+<li>rename <code>io.knotx.fragments.handler.api.ActionFactory</code> file in <code>./src/main/resources/META-INF/services</code> to
+<code>io.knotx.fragments.action.api.ActionFactory</code></li>
+</ul>
+<h3 id="starter-kit-project">Starter Kit project</h3>
+<h4 id="upgrade-gradle">Upgrade Gradle</h4>
+<p>Upgrade the Gradle version defined in  <code>./gradle/wrapper/gradle-wrapper.properties</code> to <code>6.2.1</code>.</p>
+<h4 id="upgrade-gradle-plugins">Upgrade Gradle plugins</h4>
+<ul>
+<li>Upgrade Docker Gradle plugin defined in <code>./buildSrc/build.gradle.kts</code> from <code>com.bmuschko:gradle-docker-plugin:5.3.0</code>
+to <code>com.bmuschko:gradle-docker-plugin:6.4.0</code>.</li>
+<li>In the new Knot.x, all Knot.x Gradle plugins are released with each new version of Knot.x. We
+recommend to configure them in <code>./settings.gradle.kts</code>:<pre class="highlight"><code class="hljs kotlin">pluginManagement {
+  <span class="hljs-keyword">val</span> knotxVersion: String <span class="hljs-keyword">by</span> settings
+  plugins {
+      id(<span class="hljs-string">"io.knotx.distribution"</span>) version knotxVersion
+      id(<span class="hljs-string">"io.knotx.release-base"</span>) version knotxVersion
+  }
+}</code></pre>
+See <a href="https://github.com/Knotx/knotx-starter-kit/blob/2.2.0/settings.gradle.kts">knotx-starter-kit/settings.gradle.kts</a> for more details.</li>
+</ul>
+<h4 id="rename-gradle-properties">Rename Gradle properties</h4>
+<p>The <code>io.knotx.distribution</code> plugin uses <code>knotx.version</code> and <code>knotx.conf</code> properties defined in
+<code>./gradle.properties</code>. In Knot.x 2.2 we renamed those properties:</p>
+<ul>
+<li><code>knotx.version</code> -&gt; <code>knotxVersion</code></li>
+<li><code>knotx.conf</code> -&gt; <code>knotxConf</code>
+and update all references in <code>./build.gradle.kts</code></li>
+</ul>
+<h4 id="update-docker-script">Update Docker script</h4>
+<p>Replace the <code>./gradle/docker.gradle.kts</code> with the new <a href="https://github.com/Knotx/knotx-starter-kit/blob/2.2.0/gradle/docker.gradle.kts">version</a>.</p>
+<h4 id="fix-references-to-github-resources">Fix references to GitHub resources</h4>
+<p>When applying scripts from GitHub, please update references from:</p>
+<pre class="highlight"><code class="hljs kotlin">apply(from = <span class="hljs-string">"https://raw.githubusercontent.com/Knotx/knotx-starter-kit/master/gradle/docker.gradle.kts"</span>)
+apply(from = <span class="hljs-string">"https://raw.githubusercontent.com/Knotx/knotx-starter-kit/master/gradle/javaAndUnitTests.gradle.kts"</span>)</code></pre>
+<p>to tag versions:</p>
+<pre class="highlight"><code class="hljs kotlin">apply(from = <span class="hljs-string">"https://raw.githubusercontent.com/Knotx/knotx-starter-kit/<span class="hljs-subst">${project.property("knotxVersion")}</span>/gradle/docker.gradle.kts"</span>)
+apply(from = <span class="hljs-string">"https://raw.githubusercontent.com/Knotx/knotx-starter-kit/<span class="hljs-subst">${project.property("knotxVersion")}</span>/gradle/javaAndUnitTests.gradle.kts"</span>)</code></pre>
 <h2 id="release-notes">Release Notes</h2>
 <h3 id="knot-x-gradle-plugins">Knot.x Gradle Plugins</h3>
 <ul>
@@ -131,7 +241,6 @@
 <h3 id="knot-x-commons">Knot.x Commons</h3>
 <ul>
 <li><a href="https://github.com/Knotx/knotx-commons/pull/14">PR-14</a> - KnotxServer response configuration - wildcards <a href="https://github.com/Knotx/knotx-server-http/issues/41">41</a></li>
-<li><a href="https://github.com/Knotx/knotx-commons/pull/8">PR-8</a> - Unit Test for HTTP request commons</li>
 </ul>
 <h3 id="knot-x-launcher">Knot.x Launcher</h3>
 <p>No important changes in this version.</p>
@@ -179,14 +288,9 @@
 <li><a href="https://github.com/Knotx/knotx-stack/pull/100">PR-100</a> - Knotx/knotx-fragments#135 Extract actions Core &amp; API.</li>
 <li><a href="https://github.com/Knotx/knotx-stack/pull/97">PR-97</a> - Knotx/knotx-fragments#92 Extract HTML Fragment Event Consumer.</li>
 <li><a href="https://github.com/Knotx/knotx-stack/pull/96">PR-96</a> - Knotx/knotx-fragements#73 Functional test for various HTTP methods.</li>
-<li><a href="https://github.com/Knotx/knotx-stack/pull/94">PR-94</a> - Gradle 6.2.2</li>
 <li><a href="https://github.com/Knotx/knotx-stack/pull/92">PR-92</a> - Knotx/knotx-fragments#92 Functional tests for exposing task metadata.</li>
-<li><a href="https://github.com/Knotx/knotx-stack/pull/89">PR-89</a> - #71 Remove deprecated tests: ResponseHeadersTest.</li>
-<li><a href="https://github.com/Knotx/knotx-stack/pull/88">PR-88</a> - #71 Remove deprecated tests: TemplatingIntegrationTest.</li>
 <li><a href="https://github.com/Knotx/knotx-stack/pull/87">PR-87</a> - Knotx/knotx-fragments#92 Update scenario with more validations.</li>
 <li><a href="https://github.com/Knotx/knotx-stack/pull/86">PR-86</a> - #85 Different TE (handlebars and pebble) in fragments integration test.</li>
-<li><a href="https://github.com/Knotx/knotx-stack/pull/84">PR-83</a> - Upgrade to Gradle 6.2</li>
-<li><a href="https://github.com/Knotx/knotx-stack/pull/83">PR-83</a> - Upgrade to Gradle 6.1.1</li>
 <li><a href="https://github.com/Knotx/knotx-stack/pull/78">PR-78</a> - Knotx/knotx-fragments#95 Move HTTP Action from Knotx/knotx-data-bridge to Knotx/knotx-fragments.</li>
 <li><a href="https://github.com/Knotx/knotx-stack/pull/77">PR-77</a> - Knotx/knotx-fragments#92 Demo scenario for exposing data from task.</li>
 <li><a href="https://github.com/Knotx/knotx-stack/pull/76">PR-76</a> - Knotx/knotx-template-engine#20 Pebble Template Engine Integration Test</li>
