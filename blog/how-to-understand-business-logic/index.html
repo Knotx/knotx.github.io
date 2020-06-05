@@ -4,15 +4,15 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="We will find an answer what does the business logic mean for us. We would transform user stories to domain objects and then model the solution.">
-  <meta name="keywords" content="knotx, vertx, reactive, asynchronous, templating, java, polyglot, cms, business,requirements,user-stories,business-logic,domain-object,domain-space,solution-space">
+  <meta name="description" content="In this post, we will tell you what does business logic mean for us and transform user stories to domain objects and then model the solution. It starts the series discussing &quot;Business Logic Evolution&quot;.">
+  <meta name="keywords" content="knotx, vertx, reactive, asynchronous, templating, java, polyglot, cms, business-logic,domain-driven-design,user-stories">
   <title>How to understand business logic - Knot.x Blog Post</title>
 
   <meta property="og:title" content="How to understand business logic - Knot.x Blog Post"/>
   <meta property="og:type" content="article"/>
   <meta property="og:url" content="https://knotx.io/blog/how-to-understand-business-logic/"/>
   <meta property="og:site_name" content="Knot.x Website"/>
-  <meta property="og:description" content="We will find an answer what does the business logic mean for us. We would transform user stories to domain objects and then model the solution."/>
+  <meta property="og:description" content="In this post, we will tell you what does business logic mean for us and transform user stories to domain objects and then model the solution. It starts the series discussing &quot;Business Logic Evolution&quot;."/>
   <meta property="og:image" content="https://knotx.io/img/logo-240x240.png"/>
 
   <link rel="apple-touch-icon" sizes="57x57" href="/img/favicons/apple-icon-57x57.png">
@@ -116,12 +116,13 @@
 </header>
 
           <section class="post">
-            <p><img src="/img/blog/how-to-understand-business-logic/business-logic-hero-banner.jpg" alt="Hero banner"></p>
+            <p><img src="/img/blog/how-to-understand-business-logic/business-logic-hero-banner.jpg" alt="written equations on brown wooden board"></p>
+<p>Wikipedia definition of business logic tells:</p>
 <blockquote>
-<p>In computer software, business logic or domain logic is the part of the program that encodes the
-real-world business rules that determine how data can be created, stored, and changed. <a href="https://en.wikipedia.org/wiki/Business_logic">(source)</a></p>
+<p>In computer software, business logic or domain logic is the part of the program that encodes the real-world business rules that determine how data can be created, stored, and changed.</p>
 </blockquote>
-<p>In this article, we would answer the question: <strong>what does the business logic mean for us</strong>?</p>
+<p>But how that definition is connected with the code?
+In this post, we will tell you what does business logic mean for us, software engineers, and transform user stories to domain objects and then model the solution.</p>
 <h2 id="story">Story</h2>
 <p>We begin with a brief story, the user story.</p>
 <p>Once upon a time...</p>
@@ -141,7 +142,7 @@ logic is a part of the solution (application) that executes user stories, using 
 inputs and outputs.</p>
 <p><img src="/img/blog/how-to-understand-business-logic/business-logic-input-output.png" alt="Business logic input and output"></p>
 <p>Looking at the diagram above, we quickly notice the similarity between business logic and a computer
-program - let&#39;s call it a function for simplicity. Every function takes an input that is expected to
+program - let’s call it a function for simplicity. Every function takes an input that is expected to
 be in defined form and returns the output - also in the expected format. In simple words, we can assume
 that input and output legislate a function&#39;s contract. And the contract for the function that represents
 our example user story would be:</p>
@@ -191,6 +192,8 @@ of steps (it&#39;s actually a tree), where leaves are the final outputs.</p>
 domain, specifying domain objects and relations between them. Business logic defines steps that fill
 the gap between domain objects. It is a part of the solution, managed by software engineers.</p>
 <p><img src="/img/blog/how-to-understand-business-logic/problem-solution-space.png" alt="alt_text"></p>
+<hr>
+<p><small>Hero image by <a href="https://unsplash.com/@roman_lazygeek?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Roman Mager</a> on Unsplash.</small></p>
 
           </section>
         </article>
