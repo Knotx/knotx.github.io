@@ -175,7 +175,7 @@ file from the tutorial codebase.</p>
 
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RequestProcessorKnotVerticle</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractVerticle</span> </span>{
 
-  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(RequestProcessorKnotVerticle.class);
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(RequestProcessorKnotVerticle<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 
   <span class="hljs-keyword">private</span> KnotxGatewayKnotConfiguration configuration;
 
@@ -191,9 +191,9 @@ file from the tutorial codebase.</p>
   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">start</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>{
     LOGGER.info(<span class="hljs-string">"Starting &lt;{}&gt;"</span>, <span class="hljs-keyword">this</span>.getClass().getSimpleName());
     consumer = ProxyHelper
-        .registerService(KnotProxy.class, vertx,
-            <span class="hljs-keyword">new</span> RequestProcessorKnotProxyImpl(),
-            configuration.getAddress());
+        .registerService(KnotProxy<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">vertx</span>,
+            <span class="hljs-title">new</span> <span class="hljs-title">RequestProcessorKnotProxyImpl</span>(),
+            <span class="hljs-title">configuration</span>.<span class="hljs-title">getAddress</span>())</span>;
 
   }
 

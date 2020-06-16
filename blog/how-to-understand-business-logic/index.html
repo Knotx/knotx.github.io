@@ -170,10 +170,13 @@ our example user story would be:</p>
 <p><strong>Output 1:</strong> <code>Product&lt;Standard&gt;(User&lt;Standard&gt;)</code></br>
 <strong>Output 2:</strong> <code>Product&lt;Premium&gt;(User&lt;Premium&gt;)</code></p>
 </blockquote>
-<p>Attributes define business decisions, which in fact shape context for the next steps. Each
-subsequent step is in the context of previous decisions.</p>
+<p>Attributes define business decisions, which in fact shape conditions for the next steps. 
+Each step is influenced by decisions from previous steps.</p>
 <p>So our “steps” diagram looks like:</p>
 <p><img src="/img/blog/how-to-understand-business-logic/business-logic-variants.png" alt="alt_text"></p>
+<blockquote>
+<p>Note: For simplicity we start the diagram with “Context”. That can be an HTTP request, but also any other trigger. We will not focus on details of it in this article.</p>
+</blockquote>
 <p>The “get user” steps for both scenarios accept the same input (<code>Context</code>) but define two different
 outputs (<code>User&lt;Standard&gt;</code> and <code>User&lt;Premium&gt;</code>). Those outputs are business decisions. Steps with the
 same input can be easily merged.</p>
@@ -186,12 +189,15 @@ domain problems into small manageable items. So one story defines input for anot
 them together we get a graph of steps.</p>
 <p><img src="/img/blog/how-to-understand-business-logic/business-logic-big-picture.png" alt="alt_text"></p>
 <p>We can say business decisions produce paths to new steps/logics. Finally, we get an acyclic directed graph
-of steps (it&#39;s actually a tree), where leaves are the final outputs.</p>
+of steps (it&#39;s actually a tree), where leaves are the final outputs.
+We actually implemented this idea in the <a href="https://github.com/Knotx/knotx-fragments">Knot.x Fragments</a>
+processing. You can read more about graph processing there.</p>
 <h2 id="summary">Summary</h2>
 <p>A user story, written by business, is a bridge between problem and solution spaces. It focuses on a
 domain, specifying domain objects and relations between them. Business logic defines steps that fill
 the gap between domain objects. It is a part of the solution, managed by software engineers.</p>
 <p><img src="/img/blog/how-to-understand-business-logic/problem-solution-space.png" alt="alt_text"></p>
+<p>Continue reading to the second post in this series: <a href="/blog/what-is-the-business-logic-evolution/">What is the business logic evolution</a>.</p>
 <hr>
 <p><small>Hero image by <a href="https://unsplash.com/@roman_lazygeek?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Roman Mager</a> on Unsplash.</small></p>
 

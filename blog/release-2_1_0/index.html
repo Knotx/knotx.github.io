@@ -254,19 +254,19 @@ just configure responseOptions in your action config like this:</p>
 }</code></pre>
 <h3 id="build-zip-distribution-with-knot-x-starter-kit">Build ZIP distribution with Knot.x Starter Kit</h3>
 <p>Remove:</p>
-<pre class="highlight"><code class="hljs isbl"><span class="hljs-variable"><span class="hljs-class">tasks</span></span>.named(<span class="hljs-string">"build"</span>) {
+<pre class="highlight"><code class="hljs isbl"><span class="hljs-variable"><span class="hljs-class">tasks</span>.named</span>(<span class="hljs-string">"build"</span>) {
     <span class="hljs-function"><span class="hljs-title">dependsOn</span>(<span class="hljs-string">"runTest"</span>)</span>
 }</code></pre><p>and add:</p>
-<pre class="highlight"><code class="hljs isbl"><span class="hljs-variable"><span class="hljs-class">tasks</span></span>.named(<span class="hljs-string">"build"</span>) {
+<pre class="highlight"><code class="hljs isbl"><span class="hljs-variable"><span class="hljs-class">tasks</span>.named</span>(<span class="hljs-string">"build"</span>) {
     <span class="hljs-function"><span class="hljs-title">dependsOn</span>(<span class="hljs-string">"build-stack"</span>)</span>
 }
 
-<span class="hljs-variable"><span class="hljs-class">tasks</span></span>.register(<span class="hljs-string">"build-docker"</span>) {
+<span class="hljs-variable"><span class="hljs-class">tasks</span>.register</span>(<span class="hljs-string">"build-docker"</span>) {
     <span class="hljs-variable">group</span> = <span class="hljs-string">"docker"</span>
     <span class="hljs-function"><span class="hljs-title">dependsOn</span>(<span class="hljs-string">"runTest"</span>)</span>
 }
 
-<span class="hljs-variable"><span class="hljs-class">tasks</span></span>.register(<span class="hljs-string">"build-stack"</span>) {
+<span class="hljs-variable"><span class="hljs-class">tasks</span>.register</span>(<span class="hljs-string">"build-stack"</span>) {
     <span class="hljs-variable">group</span> = <span class="hljs-string">"stack"</span>
     <span class="hljs-comment">// https://github.com/Knotx/knotx-gradle-plugins/blob/master/src/main/kotlin/io/knotx/distribution.gradle.kts</span>
     <span class="hljs-function"><span class="hljs-title">dependsOn</span>(<span class="hljs-string">"assembleCustomDistribution"</span>)</span>

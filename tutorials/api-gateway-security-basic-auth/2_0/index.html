@@ -144,22 +144,22 @@
 <p><code>knotx/conf/openapi.yaml</code></p>
 <pre class="highlight"><code class="hljs yaml"><span class="hljs-attr">paths:</span>
   <span class="hljs-string">/api/secure/basic:</span> <span class="hljs-string">//</span> <span class="hljs-string">endpoint</span> <span class="hljs-string">with</span> <span class="hljs-string">basic</span> <span class="hljs-string">authentication</span>
-<span class="hljs-attr">    get:</span>
-<span class="hljs-attr">      operationId:</span> <span class="hljs-string">hello-world-operation-basic</span>
-<span class="hljs-attr">      security:</span>
-<span class="hljs-attr">        - helloBasicAuth:</span> <span class="hljs-string">[]</span> <span class="hljs-string">//</span> <span class="hljs-string">here</span> <span class="hljs-string">we</span> <span class="hljs-string">specify</span> <span class="hljs-string">which</span> <span class="hljs-string">security</span> <span class="hljs-string">scheme</span> <span class="hljs-string">we'll</span> <span class="hljs-string">be</span> <span class="hljs-string">using</span> <span class="hljs-string">(see</span> <span class="hljs-string">below)</span>
-<span class="hljs-attr">      responses:</span>
-        <span class="hljs-string">'200'</span><span class="hljs-string">:</span>
-<span class="hljs-attr">          description:</span> <span class="hljs-string">Hello</span> <span class="hljs-string">World</span> <span class="hljs-string">API</span> <span class="hljs-string">protected</span> <span class="hljs-string">with</span> <span class="hljs-string">Basic</span> <span class="hljs-string">Auth</span>
-        <span class="hljs-string">'401'</span><span class="hljs-string">:</span>
-<span class="hljs-attr">          description:</span> <span class="hljs-string">Unauthorized</span> <span class="hljs-string">access</span></code></pre>
+    <span class="hljs-attr">get:</span>
+      <span class="hljs-attr">operationId:</span> <span class="hljs-string">hello-world-operation-basic</span>
+      <span class="hljs-attr">security:</span>
+        <span class="hljs-bullet">-</span> <span class="hljs-attr">helloBasicAuth:</span> <span class="hljs-string">[]</span> <span class="hljs-string">//</span> <span class="hljs-string">here</span> <span class="hljs-string">we</span> <span class="hljs-string">specify</span> <span class="hljs-string">which</span> <span class="hljs-string">security</span> <span class="hljs-string">scheme</span> <span class="hljs-string">we'll</span> <span class="hljs-string">be</span> <span class="hljs-string">using</span> <span class="hljs-string">(see</span> <span class="hljs-string">below)</span>
+      <span class="hljs-attr">responses:</span>
+        <span class="hljs-attr">'200':</span>
+          <span class="hljs-attr">description:</span> <span class="hljs-string">Hello</span> <span class="hljs-string">World</span> <span class="hljs-string">API</span> <span class="hljs-string">protected</span> <span class="hljs-string">with</span> <span class="hljs-string">Basic</span> <span class="hljs-string">Auth</span>
+        <span class="hljs-attr">'401':</span>
+          <span class="hljs-attr">description:</span> <span class="hljs-string">Unauthorized</span> <span class="hljs-string">access</span></code></pre>
 <p>Notice different responses defined for the secured endpoint. For more info on different responses see <a href="/tutorials/openapi-and-swagger-ui/2_0/">this tutorial</a>.</p>
 <p>Now let&#39;s create security scheme definitions. We&#39;ll place it in a separate place in the same file as above in <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#componentsObject"><code>components</code></a> section. For now we&#39;ll have only one <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#securitySchemeObject"><code>securityScheme</code></a> called <code>helloBasicAuth</code>:</p>
 <pre class="highlight"><code class="hljs yaml"><span class="hljs-attr">components:</span>
-<span class="hljs-attr">  securitySchemes:</span>
-<span class="hljs-attr">    helloBasicAuth:</span> <span class="hljs-string">//</span> <span class="hljs-string">our</span> <span class="hljs-string">custom</span> <span class="hljs-string">security</span> <span class="hljs-string">scheme</span> <span class="hljs-string">...</span>
-<span class="hljs-attr">      type:</span> <span class="hljs-string">http</span>  <span class="hljs-string">//</span> <span class="hljs-string">...</span> <span class="hljs-string">with</span> <span class="hljs-string">a</span> <span class="hljs-string">http</span> <span class="hljs-string">type</span> <span class="hljs-string">...</span>
-<span class="hljs-attr">      scheme:</span> <span class="hljs-string">basic</span>   <span class="hljs-string">//</span> <span class="hljs-string">...</span> <span class="hljs-string">with</span> <span class="hljs-string">a</span> <span class="hljs-string">Basic</span> <span class="hljs-string">Auth</span> <span class="hljs-string">scheme</span></code></pre>
+  <span class="hljs-attr">securitySchemes:</span>
+    <span class="hljs-attr">helloBasicAuth:</span> <span class="hljs-string">//</span> <span class="hljs-string">our</span> <span class="hljs-string">custom</span> <span class="hljs-string">security</span> <span class="hljs-string">scheme</span> <span class="hljs-string">...</span>
+      <span class="hljs-attr">type:</span> <span class="hljs-string">http</span>  <span class="hljs-string">//</span> <span class="hljs-string">...</span> <span class="hljs-string">with</span> <span class="hljs-string">a</span> <span class="hljs-string">http</span> <span class="hljs-string">type</span> <span class="hljs-string">...</span>
+      <span class="hljs-attr">scheme:</span> <span class="hljs-string">basic</span>   <span class="hljs-string">//</span> <span class="hljs-string">...</span> <span class="hljs-string">with</span> <span class="hljs-string">a</span> <span class="hljs-string">Basic</span> <span class="hljs-string">Auth</span> <span class="hljs-string">scheme</span></code></pre>
 <p>For more information on <code>basic</code> scheme see <a href="https://swagger.io/docs/specification/authentication/basic-authentication/">this documentation</a>.</p>
 <p>Now we&#39;ll take care of handling our operations and security schemas. Let&#39;s modify <code>knotx/conf/routes/operations.conf</code>:</p>
 <pre class="highlight"><code class="hljs ruby">routingOperations = ${routingOperations} [
@@ -204,8 +204,8 @@
                       └── io<span class="hljs-selector-class">.knotx</span><span class="hljs-selector-class">.server</span><span class="hljs-selector-class">.api</span><span class="hljs-selector-class">.security</span><span class="hljs-selector-class">.AuthHandlerFactory</span>   <span class="hljs-comment">// META-INF file used by Knot.x to find the handler</span></code></pre><p>The <code>modules/security-module/build.gradle.kts</code> takes care of any dependencies we&#39;ll need in this tutorial:</p>
 <pre class="highlight"><code class="hljs kotlin">dependencies {
     <span class="hljs-string">"io.knotx:knotx"</span>.let { v -&gt;
-        implementation(platform(<span class="hljs-string">"<span class="hljs-variable">$v</span>-dependencies:<span class="hljs-subst">${project.property("knotx.version")}</span>"</span>))
-        implementation(<span class="hljs-string">"<span class="hljs-variable">$v</span>-fragments-handler-api:<span class="hljs-subst">${project.property("knotx.version")}</span>"</span>)
+        implementation(platform(<span class="hljs-string">"<span class="hljs-variable">$v</span>-dependencies:<span class="hljs-subst">${project.property(<span class="hljs-string">"knotx.version"</span>)}</span>"</span>))
+        implementation(<span class="hljs-string">"<span class="hljs-variable">$v</span>-fragments-handler-api:<span class="hljs-subst">${project.property(<span class="hljs-string">"knotx.version"</span>)}</span>"</span>)
     }
     <span class="hljs-string">"io.vertx:vertx"</span>.let { v -&gt;
         implementation(<span class="hljs-string">"<span class="hljs-variable">$v</span>-core"</span>)
@@ -257,13 +257,13 @@ project(<span class="hljs-string">":security-module"</span>).projectDir = file(<
 <p>It&#39;s as simple as creating a <a href="https://vertx.io/docs/apidocs/io/vertx/ext/web/handler/BasicAuthHandler.html"><code>BasicAuthHandler</code></a> that will use <a href="https://vertx.io/docs/apidocs/io/vertx/ext/auth/shiro/ShiroAuth.html"><code>ShiroAuth</code></a> instance created with our config.</p>
 <p>Let&#39;s not forget to register our factory for <a href="https://docs.oracle.com/javase/7/docs/api/java/util/ServiceLoader.html">Java ServiceLoader</a>:</p>
 <p><code>io.knotx.server.api.security.AuthHandlerFactory</code></p>
-<pre class="highlight"><code class="hljs stylus">io<span class="hljs-selector-class">.knotx</span><span class="hljs-selector-class">.examples</span><span class="hljs-selector-class">.security</span><span class="hljs-selector-class">.auth</span><span class="hljs-selector-class">.BasicAuthHandlerFactory</span></code></pre><h2 id="build-run">Build &amp; Run</h2>
+<pre class="highlight"><code class="hljs css"><span class="hljs-selector-tag">io</span><span class="hljs-selector-class">.knotx</span><span class="hljs-selector-class">.examples</span><span class="hljs-selector-class">.security</span><span class="hljs-selector-class">.auth</span><span class="hljs-selector-class">.BasicAuthHandlerFactory</span></code></pre><h2 id="build-run">Build &amp; Run</h2>
 <p>In this tutorial we&#39;ll be using the Docker distribution, but it will work with Stack distribution as well. Please refer to <a href="http://knotx.io/tutorials/getting-started-with-knotx-stack/2_0/">this tutorial</a> on how to work with the Stack distribution.</p>
 <p>First, let&#39;s rename the Docker image we&#39;re about to create:</p>
 <p><code>gradle.properties</code></p>
-<pre class="highlight"><code class="hljs stylus"><span class="hljs-comment">// ...</span>
-docker<span class="hljs-selector-class">.image</span><span class="hljs-selector-class">.name</span>=knotx-example/secure-api-gateway
-<span class="hljs-comment">// ...</span></code></pre><p>Now let&#39;s build the image:</p>
+<pre class="highlight"><code class="hljs jboss-cli"><span class="hljs-string">//</span> <span class="hljs-string">...</span>
+docker.image.name=knotx-example/secure-api-gateway
+<span class="hljs-string">//</span> <span class="hljs-string">...</span></code></pre><p>Now let&#39;s build the image:</p>
 <pre class="highlight"><code class="hljs elixir"><span class="hljs-variable">$ </span>gradlew clean build-docker</code></pre><p>and run it:</p>
 <pre class="highlight"><code class="hljs dockerfile">$ docker <span class="hljs-keyword">run</span><span class="bash"> -p8092:8092 knotx-example/secure-api-gateway</span></code></pre><p>After a while the Docker container should be up and running.</p>
 <p>Let&#39;s try accessing our endpoint:</p>

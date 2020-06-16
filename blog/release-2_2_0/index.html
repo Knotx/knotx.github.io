@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="We have just released a minor release Knot.x 2.2.0.">
   <meta name="keywords" content="knotx, vertx, reactive, asynchronous, templating, java, polyglot, cms, release">
-  <title>Knot.x 2.2.0 released! - Knot.x Blog Post</title>
+  <title>Knot.x 2.2 released! - Knot.x Blog Post</title>
 
-  <meta property="og:title" content="Knot.x 2.2.0 released! - Knot.x Blog Post"/>
+  <meta property="og:title" content="Knot.x 2.2 released! - Knot.x Blog Post"/>
   <meta property="og:type" content="article"/>
   <meta property="og:url" content="https://knotx.io/blog/release-2_2_0/"/>
   <meta property="og:site_name" content="Knot.x Website"/>
@@ -227,8 +227,8 @@ and update all references in <code>./build.gradle.kts</code></li>
 <pre class="highlight"><code class="hljs kotlin">apply(from = <span class="hljs-string">"https://raw.githubusercontent.com/Knotx/knotx-starter-kit/master/gradle/docker.gradle.kts"</span>)
 apply(from = <span class="hljs-string">"https://raw.githubusercontent.com/Knotx/knotx-starter-kit/master/gradle/javaAndUnitTests.gradle.kts"</span>)</code></pre>
 <p>to tag versions:</p>
-<pre class="highlight"><code class="hljs kotlin">apply(from = <span class="hljs-string">"https://raw.githubusercontent.com/Knotx/knotx-starter-kit/<span class="hljs-subst">${project.property("knotxVersion")}</span>/gradle/docker.gradle.kts"</span>)
-apply(from = <span class="hljs-string">"https://raw.githubusercontent.com/Knotx/knotx-starter-kit/<span class="hljs-subst">${project.property("knotxVersion")}</span>/gradle/javaAndUnitTests.gradle.kts"</span>)</code></pre>
+<pre class="highlight"><code class="hljs kotlin">apply(from = <span class="hljs-string">"https://raw.githubusercontent.com/Knotx/knotx-starter-kit/<span class="hljs-subst">${project.property(<span class="hljs-string">"knotxVersion"</span>)}</span>/gradle/docker.gradle.kts"</span>)
+apply(from = <span class="hljs-string">"https://raw.githubusercontent.com/Knotx/knotx-starter-kit/<span class="hljs-subst">${project.property(<span class="hljs-string">"knotxVersion"</span>)}</span>/gradle/javaAndUnitTests.gradle.kts"</span>)</code></pre>
 <h2 id="release-notes">Release Notes</h2>
 <h3 id="knot-x-gradle-plugins">Knot.x Gradle Plugins</h3>
 <ul>

@@ -302,9 +302,9 @@ dependencies {
     implementation(group = <span class="hljs-string">"org.apache.commons"</span>, name = <span class="hljs-string">"commons-lang3"</span>)
 
     <span class="hljs-string">"io.knotx:knotx"</span>.let { v -&gt;
-        implementation(platform(<span class="hljs-string">"<span class="hljs-variable">$v</span>-dependencies:<span class="hljs-subst">${project.property("knotx.version")}</span>"</span>))
-        implementation(<span class="hljs-string">"<span class="hljs-variable">$v</span>-server-http-api:<span class="hljs-subst">${project.property("knotx.version")}</span>"</span>)
-        implementation(<span class="hljs-string">"<span class="hljs-variable">$v</span>-fragments-handler-api:<span class="hljs-subst">${project.property("knotx.version")}</span>"</span>)
+        implementation(platform(<span class="hljs-string">"<span class="hljs-variable">$v</span>-dependencies:<span class="hljs-subst">${project.property(<span class="hljs-string">"knotx.version"</span>)}</span>"</span>))
+        implementation(<span class="hljs-string">"<span class="hljs-variable">$v</span>-server-http-api:<span class="hljs-subst">${project.property(<span class="hljs-string">"knotx.version"</span>)}</span>"</span>)
+        implementation(<span class="hljs-string">"<span class="hljs-variable">$v</span>-fragments-handler-api:<span class="hljs-subst">${project.property(<span class="hljs-string">"knotx.version"</span>)}</span>"</span>)
     }
     <span class="hljs-string">"io.vertx:vertx"</span>.let { v -&gt;
         implementation(<span class="hljs-string">"<span class="hljs-variable">$v</span>-web"</span>)
@@ -314,7 +314,7 @@ dependencies {
     }
 }</code></pre>
 <p><em>src/main/resources/META-INF/services/io.knotx.fragments.handler.api.ActionFactory</em></p>
-<pre class="highlight"><code class="hljs stylus">io<span class="hljs-selector-class">.knotx</span><span class="hljs-selector-class">.example</span><span class="hljs-selector-class">.payment</span><span class="hljs-selector-class">.action</span><span class="hljs-selector-class">.PaymentsActionFactory</span></code></pre><p><em>src/main/java/io/knotx/example/payment/action/PaymentsActionFactory.java</em></p>
+<pre class="highlight"><code class="hljs css"><span class="hljs-selector-tag">io</span><span class="hljs-selector-class">.knotx</span><span class="hljs-selector-class">.example</span><span class="hljs-selector-class">.payment</span><span class="hljs-selector-class">.action</span><span class="hljs-selector-class">.PaymentsActionFactory</span></code></pre><p><em>src/main/java/io/knotx/example/payment/action/PaymentsActionFactory.java</em></p>
 <pre class="highlight"><code class="hljs java"><span class="hljs-keyword">package</span> io.knotx.example.payment.action;
 
 <span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> io.knotx.example.payment.utils.ProvidersProvider.calculateProviders;
@@ -520,7 +520,7 @@ dependencies {
 <h2 id="docker">Docker</h2>
 <h3 id="configuration">Configuration</h3>
 <p><a href="https://github.com/Knotx/knotx-starter-kit">Knot.x Starter Kit</a> project builds docker image. Edit <code>gradle.properties</code> and change property <code>docker.image.name</code>:</p>
-<pre class="highlight"><code class="hljs stylus">docker<span class="hljs-selector-class">.image</span><span class="hljs-selector-class">.name</span>=knotx-example/api-gateway</code></pre><p>You will refer to the image name in the swarm file.</p>
+<pre class="highlight"><code class="hljs ini"><span class="hljs-attr">docker.image.name</span>=knotx-example/api-gateway</code></pre><p>You will refer to the image name in the swarm file.</p>
 <p><a id="swarm"></a></p>
 <h3 id="swarm">Swarm</h3>
 <p>Let&#39;s define the swarm file where we will setup following services:</p>
@@ -532,27 +532,27 @@ dependencies {
 <pre class="highlight"><code class="hljs yaml"><span class="hljs-attr">version:</span> <span class="hljs-string">'3.7'</span>
 
 <span class="hljs-attr">networks:</span>
-<span class="hljs-attr">  knotnet:</span>
+  <span class="hljs-attr">knotnet:</span>
 
 <span class="hljs-attr">services:</span>
 
-<span class="hljs-attr">  webapi:</span>
-<span class="hljs-attr">    image:</span> <span class="hljs-string">rodolpheche/wiremock</span>
-<span class="hljs-attr">    volumes:</span>
-<span class="hljs-bullet">      -</span> <span class="hljs-string">"../common-services/webapi:/home/wiremock"</span>
-<span class="hljs-attr">    ports:</span>
-<span class="hljs-bullet">      -</span> <span class="hljs-string">"3000:8080"</span>
-<span class="hljs-attr">    networks:</span>
-<span class="hljs-bullet">      -</span> <span class="hljs-string">knotnet</span>
+  <span class="hljs-attr">webapi:</span>
+    <span class="hljs-attr">image:</span> <span class="hljs-string">rodolpheche/wiremock</span>
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">"../common-services/webapi:/home/wiremock"</span>
+    <span class="hljs-attr">ports:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">"3000:8080"</span>
+    <span class="hljs-attr">networks:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">knotnet</span>
 
-<span class="hljs-attr">  knotx:</span>
-<span class="hljs-attr">    image:</span> <span class="hljs-string">knotx-example/gateway-api:latest</span>
-<span class="hljs-attr">    command:</span> <span class="hljs-string">["knotx",</span> <span class="hljs-string">"run-knotx"</span><span class="hljs-string">]</span>
-<span class="hljs-attr">    ports:</span>
-<span class="hljs-bullet">      -</span> <span class="hljs-string">"8092:8092"</span>
-<span class="hljs-bullet">      -</span> <span class="hljs-string">"18092:18092"</span>
-<span class="hljs-attr">    networks:</span>
-<span class="hljs-bullet">      -</span> <span class="hljs-string">knotnet</span>
+  <span class="hljs-attr">knotx:</span>
+    <span class="hljs-attr">image:</span> <span class="hljs-string">knotx-example/gateway-api:latest</span>
+    <span class="hljs-attr">command:</span> <span class="hljs-string">["knotx",</span> <span class="hljs-string">"run-knotx"</span><span class="hljs-string">]</span>
+    <span class="hljs-attr">ports:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">"8092:8092"</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">"18092:18092"</span>
+    <span class="hljs-attr">networks:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">knotnet</span>
 
 </code></pre>
 <h2 id="run">Run</h2>

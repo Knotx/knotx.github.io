@@ -137,7 +137,7 @@
 <p><a href="https://github.com/Knotx/knotx-starter-kit">Knot.x Starter Kit</a> project builds either stack (zip distribution) or Docker image. In this tutorial, we&#39;ll use the latter.</p>
 <p>The part responsible for building the Docker image is the <a href="https://raw.githubusercontent.com/Knotx/knotx-starter-kit/master/gradle/docker.gradle.kts"><code>docker.gradle.kts</code></a> file, which uses the <a href="https://github.com/bmuschko/gradle-docker-plugin"><code>gradle-docker-plugin</code></a>.</p>
 <p>Let&#39;s rename the Docker image. Edit <code>gradle.properties</code> and change property <code>docker.image.name</code>:</p>
-<pre class="highlight"><code class="hljs stylus">docker<span class="hljs-selector-class">.image</span><span class="hljs-selector-class">.name</span>=knotx-example/knotx-docker-tutorial</code></pre><h2 id="build-run">Build &amp; Run</h2>
+<pre class="highlight"><code class="hljs ini"><span class="hljs-attr">docker.image.name</span>=knotx-example/knotx-docker-tutorial</code></pre><h2 id="build-run">Build &amp; Run</h2>
 <p>First, let&#39;s build your docker image:</p>
 <pre class="highlight"><code class="hljs elixir"><span class="hljs-variable">$ </span>gradlew clean build-docker</code></pre><p>If you take a closer look at build log (you can use <code>-i</code> flag for a more verbose process) you can see, that not only the project is being built, but also it:</p>
 <ul>

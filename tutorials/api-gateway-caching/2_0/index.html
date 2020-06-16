@@ -273,36 +273,36 @@ in the config file (the same way as we did above).</p>
 <p>Finally, we need to declare the exposed the new API containing caching functionality, its path and HTTP method. We add it in the <code>./knotx/conf/openapi.yaml</code> <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md">OpenAPI 3.0 specification</a>: </p>
 <pre class="highlight"><code class="hljs yaml"><span class="hljs-attr">openapi:</span> <span class="hljs-string">"3.0.0"</span>
 <span class="hljs-attr">info:</span>
-<span class="hljs-attr">  version:</span> <span class="hljs-number">1.0</span><span class="hljs-number">.0</span>
-<span class="hljs-attr">  title:</span> <span class="hljs-string">API</span> <span class="hljs-string">gateway</span> <span class="hljs-string">caching</span> <span class="hljs-string">example</span>
-<span class="hljs-attr">  description:</span> <span class="hljs-string">API</span> <span class="hljs-string">gateway</span> <span class="hljs-string">caching</span> <span class="hljs-string">example</span>
+  <span class="hljs-attr">version:</span> <span class="hljs-number">1.0</span><span class="hljs-number">.0</span>
+  <span class="hljs-attr">title:</span> <span class="hljs-string">API</span> <span class="hljs-string">gateway</span> <span class="hljs-string">caching</span> <span class="hljs-string">example</span>
+  <span class="hljs-attr">description:</span> <span class="hljs-string">API</span> <span class="hljs-string">gateway</span> <span class="hljs-string">caching</span> <span class="hljs-string">example</span>
 
 <span class="hljs-attr">servers:</span>
-<span class="hljs-attr">  - url:</span> <span class="hljs-attr">https://{domain}:{port}</span>
-<span class="hljs-attr">    description:</span> <span class="hljs-string">The</span> <span class="hljs-string">local</span> <span class="hljs-string">API</span> <span class="hljs-string">server</span>
-<span class="hljs-attr">    variables:</span>
-<span class="hljs-attr">      domain:</span>
-<span class="hljs-attr">        default:</span> <span class="hljs-string">localhost</span>
-<span class="hljs-attr">        description:</span> <span class="hljs-string">api</span> <span class="hljs-string">domain</span>
-<span class="hljs-attr">      port:</span>
-<span class="hljs-attr">        enum:</span>
-<span class="hljs-bullet">          -</span> <span class="hljs-string">'8092'</span>
-<span class="hljs-attr">        default:</span> <span class="hljs-string">'8092'</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">url:</span> <span class="hljs-string">https://{domain}:{port}</span>
+    <span class="hljs-attr">description:</span> <span class="hljs-string">The</span> <span class="hljs-string">local</span> <span class="hljs-string">API</span> <span class="hljs-string">server</span>
+    <span class="hljs-attr">variables:</span>
+      <span class="hljs-attr">domain:</span>
+        <span class="hljs-attr">default:</span> <span class="hljs-string">localhost</span>
+        <span class="hljs-attr">description:</span> <span class="hljs-string">api</span> <span class="hljs-string">domain</span>
+      <span class="hljs-attr">port:</span>
+        <span class="hljs-attr">enum:</span>
+          <span class="hljs-bullet">-</span> <span class="hljs-string">'8092'</span>
+        <span class="hljs-attr">default:</span> <span class="hljs-string">'8092'</span>
 
 <span class="hljs-attr">paths:</span>
   <span class="hljs-string">/healthcheck:</span>
-<span class="hljs-attr">    get:</span>
-<span class="hljs-attr">      operationId:</span> <span class="hljs-string">healthcheck-operation</span>
-<span class="hljs-attr">      responses:</span>
-<span class="hljs-attr">        default:</span>
-<span class="hljs-attr">          description:</span> <span class="hljs-string">example</span> <span class="hljs-string">vert.x</span> <span class="hljs-string">healthcheck</span>
+    <span class="hljs-attr">get:</span>
+      <span class="hljs-attr">operationId:</span> <span class="hljs-string">healthcheck-operation</span>
+      <span class="hljs-attr">responses:</span>
+        <span class="hljs-attr">default:</span>
+          <span class="hljs-attr">description:</span> <span class="hljs-string">example</span> <span class="hljs-string">vert.x</span> <span class="hljs-string">healthcheck</span>
 
   <span class="hljs-string">/product/id:</span>
-<span class="hljs-attr">    get:</span>
-<span class="hljs-attr">      operationId:</span> <span class="hljs-string">product-api-caching-proxy-operation</span>
-<span class="hljs-attr">      responses:</span>
-<span class="hljs-attr">        default:</span>
-<span class="hljs-attr">          description:</span> <span class="hljs-string">External</span> <span class="hljs-string">API</span> <span class="hljs-string">(Product</span> <span class="hljs-string">API)</span> <span class="hljs-string">caching</span> <span class="hljs-string">proxy.</span></code></pre>
+    <span class="hljs-attr">get:</span>
+      <span class="hljs-attr">operationId:</span> <span class="hljs-string">product-api-caching-proxy-operation</span>
+      <span class="hljs-attr">responses:</span>
+        <span class="hljs-attr">default:</span>
+          <span class="hljs-attr">description:</span> <span class="hljs-string">External</span> <span class="hljs-string">API</span> <span class="hljs-string">(Product</span> <span class="hljs-string">API)</span> <span class="hljs-string">caching</span> <span class="hljs-string">proxy.</span></code></pre>
 <p>The API is exposed by the <code>product/id</code> path and GET HTTP method. It delegates its processing logic to the <code>product-api-caching-proxy-operation</code> operation.  </p>
 <p>We have all Knot.x specific files created, now we are going to focus on project setup and deployment.  </p>
 <h2 id="environment-configuration">Environment configuration</h2>
@@ -311,29 +311,29 @@ in the config file (the same way as we did above).</p>
 <pre class="highlight"><code class="hljs yml"><span class="hljs-attr">version:</span> <span class="hljs-string">'3.7'</span>
 
 <span class="hljs-attr">networks:</span>
-<span class="hljs-attr">  knotnet:</span>
+  <span class="hljs-attr">knotnet:</span>
 
 <span class="hljs-attr">services:</span>
 
-<span class="hljs-attr">  webapi:</span>
-<span class="hljs-attr">    image:</span> <span class="hljs-string">rodolpheche/wiremock</span>
-<span class="hljs-attr">    volumes:</span>
-<span class="hljs-bullet">      -</span> <span class="hljs-string">"./common-services/webapi:/home/wiremock"</span>
-<span class="hljs-bullet">      -</span> <span class="hljs-string">"./common-services/webapi/extensions:/var/wiremock/extensions"</span>
-<span class="hljs-attr">    ports:</span>
-<span class="hljs-bullet">      -</span> <span class="hljs-string">"3000:8080"</span>
-<span class="hljs-attr">    networks:</span>
-<span class="hljs-bullet">      -</span> <span class="hljs-string">knotnet</span>
-<span class="hljs-attr">    command:</span> <span class="hljs-string">["--global-response-templating",</span> <span class="hljs-string">"--extensions"</span><span class="hljs-string">,</span> <span class="hljs-string">"com.opentable.extension.BodyTransformer"</span><span class="hljs-string">]</span>
+  <span class="hljs-attr">webapi:</span>
+    <span class="hljs-attr">image:</span> <span class="hljs-string">rodolpheche/wiremock</span>
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">"./common-services/webapi:/home/wiremock"</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">"./common-services/webapi/extensions:/var/wiremock/extensions"</span>
+    <span class="hljs-attr">ports:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">"3000:8080"</span>
+    <span class="hljs-attr">networks:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">knotnet</span>
+    <span class="hljs-attr">command:</span> <span class="hljs-string">["--global-response-templating",</span> <span class="hljs-string">"--extensions"</span><span class="hljs-string">,</span> <span class="hljs-string">"com.opentable.extension.BodyTransformer"</span><span class="hljs-string">]</span>
 
-<span class="hljs-attr">  knotx:</span>
-<span class="hljs-attr">    image:</span> <span class="hljs-string">knotx-example/api-cache:latest</span>
-<span class="hljs-attr">    command:</span> <span class="hljs-string">["knotx",</span> <span class="hljs-string">"run-knotx"</span><span class="hljs-string">]</span>
-<span class="hljs-attr">    ports:</span>
-<span class="hljs-bullet">      -</span> <span class="hljs-string">"8092:8092"</span>
-<span class="hljs-bullet">      -</span> <span class="hljs-string">"18092:18092"</span>
-<span class="hljs-attr">    networks:</span>
-<span class="hljs-bullet">      -</span> <span class="hljs-string">knotnet</span></code></pre>
+  <span class="hljs-attr">knotx:</span>
+    <span class="hljs-attr">image:</span> <span class="hljs-string">knotx-example/api-cache:latest</span>
+    <span class="hljs-attr">command:</span> <span class="hljs-string">["knotx",</span> <span class="hljs-string">"run-knotx"</span><span class="hljs-string">]</span>
+    <span class="hljs-attr">ports:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">"8092:8092"</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">"18092:18092"</span>
+    <span class="hljs-attr">networks:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">knotnet</span></code></pre>
 <p>First and foremost it specifies Docker virtual network in which our services will be deployed. Then we have some service configs.
 The first one is <code>webapi</code></p>
 <ul>

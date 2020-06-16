@@ -215,15 +215,15 @@ RuntimeWiring runtimeWiring = newRuntimeWiring()
 </blockquote>
 <h3 id="step-0-google-books-api-schema-and-model">Step 0 - Google Books API, schema and model</h3>
 <p>Let&#39;s stick with books. We&#39;ll implement a sample service serving books from the <a href="https://developers.google.com/books">Google Books API</a>. Google Books is a typical REST API. It returns a lot of information. In this tutorial, we&#39;ll extract just a title, publisher and a list of authors (Google API returns authors as a list of strings). The response from the Google API looks like this:</p>
-<pre class="highlight"><code class="hljs undefined">{
-    "items": [
+<pre class="highlight"><code class="hljs json">{
+    <span class="hljs-attr">"items"</span>: [
         {
-            //...
-            "volumeInfo": {
-                "title": "...",
-                "publisher": "...",
-                "authors": ["Author1", "Author2"],
-                //...
+            <span class="hljs-comment">//...</span>
+            <span class="hljs-attr">"volumeInfo"</span>: {
+                <span class="hljs-attr">"title"</span>: <span class="hljs-string">"..."</span>,
+                <span class="hljs-attr">"publisher"</span>: <span class="hljs-string">"..."</span>,
+                <span class="hljs-attr">"authors"</span>: [<span class="hljs-string">"Author1"</span>, <span class="hljs-string">"Author2"</span>],
+                <span class="hljs-comment">//...</span>
             }
         }
     ]
@@ -296,38 +296,38 @@ type Book {
 }</code></pre>
 <p>It&#39;s a standard Knot.x handler factory. It returns a handler that creates a <code>GraphQL</code> object, uses it to create a Vert.x <code>GraphQLHandler</code> and lets it handle the request.</p>
 <p><code>GraphQL</code> object is created the standard way. See <a href="https://www.graphql-java.com/">graphql-java.com</a> for more explanation on Java GraphQL specific issues.</p>
-<pre class="highlight"><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> GraphQL <span class="hljs-title">setupGraphQL</span><span class="hljs-params">(Vertx vertx, JsonObject config, RoutingContext routingContext)</span> </span>{
-    <span class="hljs-comment">// Schema file path will be read from knot.x configuration</span>
-    Reader schema = loadResource(config.getString(<span class="hljs-string">"schema"</span>)); 
+<pre class="highlight"><code class="hljs undefined">private GraphQL setupGraphQL(Vertx vertx, JsonObject config, RoutingContext routingContext) {
+    // Schema file path will be read from knot.x configuration
+    Reader schema = loadResource(config.getString("schema")); 
 
-    SchemaParser schemaParser = <span class="hljs-keyword">new</span> SchemaParser();
+    SchemaParser schemaParser = new SchemaParser();
     TypeDefinitionRegistry typeDefinitionRegistry = schemaParser.parse(schema);
 
     RuntimeWiring runtimeWiring = newRuntimeWiring()
-        .type(<span class="hljs-string">"QueryType"</span>, builder -&gt; builder
-            <span class="hljs-comment">// Here we can assign data fetchers to operations from schema</span>
-            <span class="hljs-comment">// We'll implement them in Step 2. Normaly it'd look something like:</span>
-            .dataFetcher(<span class="hljs-string">"books"</span>, <span class="hljs-keyword">new</span> BooksFetcher())
-            .dataFetcher(<span class="hljs-string">"book"</span>, <span class="hljs-keyword">new</span> SingleBookFetcher())
+        .type("QueryType", builder -&gt; builder
+            // Here we can assign data fetchers to operations from schema
+            // We'll implement them in Step 2. Normaly it'd look something like:
+            .dataFetcher("books", new BooksFetcher())
+            .dataFetcher("book", new SingleBookFetcher())
         )
         .build();
-    SchemaGenerator schemaGenerator = <span class="hljs-keyword">new</span> SchemaGenerator();
+    SchemaGenerator schemaGenerator = new SchemaGenerator();
     GraphQLSchema graphQLSchema = schemaGenerator
         .makeExecutableSchema(typeDefinitionRegistry, runtimeWiring);
 
-    <span class="hljs-keyword">return</span> GraphQL.newGraphQL(graphQLSchema).build();
+    return GraphQL.newGraphQL(graphQLSchema).build();
   }
 
-<span class="hljs-function"><span class="hljs-keyword">private</span> Reader <span class="hljs-title">loadResource</span><span class="hljs-params">(String path)</span> </span>{
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> InputStreamReader(GraphQLHandlerFactory.class.getResourceAsStream(<span class="hljs-string">"/"</span> + path));
+private Reader loadResource(String path) {
+    return new InputStreamReader(GraphQLHandlerFactory.class.getResourceAsStream("/" + path));
 }</code></pre>
 <p>Remember about updating services in the <code>META-INF</code>. With a handler factory, you can now configure a GraphQL endpoint. Add this path to <code>openapi.yml</code>:</p>
 <pre class="highlight"><code class="hljs yml"><span class="hljs-string">/api/graphql:</span>
-<span class="hljs-attr">    post:</span>
-<span class="hljs-attr">        operationId:</span> <span class="hljs-string">books-gql-operation</span>
-<span class="hljs-attr">        responses:</span>
-<span class="hljs-attr">            default:</span>
-<span class="hljs-attr">                description:</span> <span class="hljs-string">Books</span> <span class="hljs-string">Graphql</span> <span class="hljs-string">API</span></code></pre>
+    <span class="hljs-attr">post:</span>
+        <span class="hljs-attr">operationId:</span> <span class="hljs-string">books-gql-operation</span>
+        <span class="hljs-attr">responses:</span>
+            <span class="hljs-attr">default:</span>
+                <span class="hljs-attr">description:</span> <span class="hljs-string">Books</span> <span class="hljs-string">Graphql</span> <span class="hljs-string">API</span></code></pre>
 <p>Note that it needs to be POST because GraphQL reads queries from the requests&#39; bodies. Now add the operation to <code>operations.conf</code>:</p>
 <pre class="highlight"><code class="hljs ruby">{
     operationId = books-gql-operation
@@ -436,7 +436,7 @@ TaskBuilder taskBuilder = <span class="hljs-keyword">new</span> TaskBuilder(FRAG
 <p>Now let&#39;s quickly implement <code>supplyFactories</code> method. It simply uses a service loader to retrieve action factories:</p>
 <pre class="highlight"><code class="hljs java"><span class="hljs-keyword">private</span> Supplier&lt;Iterator&lt;ActionFactory&gt;&gt; supplyFactories() {
     <span class="hljs-keyword">return</span> () -&gt; {
-        ServiceLoader&lt;ActionFactory&gt; factories = ServiceLoader.load(ActionFactory.class);
+        ServiceLoader&lt;ActionFactory&gt; factories = ServiceLoader.load(ActionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         <span class="hljs-keyword">return</span> factories.iterator();
     };
 }</code></pre>
@@ -514,21 +514,21 @@ TaskBuilder taskBuilder = <span class="hljs-keyword">new</span> TaskBuilder(FRAG
 }</code></pre>
 <p>It&#39;s just a little bit more complicated. It extends <code>TaskDataFetcher&lt;T[]&gt;</code> instead of <code>TaskDataFetcher&lt;T&gt;</code> so it can return arrays. In the <code>getDataObjectFromJson</code> method it creates an array to return and populates it with individual model objects (for example, <code>Book</code> instances) just the way our previous fetcher did.</p>
 <p>Also, there&#39;s the <code>toArray</code> parameter passed to our fetcher. It&#39;s a <code>Function</code> used to transform <code>JsonObject</code> from payload into a <code>JsonArray</code>. In our case, google api returns something like:</p>
-<pre class="highlight"><code class="hljs undefined">{
-    "items": [
-        {/* book 1 */},
-        {/* book 2 */ },
-        //...
+<pre class="highlight"><code class="hljs json">{
+    <span class="hljs-attr">"items"</span>: [
+        {<span class="hljs-comment">/* book 1 */</span>},
+        {<span class="hljs-comment">/* book 2 */</span> },
+        <span class="hljs-comment">//...</span>
     ]
 }</code></pre>
 <p>Therefore, we would pass the following function as <code>toArray</code>: </p>
 <pre class="highlight"><code class="hljs java">json -&gt; json.getJsonArray(<span class="hljs-string">"items"</span>)</code></pre>
 <h4 id="using-our-fetchers">Using our fetchers</h4>
 <p>We can now assign our fetchers to operations in runtime wiring builder in <code>GraphQLHandlerFactory</code>:</p>
-<pre class="highlight"><code class="hljs java">RuntimeWiring runtimeWiring = newRuntimeWiring()
-        .type(<span class="hljs-string">"QueryType"</span>, builder -&gt; builder
-            .dataFetcher(<span class="hljs-string">"books"</span>, <span class="hljs-keyword">new</span> TaskArrayDataFetcher&lt;&gt;(<span class="hljs-string">"get-books"</span>, Book.class, vertx, config, routingContext, json -&gt; json.getJsonArray(<span class="hljs-string">"items"</span>)))
-            .dataFetcher(<span class="hljs-string">"book"</span>, <span class="hljs-keyword">new</span> TaskSingleDataFetcher&lt;&gt;(<span class="hljs-string">"get-book"</span>, Book.class, vertx, config, routingContext))
+<pre class="highlight"><code class="hljs undefined">RuntimeWiring runtimeWiring = newRuntimeWiring()
+        .type("QueryType", builder -&gt; builder
+            .dataFetcher("books", new TaskArrayDataFetcher&lt;&gt;("get-books", Book.class, vertx, config, routingContext, json -&gt; json.getJsonArray("items")))
+            .dataFetcher("book", new TaskSingleDataFetcher&lt;&gt;("get-book", Book.class, vertx, config, routingContext))
         )
         .build();</code></pre>
 <p>We just assign operation <code>books</code> to a <code>TaskArrayDataFetcher</code> that uses task <code>get-books</code> from configuration and returns an array of <code>Book</code> objects. Also, we assign operation <code>book</code> to a <code>TaskSingleDataFetcher</code> that uses task <code>get-book</code> and returns a <code>Book</code>.</p>
@@ -708,7 +708,7 @@ exposeInPayload-getBook {
             {
                 <span class="hljs-attr">"publisher"</span>: <span class="hljs-string">"Morgan Kaufmann"</span>
             },
-            //...
+            <span class="hljs-comment">//...</span>
         ]
     }
 }</code></pre>

@@ -130,49 +130,49 @@
 <p>OpenAPI can be written either in JSON or YAML format. Knot.x prefers YAML, though. You have to specify your endpoints in <code>knotx/conf/openapi.yaml</code> file. Let&#39;s take a look at the default one (coming with the <a href="https://github.com/Knotx/knotx-starter-kit">Starter Kit template</a>). It starts like this:</p>
 <pre class="highlight"><code class="hljs yaml"><span class="hljs-attr">openapi:</span> <span class="hljs-string">"3.0.0"</span>
 <span class="hljs-attr">info:</span>
-<span class="hljs-attr">  version:</span> <span class="hljs-number">1.0</span><span class="hljs-number">.0</span>
-<span class="hljs-attr">  title:</span> <span class="hljs-string">Knot.x</span> <span class="hljs-string">Starter</span> <span class="hljs-string">Kit</span>
-<span class="hljs-attr">  description:</span> <span class="hljs-string">Knotx</span> <span class="hljs-string">Starter</span> <span class="hljs-string">Kit</span>
+  <span class="hljs-attr">version:</span> <span class="hljs-number">1.0</span><span class="hljs-number">.0</span>
+  <span class="hljs-attr">title:</span> <span class="hljs-string">Knot.x</span> <span class="hljs-string">Starter</span> <span class="hljs-string">Kit</span>
+  <span class="hljs-attr">description:</span> <span class="hljs-string">Knotx</span> <span class="hljs-string">Starter</span> <span class="hljs-string">Kit</span>
 
 <span class="hljs-attr">servers:</span>
-<span class="hljs-attr">  - url:</span> <span class="hljs-attr">https://{domain}:{port}</span>
-<span class="hljs-attr">    description:</span> <span class="hljs-string">The</span> <span class="hljs-string">local</span> <span class="hljs-string">API</span> <span class="hljs-string">server</span>
-<span class="hljs-attr">    variables:</span>
-<span class="hljs-attr">      domain:</span>
-<span class="hljs-attr">        default:</span> <span class="hljs-string">localhost</span>
-<span class="hljs-attr">        description:</span> <span class="hljs-string">api</span> <span class="hljs-string">domain</span>
-<span class="hljs-attr">      port:</span>
-<span class="hljs-attr">        enum:</span>
-<span class="hljs-bullet">          -</span> <span class="hljs-string">'8092'</span>
-<span class="hljs-attr">        default:</span> <span class="hljs-string">'8092'</span></code></pre>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">url:</span> <span class="hljs-string">https://{domain}:{port}</span>
+    <span class="hljs-attr">description:</span> <span class="hljs-string">The</span> <span class="hljs-string">local</span> <span class="hljs-string">API</span> <span class="hljs-string">server</span>
+    <span class="hljs-attr">variables:</span>
+      <span class="hljs-attr">domain:</span>
+        <span class="hljs-attr">default:</span> <span class="hljs-string">localhost</span>
+        <span class="hljs-attr">description:</span> <span class="hljs-string">api</span> <span class="hljs-string">domain</span>
+      <span class="hljs-attr">port:</span>
+        <span class="hljs-attr">enum:</span>
+          <span class="hljs-bullet">-</span> <span class="hljs-string">'8092'</span>
+        <span class="hljs-attr">default:</span> <span class="hljs-string">'8092'</span></code></pre>
 <p>It defines the OpenAPI specification version used and some metadata about our API (version, title, description). Then it specifies a list of servers our API is available on. In this case, it&#39;s just one server: <code>localhost:8092</code>. Additionally, we provide some servers metadata such as descriptions. 
 We can also define some variables. They are not necessary in this case, but let&#39;s imagine that your API is available on 3 ports and 2 domains. Instead of listing all 6 possible combinations, you can just use variables. Also, note that all variables here have to be strings and that they don&#39;t have to just be <code>port</code> and <code>domain</code>. They can be anything.</p>
 <p>Next in the file, there are paths defined. Let&#39;s see:</p>
 <pre class="highlight"><code class="hljs yaml"><span class="hljs-attr">paths:</span>
   <span class="hljs-string">/api/v1/example:</span>
-<span class="hljs-attr">    get:</span>
-<span class="hljs-attr">      operationId:</span> <span class="hljs-string">example-api-with-handlers-operation</span>
-<span class="hljs-attr">      responses:</span>
-<span class="hljs-attr">        default:</span>
-<span class="hljs-attr">          description:</span> <span class="hljs-string">Example</span> <span class="hljs-string">API</span> <span class="hljs-string">response</span>
+    <span class="hljs-attr">get:</span>
+      <span class="hljs-attr">operationId:</span> <span class="hljs-string">example-api-with-handlers-operation</span>
+      <span class="hljs-attr">responses:</span>
+        <span class="hljs-attr">default:</span>
+          <span class="hljs-attr">description:</span> <span class="hljs-string">Example</span> <span class="hljs-string">API</span> <span class="hljs-string">response</span>
   <span class="hljs-string">/api/v2/example:</span>
-<span class="hljs-attr">    get:</span>
-<span class="hljs-attr">      operationId:</span> <span class="hljs-string">example-api-with-fragments-operation</span>
-<span class="hljs-attr">      responses:</span>
-<span class="hljs-attr">        default:</span>
-<span class="hljs-attr">          description:</span> <span class="hljs-string">Example</span> <span class="hljs-string">API</span> <span class="hljs-string">response</span>
+    <span class="hljs-attr">get:</span>
+      <span class="hljs-attr">operationId:</span> <span class="hljs-string">example-api-with-fragments-operation</span>
+      <span class="hljs-attr">responses:</span>
+        <span class="hljs-attr">default:</span>
+          <span class="hljs-attr">description:</span> <span class="hljs-string">Example</span> <span class="hljs-string">API</span> <span class="hljs-string">response</span>
   <span class="hljs-string">/healthcheck:</span>
-<span class="hljs-attr">    get:</span>
-<span class="hljs-attr">      operationId:</span> <span class="hljs-string">healthcheck-operation</span>
-<span class="hljs-attr">      responses:</span>
-        <span class="hljs-string">'200'</span><span class="hljs-string">:</span>
-<span class="hljs-attr">          description:</span> <span class="hljs-string">Everything</span> <span class="hljs-string">is</span> <span class="hljs-string">fine</span>
-        <span class="hljs-string">'204'</span><span class="hljs-string">:</span>
-<span class="hljs-attr">          description:</span> <span class="hljs-literal">No</span> <span class="hljs-string">procedure</span> <span class="hljs-string">are</span> <span class="hljs-string">registered.</span>
-        <span class="hljs-string">'501'</span><span class="hljs-string">:</span>
-<span class="hljs-attr">          description:</span> <span class="hljs-string">At</span> <span class="hljs-string">least</span> <span class="hljs-string">one</span> <span class="hljs-string">procedure</span> <span class="hljs-string">has</span> <span class="hljs-string">reported</span> <span class="hljs-string">a</span> <span class="hljs-string">non-healthy</span> <span class="hljs-string">stat</span>
-        <span class="hljs-string">'500'</span><span class="hljs-string">:</span>
-<span class="hljs-attr">          description:</span> <span class="hljs-string">One</span> <span class="hljs-string">procedure</span> <span class="hljs-string">has</span> <span class="hljs-string">thrown</span> <span class="hljs-string">an</span> <span class="hljs-string">error</span> <span class="hljs-string">or</span> <span class="hljs-string">has</span> <span class="hljs-string">not</span> <span class="hljs-string">reported</span> <span class="hljs-string">a</span> <span class="hljs-string">status</span> <span class="hljs-string">in</span> <span class="hljs-string">time</span>
+    <span class="hljs-attr">get:</span>
+      <span class="hljs-attr">operationId:</span> <span class="hljs-string">healthcheck-operation</span>
+      <span class="hljs-attr">responses:</span>
+        <span class="hljs-attr">'200':</span>
+          <span class="hljs-attr">description:</span> <span class="hljs-string">Everything</span> <span class="hljs-string">is</span> <span class="hljs-string">fine</span>
+        <span class="hljs-attr">'204':</span>
+          <span class="hljs-attr">description:</span> <span class="hljs-literal">No</span> <span class="hljs-string">procedure</span> <span class="hljs-string">are</span> <span class="hljs-string">registered.</span>
+        <span class="hljs-attr">'501':</span>
+          <span class="hljs-attr">description:</span> <span class="hljs-string">At</span> <span class="hljs-string">least</span> <span class="hljs-string">one</span> <span class="hljs-string">procedure</span> <span class="hljs-string">has</span> <span class="hljs-string">reported</span> <span class="hljs-string">a</span> <span class="hljs-string">non-healthy</span> <span class="hljs-string">stat</span>
+        <span class="hljs-attr">'500':</span>
+          <span class="hljs-attr">description:</span> <span class="hljs-string">One</span> <span class="hljs-string">procedure</span> <span class="hljs-string">has</span> <span class="hljs-string">thrown</span> <span class="hljs-string">an</span> <span class="hljs-string">error</span> <span class="hljs-string">or</span> <span class="hljs-string">has</span> <span class="hljs-string">not</span> <span class="hljs-string">reported</span> <span class="hljs-string">a</span> <span class="hljs-string">status</span> <span class="hljs-string">in</span> <span class="hljs-string">time</span>
 </code></pre>
 <p>Endpoints are defined as a dictionary of paths. In this case, there are 3 of them: <code>/api/v1/example</code>, <code>/api/v2/example/</code> and <code>/healthcheck</code>. The first two are very simple. Both specify only one HTTP method (GET). Those simple method definitions consist of operation and possible responses the endpoint may return. The <code>/healthcheck</code> path is similar but it lists multiple possible responses. </p>
 <p>Note that there is nothing Knot.x specific in this file, it&#39;s all just the OpenAPI standard. Knot.x parses this file and assigns endpoints to appropriate operations. For example, <code>/api/v2/example/</code> path will be assigned to the operation with id <code>example-api-with-fragments-operation</code>. Remember that operations are defined in <code>/knotx/conf/routes/operations.conf</code> file which is, indeed, specific to Knot.x. </p>
@@ -181,21 +181,21 @@ We can also define some variables. They are not necessary in this case, but let&
 <h3 id="response-body">Response body</h3>
 <p>Let&#39;s define some more advanced endpoints. First, we&#39;ll create <code>/api/user</code> endpoint that will return information about the logged-in user (note that we&#39;ll just mock the data for the sake of this tutorial). Add this to <code>paths</code> section of <code>openapi.yaml</code>:</p>
 <pre class="highlight"><code class="hljs yaml"><span class="hljs-string">/api/user:</span>
-<span class="hljs-attr">  get:</span>
-<span class="hljs-attr">    operationId:</span> <span class="hljs-string">userinfo-operation</span>
-<span class="hljs-attr">    summary:</span> <span class="hljs-string">Returns</span> <span class="hljs-string">basic</span> <span class="hljs-string">info</span> <span class="hljs-string">about</span> <span class="hljs-string">a</span> <span class="hljs-string">logged-in</span> <span class="hljs-string">user</span>
-<span class="hljs-attr">    responses:</span>
-      <span class="hljs-number">200</span><span class="hljs-string">:</span>
-<span class="hljs-attr">        description:</span> <span class="hljs-string">OK</span>
-<span class="hljs-attr">        content:</span>
-          <span class="hljs-string">application/json:</span>
-<span class="hljs-attr">            schema:</span>
-<span class="hljs-attr">              type:</span> <span class="hljs-string">object</span>
-<span class="hljs-attr">              properties:</span>
-<span class="hljs-attr">                id:</span>
-<span class="hljs-attr">                  type:</span> <span class="hljs-string">integer</span>
-<span class="hljs-attr">                username:</span>
-<span class="hljs-attr">                  type:</span> <span class="hljs-string">string</span></code></pre>
+  <span class="hljs-attr">get:</span>
+    <span class="hljs-attr">operationId:</span> <span class="hljs-string">userinfo-operation</span>
+    <span class="hljs-attr">summary:</span> <span class="hljs-string">Returns</span> <span class="hljs-string">basic</span> <span class="hljs-string">info</span> <span class="hljs-string">about</span> <span class="hljs-string">a</span> <span class="hljs-string">logged-in</span> <span class="hljs-string">user</span>
+    <span class="hljs-attr">responses:</span>
+      <span class="hljs-attr">200:</span>
+        <span class="hljs-attr">description:</span> <span class="hljs-string">OK</span>
+        <span class="hljs-attr">content:</span>
+          <span class="hljs-attr">application/json:</span>
+            <span class="hljs-attr">schema:</span>
+              <span class="hljs-attr">type:</span> <span class="hljs-string">object</span>
+              <span class="hljs-attr">properties:</span>
+                <span class="hljs-attr">id:</span>
+                  <span class="hljs-attr">type:</span> <span class="hljs-string">integer</span>
+                <span class="hljs-attr">username:</span>
+                  <span class="hljs-attr">type:</span> <span class="hljs-string">string</span></code></pre>
 <p>We&#39;ll define operations later. What is new in this piece of code is the <code>content</code> part of the response. It&#39;s a dictionary of all possible bodies of the response. In this case, we say that the endpoint will always return a JSON in the form defined by a schema. Such a JSON would look like this:</p>
 <pre class="highlight"><code class="hljs json">{
   <span class="hljs-attr">"id"</span>: <span class="hljs-number">0</span>,
@@ -208,94 +208,94 @@ We can also define some variables. They are not necessary in this case, but let&
   <span class="hljs-string">//...</span>
 
 <span class="hljs-attr">components:</span>
-<span class="hljs-attr">  schemas:</span>
-<span class="hljs-attr">    UserId:</span>
-<span class="hljs-attr">      type:</span> <span class="hljs-string">integer</span>
-<span class="hljs-attr">      minimum:</span> <span class="hljs-number">1</span>
-<span class="hljs-attr">    BasicUser:</span>
-<span class="hljs-attr">      type:</span> <span class="hljs-string">object</span>
-<span class="hljs-attr">      properties:</span>
-<span class="hljs-attr">        id:</span>
+  <span class="hljs-attr">schemas:</span>
+    <span class="hljs-attr">UserId:</span>
+      <span class="hljs-attr">type:</span> <span class="hljs-string">integer</span>
+      <span class="hljs-attr">minimum:</span> <span class="hljs-number">1</span>
+    <span class="hljs-attr">BasicUser:</span>
+      <span class="hljs-attr">type:</span> <span class="hljs-string">object</span>
+      <span class="hljs-attr">properties:</span>
+        <span class="hljs-attr">id:</span>
           <span class="hljs-string">$ref:</span> <span class="hljs-string">'#/components/schemas/UserId'</span>
-<span class="hljs-attr">        username:</span>
-<span class="hljs-attr">          type:</span> <span class="hljs-string">string</span>
-<span class="hljs-attr">        email:</span>
-<span class="hljs-attr">          type:</span> <span class="hljs-string">string</span>
-<span class="hljs-attr">          example:</span> <span class="hljs-string">test@test.test</span>
-<span class="hljs-attr">        avatar:</span>
-<span class="hljs-attr">          type:</span> <span class="hljs-string">string</span></code></pre>
+        <span class="hljs-attr">username:</span>
+          <span class="hljs-attr">type:</span> <span class="hljs-string">string</span>
+        <span class="hljs-attr">email:</span>
+          <span class="hljs-attr">type:</span> <span class="hljs-string">string</span>
+          <span class="hljs-attr">example:</span> <span class="hljs-string">test@test.test</span>
+        <span class="hljs-attr">avatar:</span>
+          <span class="hljs-attr">type:</span> <span class="hljs-string">string</span></code></pre>
 <p>We&#39;ve defined two types of data: <code>UserId</code> and <code>BasicUser</code>. <code>UserId</code> is just an integer. What&#39;s new here is the constraint <code>minimum</code>. This way we describe that this data is always greater than or equal to 1. There are many possible constraints we can define. You can read more about it in the <a href="https://swagger.io/docs/specification/data-models/">OpenAPI documentation</a>.</p>
 <p><code>BasicUser</code> is an object with <code>id</code>, <code>username</code>, <code>email</code> and <code>avatar</code> properties. Two things may need an explanation here. Firstly, in the <code>id</code> we used a <code>$ref</code> property. It allows us to reference other types (<code>UserId</code> in this case). Note that referencing already defined type is <strong>not</strong> the same as defining it &quot;inline&quot;. The difference is basically like defining a class in Java versus using a <code>Map</code>. It&#39;ll become more clear later. At this point in the tutorial, you don&#39;t have to worry about it but keep it in the back of your head.
 Secondly, we used an <code>example</code> property for the email. It&#39;s just metadata that can be used by visualization tools (more on that later).</p>
 <p>Now, that we have our schemas defined in one place, we can reference them in our <code>/api/user</code> endpoint. While we&#39;re on it, let&#39;s also define a POST method for this endpoint. It should now look like this:</p>
 <pre class="highlight"><code class="hljs yaml"><span class="hljs-string">/api/user:</span>
-<span class="hljs-attr">    get:</span>
-<span class="hljs-attr">      operationId:</span> <span class="hljs-string">userinfo-operation</span>
-<span class="hljs-attr">      summary:</span> <span class="hljs-string">Returns</span> <span class="hljs-string">basic</span> <span class="hljs-string">info</span> <span class="hljs-string">about</span> <span class="hljs-string">a</span> <span class="hljs-string">logged</span> <span class="hljs-string">in</span> <span class="hljs-string">user</span>
-<span class="hljs-attr">      responses:</span>
-        <span class="hljs-number">200</span><span class="hljs-string">:</span>
-<span class="hljs-attr">          description:</span> <span class="hljs-string">OK</span>
-<span class="hljs-attr">          content:</span>
-            <span class="hljs-string">application/json:</span>
-<span class="hljs-attr">              schema:</span>
+    <span class="hljs-attr">get:</span>
+      <span class="hljs-attr">operationId:</span> <span class="hljs-string">userinfo-operation</span>
+      <span class="hljs-attr">summary:</span> <span class="hljs-string">Returns</span> <span class="hljs-string">basic</span> <span class="hljs-string">info</span> <span class="hljs-string">about</span> <span class="hljs-string">a</span> <span class="hljs-string">logged</span> <span class="hljs-string">in</span> <span class="hljs-string">user</span>
+      <span class="hljs-attr">responses:</span>
+        <span class="hljs-attr">200:</span>
+          <span class="hljs-attr">description:</span> <span class="hljs-string">OK</span>
+          <span class="hljs-attr">content:</span>
+            <span class="hljs-attr">application/json:</span>
+              <span class="hljs-attr">schema:</span>
                 <span class="hljs-string">$ref:</span> <span class="hljs-string">'#/components/schemas/BasicUser'</span>
-<span class="hljs-attr">    post:</span>
-<span class="hljs-attr">      operationId:</span> <span class="hljs-string">deprecated-userinfo-operation</span>
-<span class="hljs-attr">      deprecated:</span> <span class="hljs-literal">true</span>
-<span class="hljs-attr">      summary:</span> <span class="hljs-string">Returns</span> <span class="hljs-string">basic</span> <span class="hljs-string">info</span> <span class="hljs-string">about</span> <span class="hljs-string">a</span> <span class="hljs-string">logged</span> <span class="hljs-string">in</span> <span class="hljs-string">user</span>
-<span class="hljs-attr">      responses:</span>
-        <span class="hljs-number">200</span><span class="hljs-string">:</span>
-<span class="hljs-attr">          description:</span> <span class="hljs-string">OK</span>
-<span class="hljs-attr">          content:</span>
-            <span class="hljs-string">application/json:</span>
-<span class="hljs-attr">              schema:</span>
+    <span class="hljs-attr">post:</span>
+      <span class="hljs-attr">operationId:</span> <span class="hljs-string">deprecated-userinfo-operation</span>
+      <span class="hljs-attr">deprecated:</span> <span class="hljs-literal">true</span>
+      <span class="hljs-attr">summary:</span> <span class="hljs-string">Returns</span> <span class="hljs-string">basic</span> <span class="hljs-string">info</span> <span class="hljs-string">about</span> <span class="hljs-string">a</span> <span class="hljs-string">logged</span> <span class="hljs-string">in</span> <span class="hljs-string">user</span>
+      <span class="hljs-attr">responses:</span>
+        <span class="hljs-attr">200:</span>
+          <span class="hljs-attr">description:</span> <span class="hljs-string">OK</span>
+          <span class="hljs-attr">content:</span>
+            <span class="hljs-attr">application/json:</span>
+              <span class="hljs-attr">schema:</span>
                 <span class="hljs-string">$ref:</span> <span class="hljs-string">'#/components/schemas/BasicUser'</span></code></pre>
 <p>Thanks to <code>$ref</code> properties, we didn&#39;t have to define the user twice. Note that the POST method behaves the same way as the GET method. It is, however, marked as <code>deprecated</code>. It&#39;s another piece of metadata that can be used by various tools.</p>
 <p>Next, let&#39;s quickly define an endpoint that will return an array of users:</p>
 <pre class="highlight"><code class="hljs yaml">  <span class="hljs-string">/api/users:</span>
-<span class="hljs-attr">    get:</span>
-<span class="hljs-attr">      operationId:</span> <span class="hljs-string">userlist-operation</span>
-<span class="hljs-attr">      summary:</span> <span class="hljs-string">Returns</span> <span class="hljs-string">a</span> <span class="hljs-string">list</span> <span class="hljs-string">of</span> <span class="hljs-string">users</span> <span class="hljs-string">with</span> <span class="hljs-string">basic</span> <span class="hljs-string">info</span> <span class="hljs-string">about</span> <span class="hljs-string">each</span>
-<span class="hljs-attr">      responses:</span>
-        <span class="hljs-number">200</span><span class="hljs-string">:</span>
-<span class="hljs-attr">          description:</span> <span class="hljs-string">OK</span>
-<span class="hljs-attr">          content:</span>
-            <span class="hljs-string">application/json:</span>
-<span class="hljs-attr">              schema:</span>
-<span class="hljs-attr">                type:</span> <span class="hljs-string">array</span>
-<span class="hljs-attr">                items:</span>
+    <span class="hljs-attr">get:</span>
+      <span class="hljs-attr">operationId:</span> <span class="hljs-string">userlist-operation</span>
+      <span class="hljs-attr">summary:</span> <span class="hljs-string">Returns</span> <span class="hljs-string">a</span> <span class="hljs-string">list</span> <span class="hljs-string">of</span> <span class="hljs-string">users</span> <span class="hljs-string">with</span> <span class="hljs-string">basic</span> <span class="hljs-string">info</span> <span class="hljs-string">about</span> <span class="hljs-string">each</span>
+      <span class="hljs-attr">responses:</span>
+        <span class="hljs-attr">200:</span>
+          <span class="hljs-attr">description:</span> <span class="hljs-string">OK</span>
+          <span class="hljs-attr">content:</span>
+            <span class="hljs-attr">application/json:</span>
+              <span class="hljs-attr">schema:</span>
+                <span class="hljs-attr">type:</span> <span class="hljs-string">array</span>
+                <span class="hljs-attr">items:</span>
                   <span class="hljs-string">$ref:</span> <span class="hljs-string">'#/components/schemas/BasicUser'</span></code></pre>
 <p>The thing to note here is that we define a custom array of the existing datatype. As you can see, the <code>$ref</code> property can be really powerful. </p>
 <h3 id="request-body">Request body</h3>
 <p>Let&#39;s move on to the usage of schemas to define request bodies:</p>
 <pre class="highlight"><code class="hljs yaml"><span class="hljs-string">/api/user/avatar:</span>
-<span class="hljs-attr">  put:</span>
-<span class="hljs-attr">    operationId:</span> <span class="hljs-string">uploadavatar-operation</span>
-<span class="hljs-attr">    summary:</span> <span class="hljs-string">Uploads</span> <span class="hljs-string">a</span> <span class="hljs-string">new</span> <span class="hljs-string">avatar</span> <span class="hljs-string">for</span> <span class="hljs-string">the</span> <span class="hljs-string">logged</span> <span class="hljs-string">in</span> <span class="hljs-string">user</span>
-<span class="hljs-attr">    requestBody:</span>
-<span class="hljs-attr">      content:</span>
-        <span class="hljs-string">image/png:</span>
-<span class="hljs-attr">          schema:</span>
-<span class="hljs-attr">            type:</span> <span class="hljs-string">string</span>
-<span class="hljs-attr">            format:</span> <span class="hljs-string">binary</span>
-<span class="hljs-attr">    responses:</span>
-      <span class="hljs-number">200</span><span class="hljs-string">:</span>
-<span class="hljs-attr">        description:</span> <span class="hljs-string">uploaded</span>
-      <span class="hljs-number">400</span><span class="hljs-string">:</span>
-<span class="hljs-attr">        description:</span> <span class="hljs-string">bad</span> <span class="hljs-string">request</span>
-<span class="hljs-attr">  get:</span>
-<span class="hljs-attr">    operationId:</span> <span class="hljs-string">getavatar-operation</span>
-<span class="hljs-attr">    summary:</span> <span class="hljs-string">Gets</span> <span class="hljs-string">a</span> <span class="hljs-string">link</span> <span class="hljs-string">to</span> <span class="hljs-string">the</span> <span class="hljs-string">user's</span> <span class="hljs-string">avatar</span>
-<span class="hljs-attr">    responses:</span>
-      <span class="hljs-number">200</span><span class="hljs-string">:</span>
-<span class="hljs-attr">        description:</span> <span class="hljs-string">OK</span>
-<span class="hljs-attr">        content:</span>
-          <span class="hljs-string">application/json:</span>
-<span class="hljs-attr">            schema:</span>
-<span class="hljs-attr">              type:</span> <span class="hljs-string">object</span>
-<span class="hljs-attr">              properties:</span>
-<span class="hljs-attr">                avatarUrl:</span>
-<span class="hljs-attr">                  type:</span> <span class="hljs-string">string</span></code></pre>
+  <span class="hljs-attr">put:</span>
+    <span class="hljs-attr">operationId:</span> <span class="hljs-string">uploadavatar-operation</span>
+    <span class="hljs-attr">summary:</span> <span class="hljs-string">Uploads</span> <span class="hljs-string">a</span> <span class="hljs-string">new</span> <span class="hljs-string">avatar</span> <span class="hljs-string">for</span> <span class="hljs-string">the</span> <span class="hljs-string">logged</span> <span class="hljs-string">in</span> <span class="hljs-string">user</span>
+    <span class="hljs-attr">requestBody:</span>
+      <span class="hljs-attr">content:</span>
+        <span class="hljs-attr">image/png:</span>
+          <span class="hljs-attr">schema:</span>
+            <span class="hljs-attr">type:</span> <span class="hljs-string">string</span>
+            <span class="hljs-attr">format:</span> <span class="hljs-string">binary</span>
+    <span class="hljs-attr">responses:</span>
+      <span class="hljs-attr">200:</span>
+        <span class="hljs-attr">description:</span> <span class="hljs-string">uploaded</span>
+      <span class="hljs-attr">400:</span>
+        <span class="hljs-attr">description:</span> <span class="hljs-string">bad</span> <span class="hljs-string">request</span>
+  <span class="hljs-attr">get:</span>
+    <span class="hljs-attr">operationId:</span> <span class="hljs-string">getavatar-operation</span>
+    <span class="hljs-attr">summary:</span> <span class="hljs-string">Gets</span> <span class="hljs-string">a</span> <span class="hljs-string">link</span> <span class="hljs-string">to</span> <span class="hljs-string">the</span> <span class="hljs-string">user's</span> <span class="hljs-string">avatar</span>
+    <span class="hljs-attr">responses:</span>
+      <span class="hljs-attr">200:</span>
+        <span class="hljs-attr">description:</span> <span class="hljs-string">OK</span>
+        <span class="hljs-attr">content:</span>
+          <span class="hljs-attr">application/json:</span>
+            <span class="hljs-attr">schema:</span>
+              <span class="hljs-attr">type:</span> <span class="hljs-string">object</span>
+              <span class="hljs-attr">properties:</span>
+                <span class="hljs-attr">avatarUrl:</span>
+                  <span class="hljs-attr">type:</span> <span class="hljs-string">string</span></code></pre>
 <p>We define two methods for this path. The <code>GET</code> method is nothing special. We just define one possible response with an in-place defined schema. The <code>PUT</code> method has two possible responses without bodies and a request body of type <code>image/png</code>. It&#39;s defined in the same way as response bodies. A schema might even be shared between request and response bodies, if necessary.
 One thing to note here is the schema type. It has a <code>binary</code> <code>format</code>. It&#39;s a special subtype of <code>string</code> commonly used for images. Another possible <code>format</code> would be <code>base64</code>. More on image uploading can be found in the <a href="https://swagger.io/docs/specification/describing-request-body/file-upload/">OpenAPI documentation</a>.</p>
 <h3 id="parameters">Parameters</h3>
@@ -303,19 +303,19 @@ One thing to note here is the schema type. It has a <code>binary</code> <code>fo
 <h4 id="query-parameters">Query parameters</h4>
 <p>Parameters can be defined like this:</p>
 <pre class="highlight"><code class="hljs yaml"><span class="hljs-string">/api/user/isadmin:</span>
-<span class="hljs-attr">  get:</span>
-<span class="hljs-attr">    operationId:</span> <span class="hljs-string">admininfo-operation</span>
-<span class="hljs-attr">    summary:</span> <span class="hljs-string">Returns</span> <span class="hljs-string">detailed</span> <span class="hljs-string">information</span> <span class="hljs-string">about</span> <span class="hljs-string">user's</span> <span class="hljs-string">account</span>
-<span class="hljs-attr">    parameters:</span>
-<span class="hljs-attr">      - in:</span> <span class="hljs-string">query</span>
-<span class="hljs-attr">        name:</span> <span class="hljs-string">datatype</span>
-<span class="hljs-attr">        description:</span> <span class="hljs-string">mime-type</span> <span class="hljs-string">that</span> <span class="hljs-string">client</span> <span class="hljs-string">want</span> <span class="hljs-string">to</span> <span class="hljs-string">be</span> <span class="hljs-string">returned</span>
-<span class="hljs-attr">        schema:</span>
-<span class="hljs-attr">          type:</span> <span class="hljs-string">string</span>
-<span class="hljs-attr">          enum:</span>
-<span class="hljs-bullet">            -</span> <span class="hljs-string">json</span>
-<span class="hljs-bullet">            -</span> <span class="hljs-string">xml</span>
-<span class="hljs-attr">        required:</span> <span class="hljs-literal">true</span></code></pre>
+  <span class="hljs-attr">get:</span>
+    <span class="hljs-attr">operationId:</span> <span class="hljs-string">admininfo-operation</span>
+    <span class="hljs-attr">summary:</span> <span class="hljs-string">Returns</span> <span class="hljs-string">detailed</span> <span class="hljs-string">information</span> <span class="hljs-string">about</span> <span class="hljs-string">user's</span> <span class="hljs-string">account</span>
+    <span class="hljs-attr">parameters:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">in:</span> <span class="hljs-string">query</span>
+        <span class="hljs-attr">name:</span> <span class="hljs-string">datatype</span>
+        <span class="hljs-attr">description:</span> <span class="hljs-string">mime-type</span> <span class="hljs-string">that</span> <span class="hljs-string">client</span> <span class="hljs-string">want</span> <span class="hljs-string">to</span> <span class="hljs-string">be</span> <span class="hljs-string">returned</span>
+        <span class="hljs-attr">schema:</span>
+          <span class="hljs-attr">type:</span> <span class="hljs-string">string</span>
+          <span class="hljs-attr">enum:</span>
+            <span class="hljs-bullet">-</span> <span class="hljs-string">json</span>
+            <span class="hljs-bullet">-</span> <span class="hljs-string">xml</span>
+        <span class="hljs-attr">required:</span> <span class="hljs-literal">true</span></code></pre>
 <p>We define a list of parameters. In this case, we only have one. We specify its name, type (as <code>query</code>) and metadata (description). It uses a schema in the same way as request and response bodies do. The new thing here is the <code>enum</code> property. It specifies that this type can only have one of the specified values. Also, note the <code>required: true</code> part. It means the client can&#39;t omit this parameter. Therefore the only two correct requests are:</p>
 <ul>
 <li>/api/user/isadmin?datatype=json</li>
@@ -324,17 +324,17 @@ One thing to note here is the schema type. It has a <code>binary</code> <code>fo
 <p>If a client omits the <code>datatype</code> parameter or sets it as something other than <code>json</code> or <code>xml</code>, then Knot.x will automatically respond with <code>400 Bad Request</code>.</p>
 <p>Now, the <code>api/user/isadmin</code> endpoint definition is not correct. We have to define responses:</p>
 <pre class="highlight"><code class="hljs yaml"><span class="hljs-attr">responses:</span>
-  <span class="hljs-number">200</span><span class="hljs-string">:</span>
-<span class="hljs-attr">    description:</span> <span class="hljs-string">OK</span>
-<span class="hljs-attr">    content:</span>
-      <span class="hljs-string">application/json:</span>
-<span class="hljs-attr">        schema:</span>
+  <span class="hljs-attr">200:</span>
+    <span class="hljs-attr">description:</span> <span class="hljs-string">OK</span>
+    <span class="hljs-attr">content:</span>
+      <span class="hljs-attr">application/json:</span>
+        <span class="hljs-attr">schema:</span>
           <span class="hljs-string">$ref:</span> <span class="hljs-string">'#/components/schemas/IsAdmin'</span>
-      <span class="hljs-string">application/xml:</span>
-<span class="hljs-attr">        schema:</span>
+      <span class="hljs-attr">application/xml:</span>
+        <span class="hljs-attr">schema:</span>
           <span class="hljs-string">$ref:</span> <span class="hljs-string">'#/components/schemas/IsAdmin'</span>
-  <span class="hljs-number">400</span><span class="hljs-string">:</span>
-<span class="hljs-attr">    description:</span> <span class="hljs-string">Bad</span> <span class="hljs-string">request</span></code></pre>
+  <span class="hljs-attr">400:</span>
+    <span class="hljs-attr">description:</span> <span class="hljs-string">Bad</span> <span class="hljs-string">request</span></code></pre>
 <p>In case of a success response, we defined two possible content types to be returned: <code>json</code> and <code>xml</code>. This demonstrates that schemas are abstract from any specific format and therefore, like here, can be reused between multiple content types. For JSON it&#39;ll be interpreted like this:</p>
 <pre class="highlight"><code class="hljs json">{
   <span class="hljs-attr">"admin"</span>: <span class="hljs-literal">true</span>
@@ -347,40 +347,40 @@ One thing to note here is the schema type. It has a <code>binary</code> <code>fo
 <h4 id="path-parametrs">Path parametrs</h4>
 <p>Path parameters are very similar. Actually, the only difference is that they are defined in the path itself (apart from standard <code>parameters</code> property). Let&#39;s add this path:</p>
 <pre class="highlight"><code class="hljs yaml"> <span class="hljs-string">/api/users/{id}/send/{message}:</span>
-<span class="hljs-attr">    post:</span>
-<span class="hljs-attr">      operationId:</span> <span class="hljs-string">sendmsg-operation</span>
-<span class="hljs-attr">      summary:</span> <span class="hljs-string">Send</span> <span class="hljs-string">a</span> <span class="hljs-string">message</span> <span class="hljs-string">to</span> <span class="hljs-string">a</span> <span class="hljs-string">specific</span> <span class="hljs-string">user</span>
-<span class="hljs-attr">      parameters:</span>
-<span class="hljs-attr">        - in:</span> <span class="hljs-string">path</span>
-<span class="hljs-attr">          name:</span> <span class="hljs-string">id</span>
-<span class="hljs-attr">          description:</span> <span class="hljs-string">ID</span> <span class="hljs-string">of</span> <span class="hljs-string">a</span> <span class="hljs-string">user</span> <span class="hljs-string">to</span> <span class="hljs-string">send</span> <span class="hljs-string">the</span> <span class="hljs-string">message</span> <span class="hljs-string">to</span>
-<span class="hljs-attr">          required:</span> <span class="hljs-literal">true</span>
-<span class="hljs-attr">          schema:</span>
+    <span class="hljs-attr">post:</span>
+      <span class="hljs-attr">operationId:</span> <span class="hljs-string">sendmsg-operation</span>
+      <span class="hljs-attr">summary:</span> <span class="hljs-string">Send</span> <span class="hljs-string">a</span> <span class="hljs-string">message</span> <span class="hljs-string">to</span> <span class="hljs-string">a</span> <span class="hljs-string">specific</span> <span class="hljs-string">user</span>
+      <span class="hljs-attr">parameters:</span>
+        <span class="hljs-bullet">-</span> <span class="hljs-attr">in:</span> <span class="hljs-string">path</span>
+          <span class="hljs-attr">name:</span> <span class="hljs-string">id</span>
+          <span class="hljs-attr">description:</span> <span class="hljs-string">ID</span> <span class="hljs-string">of</span> <span class="hljs-string">a</span> <span class="hljs-string">user</span> <span class="hljs-string">to</span> <span class="hljs-string">send</span> <span class="hljs-string">the</span> <span class="hljs-string">message</span> <span class="hljs-string">to</span>
+          <span class="hljs-attr">required:</span> <span class="hljs-literal">true</span>
+          <span class="hljs-attr">schema:</span>
             <span class="hljs-string">$ref:</span> <span class="hljs-string">'#/components/schemas/UserId'</span>
-<span class="hljs-attr">        - in:</span> <span class="hljs-string">path</span>
-<span class="hljs-attr">          name:</span> <span class="hljs-string">message</span>
-<span class="hljs-attr">          description:</span> <span class="hljs-string">message</span> <span class="hljs-string">to</span> <span class="hljs-string">be</span> <span class="hljs-string">sent</span> <span class="hljs-string">to</span> <span class="hljs-string">the</span> <span class="hljs-string">user</span>
-<span class="hljs-attr">          required:</span> <span class="hljs-literal">true</span>
-<span class="hljs-attr">          schema:</span>
-<span class="hljs-attr">            type:</span> <span class="hljs-string">string</span>
-<span class="hljs-attr">            pattern:</span> <span class="hljs-string">'^[a-zA-Z0-9_]*</span>
-<span class="hljs-attr">      responses:</span>
-        <span class="hljs-number">200</span><span class="hljs-string">:</span>
-<span class="hljs-attr">          description:</span> <span class="hljs-string">OK</span>
-        <span class="hljs-number">400</span><span class="hljs-string">:</span>
-<span class="hljs-attr">          description:</span> <span class="hljs-string">Bad</span> <span class="hljs-string">request</span></code></pre>
+        <span class="hljs-bullet">-</span> <span class="hljs-attr">in:</span> <span class="hljs-string">path</span>
+          <span class="hljs-attr">name:</span> <span class="hljs-string">message</span>
+          <span class="hljs-attr">description:</span> <span class="hljs-string">message</span> <span class="hljs-string">to</span> <span class="hljs-string">be</span> <span class="hljs-string">sent</span> <span class="hljs-string">to</span> <span class="hljs-string">the</span> <span class="hljs-string">user</span>
+          <span class="hljs-attr">required:</span> <span class="hljs-literal">true</span>
+          <span class="hljs-attr">schema:</span>
+            <span class="hljs-attr">type:</span> <span class="hljs-string">string</span>
+            <span class="hljs-attr">pattern:</span> <span class="hljs-string">'^[a-zA-Z0-9_]*</span>
+      <span class="hljs-attr">responses:</span>
+        <span class="hljs-attr">200:</span>
+          <span class="hljs-attr">description:</span> <span class="hljs-string">OK</span>
+        <span class="hljs-attr">400:</span>
+          <span class="hljs-attr">description:</span> <span class="hljs-string">Bad</span> <span class="hljs-string">request</span></code></pre>
 <p>In the path, the parameters are defined using <code>{}</code> brackets. They are treated like wildcards, therefore our path will match all requests in the form of <code>/api/users/.../send/...</code>. Next, we define the same parameters in the <code>parameters</code> property, the same way as with <code>query</code> parameters. Note that the <code>name</code> in the parameter list must exactly match the name specified in the brackets. Also, path parameters have to be <code>required</code>.</p>
 <p>We&#39;ve also introduced a new schema constraint - <code>pattern</code>. It&#39;s just a regular expression that the parameter must match. If it doesn&#39;t, Knot.x will return <code>400 Bad Request</code> response.</p>
 <p>As already mentioned, we won&#39;t discuss <code>header</code> and <code>cookie</code> parameters, because they work the same way as <code>query</code> parameters. Just specify <code>in: header</code> or <code>in: cookie</code>.</p>
 <h3 id="undefined-operation">Undefined operation</h3>
 <p>In the last path we&#39;ll define, let&#39;s use a non-existent operation. Knot.x will return <code>501 Not Implemented</code> for this endpoint:</p>
 <pre class="highlight"><code class="hljs yaml"><span class="hljs-string">/api/future-feature:</span>
-<span class="hljs-attr">  get:</span>
-<span class="hljs-attr">    operationId:</span> <span class="hljs-string">future-feature-operation</span> <span class="hljs-comment"># we won't implement this operation</span>
-<span class="hljs-attr">    summary:</span> <span class="hljs-string">This</span> <span class="hljs-string">will</span> <span class="hljs-string">be</span> <span class="hljs-string">implemented</span> <span class="hljs-string">in</span> <span class="hljs-string">the</span> <span class="hljs-string">future</span>
-<span class="hljs-attr">    responses:</span>
-      <span class="hljs-number">501</span><span class="hljs-string">:</span>
-<span class="hljs-attr">        description:</span> <span class="hljs-string">Not</span> <span class="hljs-string">implemeneted</span></code></pre>
+  <span class="hljs-attr">get:</span>
+    <span class="hljs-attr">operationId:</span> <span class="hljs-string">future-feature-operation</span> <span class="hljs-comment"># we won't implement this operation</span>
+    <span class="hljs-attr">summary:</span> <span class="hljs-string">This</span> <span class="hljs-string">will</span> <span class="hljs-string">be</span> <span class="hljs-string">implemented</span> <span class="hljs-string">in</span> <span class="hljs-string">the</span> <span class="hljs-string">future</span>
+    <span class="hljs-attr">responses:</span>
+      <span class="hljs-attr">501:</span>
+        <span class="hljs-attr">description:</span> <span class="hljs-string">Not</span> <span class="hljs-string">implemeneted</span></code></pre>
 <p>As far as OpenAPI is concerned, there&#39;s nothing wrong or new in this path definition.</p>
 <h2 id="implementing-operations-with-mocked-data">Implementing operations with mocked data</h2>
 <p>The endpoints we defined in the <code>openapi.yaml</code> file reference operations that they will invoke. Let&#39;s define the operations now. We&#39;ll use three custom handlers:</p>
@@ -577,7 +577,7 @@ mocked = {
 <span class="hljs-tag">&lt;/<span class="hljs-name">IsAdmin</span>&gt;</span></code></pre>
 <p>However, we can use <a href="https://swagger.io/tools/swagger-ui/">Swagger UI</a> to make even better use of our <code>openapi.yaml</code> file. It&#39;s an interactive tool that lists all of our endpoints in a nice to look way and allows us to test them. It&#39;s a web application so we have to serve it on some endpoint. First, let&#39;s create an HTML file that will display Swagger UI. Note that it&#39;s recommended that you use non-standalone version if possible (or even a React component version, if your frontend uses React). It requires frontend build tools, though, so for simplicity, we&#39;ll use a standalone version hosted on <a href="https://unpkg.com/">unpkg.com</a>. </p>
 <p>Let&#39;s create <code>resources/webroot/swagger/index.html</code> file:</p>
-<pre class="highlight"><code class="hljs xml"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<pre class="highlight"><code class="hljs xml"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span>&gt;</span>
@@ -614,17 +614,17 @@ mocked = {
 <p>Most of the code here is a Swagger UI specific configuration needed for it to run. For more explanation check the <a href="https://github.com/swagger-api/swagger-ui">Swagger UI docs</a>. One important thing is the <code>url: &quot;/swagger/spec&quot;</code> part. It&#39;s an URL that Swagger UI will call to retrieve the OpenAPI specification file. We will expose the <code>openapi.yaml</code> file under this path.</p>
 <p>Let&#39;s add two endpoints to the <code>openapi.yaml</code> file that will serve our <code>index.html</code> file and the <code>openapi.yaml</code> file itself:</p>
 <pre class="highlight"><code class="hljs yaml"><span class="hljs-string">/swagger/spec:</span>
-<span class="hljs-attr">  get:</span>
-<span class="hljs-attr">    operationId:</span> <span class="hljs-string">openapi-operation</span>
-<span class="hljs-attr">    responses:</span>
-<span class="hljs-attr">      default:</span>
-<span class="hljs-attr">        description:</span> <span class="hljs-string">exposes</span> <span class="hljs-string">openapi</span> <span class="hljs-string">spec</span> <span class="hljs-string">file</span> <span class="hljs-string">to</span> <span class="hljs-string">be</span> <span class="hljs-string">consumed</span> <span class="hljs-string">by</span> <span class="hljs-string">swagger</span> <span class="hljs-string">ui</span>
+  <span class="hljs-attr">get:</span>
+    <span class="hljs-attr">operationId:</span> <span class="hljs-string">openapi-operation</span>
+    <span class="hljs-attr">responses:</span>
+      <span class="hljs-attr">default:</span>
+        <span class="hljs-attr">description:</span> <span class="hljs-string">exposes</span> <span class="hljs-string">openapi</span> <span class="hljs-string">spec</span> <span class="hljs-string">file</span> <span class="hljs-string">to</span> <span class="hljs-string">be</span> <span class="hljs-string">consumed</span> <span class="hljs-string">by</span> <span class="hljs-string">swagger</span> <span class="hljs-string">ui</span>
 <span class="hljs-string">/swagger/ui:</span>
-<span class="hljs-attr">  get:</span>
-<span class="hljs-attr">    operationId:</span> <span class="hljs-string">swaggerui-operation</span>
-<span class="hljs-attr">    responses:</span>
-<span class="hljs-attr">      default:</span>
-<span class="hljs-attr">        description:</span> <span class="hljs-string">swagger-ui</span> <span class="hljs-string">web</span> <span class="hljs-string">app</span></code></pre>
+  <span class="hljs-attr">get:</span>
+    <span class="hljs-attr">operationId:</span> <span class="hljs-string">swaggerui-operation</span>
+    <span class="hljs-attr">responses:</span>
+      <span class="hljs-attr">default:</span>
+        <span class="hljs-attr">description:</span> <span class="hljs-string">swagger-ui</span> <span class="hljs-string">web</span> <span class="hljs-string">app</span></code></pre>
 <p>And define the operations in <code>operations.conf</code>:</p>
 <pre class="highlight"><code class="hljs ruby">{
   operationId = openapi-operation

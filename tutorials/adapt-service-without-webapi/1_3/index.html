@@ -111,11 +111,11 @@
   </time>
 
   <div class="post-versions">    
-
+    
       <a class="post-btn" href="/tutorials/adapt-service-without-webapi/1_2/">1.2.0</a>
     
       <a class="post-btn" href="/tutorials/adapt-service-without-webapi/1_3/">1.3.0</a>
-
+    
   </div>
 </header>
 
@@ -155,7 +155,7 @@ setup your Knot.x Stack.</p>
 <h2 id="data-and-page-template">Data and page template</h2>
 <p>In this example, we create a page that lists information about books and authors retrieved from a database.
 Page markup will look like following snippet:</p>
-<pre class="highlight"><code class="hljs xml"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<pre class="highlight"><code class="hljs xml"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"utf-8"</span>&gt;</span>
@@ -285,7 +285,7 @@ class provided by RXJava <em>Vert.x</em>.</p>
 
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleServiceAdapter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractVerticle</span> </span>{
 
-  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(ExampleServiceAdapter.class);
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(ExampleServiceAdapter<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 
   <span class="hljs-keyword">private</span> MessageConsumer&lt;JsonObject&gt; consumer;
 
@@ -307,7 +307,7 @@ class provided by RXJava <em>Vert.x</em>.</p>
     serviceBinder = <span class="hljs-keyword">new</span> ServiceBinder(getVertx());
     consumer = serviceBinder
         .setAddress(configuration.getAddress())
-        .register(AdapterProxy.class, <span class="hljs-keyword">new</span> ExampleServiceAdapterProxy());
+        .register(AdapterProxy<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">new</span> <span class="hljs-title">ExampleServiceAdapterProxy</span>())</span>;
   }
 
   <span class="hljs-meta">@Override</span>
@@ -416,7 +416,7 @@ We have it already created in <code>/src/main/java/io/knotx/tutorial/adapter/exa
 
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleServiceAdapterProxy</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractAdapterProxy</span> </span>{
 
-  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(ExampleServiceAdapterProxy.class);
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(ExampleServiceAdapterProxy<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 
   <span class="hljs-meta">@Override</span>
   <span class="hljs-function"><span class="hljs-keyword">protected</span> Single&lt;AdapterResponse&gt; <span class="hljs-title">processRequest</span><span class="hljs-params">(AdapterRequest adapterRequest)</span> </span>{
@@ -455,7 +455,7 @@ with the following configuration:</p>
 
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleServiceAdapter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractVerticle</span> </span>{
 
-  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(ExampleServiceAdapter.class);
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(ExampleServiceAdapter<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 
   <span class="hljs-keyword">private</span> MessageConsumer&lt;JsonObject&gt; consumer;
   <span class="hljs-keyword">private</span> ExampleServiceAdapterOptions configuration;
@@ -480,7 +480,7 @@ with the following configuration:</p>
     serviceBinder = <span class="hljs-keyword">new</span> ServiceBinder(getVertx());
     consumer = serviceBinder
         .setAddress(configuration.getAddress())
-        .register(AdapterProxy.class, <span class="hljs-keyword">new</span> ExampleServiceAdapterProxy(client));
+        .register(AdapterProxy<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">new</span> <span class="hljs-title">ExampleServiceAdapterProxy</span>(<span class="hljs-title">client</span>))</span>;
   }
 
   <span class="hljs-meta">@Override</span>
@@ -508,7 +508,7 @@ with the following configuration:</p>
 
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleServiceAdapterProxy</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractAdapterProxy</span> </span>{
 
-  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(ExampleServiceAdapterProxy.class);
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(ExampleServiceAdapterProxy<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 
   <span class="hljs-comment">//we will need JDBC Client here to perform DB queries</span>
   <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> JDBCClient client;

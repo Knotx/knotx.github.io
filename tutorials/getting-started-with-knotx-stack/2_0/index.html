@@ -154,31 +154,31 @@
 <li><p>Information about the project, which is quite self-explanatory:</p>
 <pre class="highlight"><code class="hljs yaml"> <span class="hljs-string">...</span>
 
-<span class="hljs-attr"> openapi:</span> <span class="hljs-string">"3.0.0"</span>
-<span class="hljs-attr"> info:</span>
-<span class="hljs-attr">   version:</span> <span class="hljs-number">1.0</span><span class="hljs-number">.0</span>
-<span class="hljs-attr">   title:</span> <span class="hljs-string">Knot.x</span> <span class="hljs-string">Starter</span> <span class="hljs-string">Kit</span>
-<span class="hljs-attr">   description:</span> <span class="hljs-string">Knotx</span> <span class="hljs-string">Starter</span> <span class="hljs-string">Kit</span>
-<span class="hljs-attr">   contact:</span> 
-<span class="hljs-attr">     name:</span> <span class="hljs-string">"Knot.x Community"</span>
-<span class="hljs-attr">     url:</span> <span class="hljs-string">"https://knotx.io/community/"</span>
+ <span class="hljs-attr">openapi:</span> <span class="hljs-string">"3.0.0"</span>
+ <span class="hljs-attr">info:</span>
+   <span class="hljs-attr">version:</span> <span class="hljs-number">1.0</span><span class="hljs-number">.0</span>
+   <span class="hljs-attr">title:</span> <span class="hljs-string">Knot.x</span> <span class="hljs-string">Starter</span> <span class="hljs-string">Kit</span>
+   <span class="hljs-attr">description:</span> <span class="hljs-string">Knotx</span> <span class="hljs-string">Starter</span> <span class="hljs-string">Kit</span>
+   <span class="hljs-attr">contact:</span> 
+     <span class="hljs-attr">name:</span> <span class="hljs-string">"Knot.x Community"</span>
+     <span class="hljs-attr">url:</span> <span class="hljs-string">"https://knotx.io/community/"</span>
 
  <span class="hljs-string">...</span></code></pre>
 </li>
 <li><p>Server configuration that defines how the server behaves:</p>
 <pre class="highlight"><code class="hljs yaml"> <span class="hljs-string">...</span>
 
-<span class="hljs-attr"> servers:</span>
-<span class="hljs-attr">   - url:</span> <span class="hljs-attr">https://{domain}:{port}</span>
-<span class="hljs-attr">     description:</span> <span class="hljs-string">The</span> <span class="hljs-string">local</span> <span class="hljs-string">API</span> <span class="hljs-string">server</span>
-<span class="hljs-attr">     variables:</span>
-<span class="hljs-attr">       domain:</span>
-<span class="hljs-attr">         default:</span> <span class="hljs-string">localhost</span>
-<span class="hljs-attr">         description:</span> <span class="hljs-string">api</span> <span class="hljs-string">domain</span>
-<span class="hljs-attr">       port:</span>
-<span class="hljs-attr">         enum:</span>
-<span class="hljs-bullet">           -</span> <span class="hljs-string">'8092'</span>
-<span class="hljs-attr">         default:</span> <span class="hljs-string">'8092'</span>
+ <span class="hljs-attr">servers:</span>
+   <span class="hljs-bullet">-</span> <span class="hljs-attr">url:</span> <span class="hljs-string">https://{domain}:{port}</span>
+     <span class="hljs-attr">description:</span> <span class="hljs-string">The</span> <span class="hljs-string">local</span> <span class="hljs-string">API</span> <span class="hljs-string">server</span>
+     <span class="hljs-attr">variables:</span>
+       <span class="hljs-attr">domain:</span>
+         <span class="hljs-attr">default:</span> <span class="hljs-string">localhost</span>
+         <span class="hljs-attr">description:</span> <span class="hljs-string">api</span> <span class="hljs-string">domain</span>
+       <span class="hljs-attr">port:</span>
+         <span class="hljs-attr">enum:</span>
+           <span class="hljs-bullet">-</span> <span class="hljs-string">'8092'</span>
+         <span class="hljs-attr">default:</span> <span class="hljs-string">'8092'</span>
 
  <span class="hljs-string">...</span></code></pre>
 <p> Here we can see, for example, that the server will be registered on port <code>8092</code>. Notice variable substitution indicated by <code>{</code>brackets<code>}</code>. For more information on what can be configured here, see <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#serverObject">this documentation</a>. </p>
@@ -186,23 +186,23 @@
 <li><p>Paths configuration that explicitly specifies the endpoints, their paths, methods, responses and much more in a clear, easily readable and declarative way:</p>
 <pre class="highlight"><code class="hljs yaml"> <span class="hljs-string">...</span>
 
-<span class="hljs-attr"> paths:</span> 
+ <span class="hljs-attr">paths:</span> 
 
    <span class="hljs-string">...</span>   
 
    <span class="hljs-string">/healthcheck:</span>
-<span class="hljs-attr">     get:</span>
-<span class="hljs-attr">       operationId:</span> <span class="hljs-string">healthcheck-operation</span>
+     <span class="hljs-attr">get:</span>
+       <span class="hljs-attr">operationId:</span> <span class="hljs-string">healthcheck-operation</span>
        <span class="hljs-comment"># https://vertx.io/docs/vertx-health-check/java/</span>
-<span class="hljs-attr">       responses:</span>
-         <span class="hljs-string">'200'</span><span class="hljs-string">:</span>
-<span class="hljs-attr">           description:</span> <span class="hljs-string">Everything</span> <span class="hljs-string">is</span> <span class="hljs-string">fine</span>
-         <span class="hljs-string">'204'</span><span class="hljs-string">:</span>
-<span class="hljs-attr">           description:</span> <span class="hljs-literal">No</span> <span class="hljs-string">procedure</span> <span class="hljs-string">are</span> <span class="hljs-string">registered.</span>
-         <span class="hljs-string">'501'</span><span class="hljs-string">:</span>
-<span class="hljs-attr">           description:</span> <span class="hljs-string">At</span> <span class="hljs-string">least</span> <span class="hljs-string">one</span> <span class="hljs-string">procedure</span> <span class="hljs-string">has</span> <span class="hljs-string">reported</span> <span class="hljs-string">a</span> <span class="hljs-string">non-healthy</span> <span class="hljs-string">status</span>
-         <span class="hljs-string">'500'</span><span class="hljs-string">:</span>
-<span class="hljs-attr">           description:</span> <span class="hljs-string">One</span> <span class="hljs-string">procedure</span> <span class="hljs-string">has</span> <span class="hljs-string">thrown</span> <span class="hljs-string">an</span> <span class="hljs-string">error</span> <span class="hljs-string">or</span> <span class="hljs-string">has</span> <span class="hljs-string">not</span> <span class="hljs-string">reported</span> <span class="hljs-string">a</span> <span class="hljs-string">status</span> <span class="hljs-string">in</span> <span class="hljs-string">time</span>
+       <span class="hljs-attr">responses:</span>
+         <span class="hljs-attr">'200':</span>
+           <span class="hljs-attr">description:</span> <span class="hljs-string">Everything</span> <span class="hljs-string">is</span> <span class="hljs-string">fine</span>
+         <span class="hljs-attr">'204':</span>
+           <span class="hljs-attr">description:</span> <span class="hljs-literal">No</span> <span class="hljs-string">procedure</span> <span class="hljs-string">are</span> <span class="hljs-string">registered.</span>
+         <span class="hljs-attr">'501':</span>
+           <span class="hljs-attr">description:</span> <span class="hljs-string">At</span> <span class="hljs-string">least</span> <span class="hljs-string">one</span> <span class="hljs-string">procedure</span> <span class="hljs-string">has</span> <span class="hljs-string">reported</span> <span class="hljs-string">a</span> <span class="hljs-string">non-healthy</span> <span class="hljs-string">status</span>
+         <span class="hljs-attr">'500':</span>
+           <span class="hljs-attr">description:</span> <span class="hljs-string">One</span> <span class="hljs-string">procedure</span> <span class="hljs-string">has</span> <span class="hljs-string">thrown</span> <span class="hljs-string">an</span> <span class="hljs-string">error</span> <span class="hljs-string">or</span> <span class="hljs-string">has</span> <span class="hljs-string">not</span> <span class="hljs-string">reported</span> <span class="hljs-string">a</span> <span class="hljs-string">status</span> <span class="hljs-string">in</span> <span class="hljs-string">time</span>
  <span class="hljs-string">...</span></code></pre>
 </li>
 </ol>
@@ -216,11 +216,11 @@
 <p>Simply add new routing configuration under <code>paths</code>:</p>
 <pre class="highlight"><code class="hljs yaml"><span class="hljs-attr">paths:</span>
   <span class="hljs-string">/api/hello:</span>
-<span class="hljs-attr">    get:</span>
-<span class="hljs-attr">      operationId:</span> <span class="hljs-string">hello-world-operation</span>
-<span class="hljs-attr">      responses:</span>
-<span class="hljs-attr">        default:</span>
-<span class="hljs-attr">          description:</span> <span class="hljs-string">Example</span> <span class="hljs-string">API</span> <span class="hljs-string">implemented</span> <span class="hljs-string">in</span> <span class="hljs-string">this</span> <span class="hljs-string">tutorial</span></code></pre>
+    <span class="hljs-attr">get:</span>
+      <span class="hljs-attr">operationId:</span> <span class="hljs-string">hello-world-operation</span>
+      <span class="hljs-attr">responses:</span>
+        <span class="hljs-attr">default:</span>
+          <span class="hljs-attr">description:</span> <span class="hljs-string">Example</span> <span class="hljs-string">API</span> <span class="hljs-string">implemented</span> <span class="hljs-string">in</span> <span class="hljs-string">this</span> <span class="hljs-string">tutorial</span></code></pre>
 <h2 id="configure-api-define-a-new-operation">Configure API: define a new operation</h2>
 <p>As previously mentioned, a configured path and method indicates <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#operationObject">operation</a> to perform. Every operation is configured as a <a href="https://github.com/Knotx/knotx-server-http/tree/master#routing-operations">Routing Operation</a> entry that specifies Handlers with business logic to execute and failure Handlers when processing fails. </p>
 <p>All routing operation entries are configured in the <code>knotx/conf/routes/operations.conf</code> file. It is the first time the Knot.x configuration appears. It uses the HOCON (<em>Human-Optimized Config Object Notation</em>) syntax. More on HOCON  can be found in <a href="https://github.com/lightbend/config/blob/master/HOCON.md">here</a>.</p>
@@ -300,9 +300,9 @@
 dependencies {
 
     <span class="hljs-string">"io.knotx:knotx"</span>.let { v -&gt;
-        implementation(platform(<span class="hljs-string">"<span class="hljs-variable">$v</span>-dependencies:<span class="hljs-subst">${project.property("knotx.version")}</span>"</span>))
-        api(<span class="hljs-string">"<span class="hljs-variable">$v</span>-fragments-api:<span class="hljs-subst">${project.property("knotx.version")}</span>"</span>)
-        api(<span class="hljs-string">"<span class="hljs-variable">$v</span>-fragments-handler-api:<span class="hljs-subst">${project.property("knotx.version")}</span>"</span>)
+        implementation(platform(<span class="hljs-string">"<span class="hljs-variable">$v</span>-dependencies:<span class="hljs-subst">${project.property(<span class="hljs-string">"knotx.version"</span>)}</span>"</span>))
+        api(<span class="hljs-string">"<span class="hljs-variable">$v</span>-fragments-api:<span class="hljs-subst">${project.property(<span class="hljs-string">"knotx.version"</span>)}</span>"</span>)
+        api(<span class="hljs-string">"<span class="hljs-variable">$v</span>-fragments-handler-api:<span class="hljs-subst">${project.property(<span class="hljs-string">"knotx.version"</span>)}</span>"</span>)
     }
     <span class="hljs-string">"io.vertx:vertx"</span>.let { v -&gt;
         implementation(<span class="hljs-string">"<span class="hljs-variable">$v</span>-web"</span>)
@@ -311,29 +311,29 @@ dependencies {
     }
 }</code></pre>
 <p><code>io.knotx.server.api.handler.RoutingHandlerFactory</code></p>
-<pre class="highlight"><code class="hljs stylus">io<span class="hljs-selector-class">.knotx</span><span class="hljs-selector-class">.example</span><span class="hljs-selector-class">.hellohandler</span><span class="hljs-selector-class">.HelloWorldHandlerFactory</span></code></pre><p>In this file we list, line by line, all the <a href="https://github.com/Knotx/knotx-server-http/blob/master/api/src/main/java/io/knotx/server/api/handler/RoutingHandlerFactory.java">RoutingHandlerFactory</a> implementations we want Knot.x to see. It has to be a canonical class name. It uses <a href="https://docs.oracle.com/javase/7/docs/api/java/util/ServiceLoader.html">Java ServiceLoader</a>.</p>
+<pre class="highlight"><code class="hljs css"><span class="hljs-selector-tag">io</span><span class="hljs-selector-class">.knotx</span><span class="hljs-selector-class">.example</span><span class="hljs-selector-class">.hellohandler</span><span class="hljs-selector-class">.HelloWorldHandlerFactory</span></code></pre><p>In this file we list, line by line, all the <a href="https://github.com/Knotx/knotx-server-http/blob/master/api/src/main/java/io/knotx/server/api/handler/RoutingHandlerFactory.java">RoutingHandlerFactory</a> implementations we want Knot.x to see. It has to be a canonical class name. It uses <a href="https://docs.oracle.com/javase/7/docs/api/java/util/ServiceLoader.html">Java ServiceLoader</a>.</p>
 <p><code>HelloWorldHandlerFactory.java</code></p>
-<pre class="highlight"><code class="hljs pgsql">package io.knotx.example.hellohandler;
+<pre class="highlight"><code class="hljs arduino">package io.knotx.example.hellohandler;
 
-<span class="hljs-keyword">import</span> io.knotx.<span class="hljs-keyword">server</span>.api.<span class="hljs-keyword">handler</span>.RoutingHandlerFactory;
-<span class="hljs-keyword">import</span> io.vertx.core.<span class="hljs-keyword">Handler</span>;
+<span class="hljs-keyword">import</span> io.knotx.server.api.handler.RoutingHandlerFactory;
+<span class="hljs-keyword">import</span> io.vertx.core.Handler;
 <span class="hljs-keyword">import</span> io.vertx.core.json.JsonObject;
 <span class="hljs-keyword">import</span> io.vertx.reactivex.core.Vertx;
 <span class="hljs-keyword">import</span> io.vertx.reactivex.ext.web.RoutingContext;
 
-<span class="hljs-built_in">public</span> <span class="hljs-keyword">class</span> HelloWorldHandlerFactory implements RoutingHandlerFactory {
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloWorldHandlerFactory</span> <span class="hljs-title">implements</span> <span class="hljs-title">RoutingHandlerFactory</span> {</span>
 
-  @Override
-  <span class="hljs-built_in">public</span> String getName() {
-    <span class="hljs-keyword">return</span> "hellohandler";    // this has <span class="hljs-keyword">to</span> be exactly the same <span class="hljs-keyword">unique</span> string <span class="hljs-keyword">as</span> <span class="hljs-keyword">in</span> operations.conf file                                                 
+  @<span class="hljs-function">Override
+  <span class="hljs-keyword">public</span> <span class="hljs-keyword">String</span> <span class="hljs-title">getName</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"hellohandler"</span>;    <span class="hljs-comment">// this has to be exactly the same unique string as in operations.conf file                                                 </span>
   }
 
-  @Override
-  <span class="hljs-built_in">public</span> <span class="hljs-keyword">Handler</span>&lt;RoutingContext&gt; <span class="hljs-keyword">create</span>(Vertx vertx, JsonObject config) {
-    String message = config.getString("message", "Some default message");
-    JsonObject jsonObject = <span class="hljs-built_in">new</span> JsonObject()
-        .put("message", message);
-    <span class="hljs-keyword">return</span> event -&gt; event.response().<span class="hljs-keyword">end</span>(jsonObject.toString());
+  @<span class="hljs-function">Override
+  <span class="hljs-keyword">public</span> Handler&lt;RoutingContext&gt; <span class="hljs-title">create</span><span class="hljs-params">(Vertx vertx, JsonObject <span class="hljs-built_in">config</span>)</span> </span>{
+    <span class="hljs-keyword">String</span> message = <span class="hljs-built_in">config</span>.getString(<span class="hljs-string">"message"</span>, <span class="hljs-string">"Some default message"</span>);
+    JsonObject jsonObject = <span class="hljs-keyword">new</span> JsonObject()
+        .<span class="hljs-built_in">put</span>(<span class="hljs-string">"message"</span>, message);
+    <span class="hljs-keyword">return</span> event -&gt; event.response().<span class="hljs-built_in">end</span>(jsonObject.toString());
   }
 }</code></pre><p>The most important thing is to register it by its name. In this case, it was <code>&quot;hellohandler&quot;</code>. </p>
 <p>The handling it performs is simply ending the response with previously configured <em>&quot;Hello World from Knot.x!&quot;</em> JSON.</p>

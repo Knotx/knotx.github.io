@@ -111,11 +111,11 @@
   </time>
 
   <div class="post-versions">    
-
+    
       <a class="post-btn" href="/tutorials/adapt-service-without-webapi/1_2/">1.2.0</a>
     
       <a class="post-btn" href="/tutorials/adapt-service-without-webapi/1_3/">1.3.0</a>
-
+    
   </div>
 </header>
 
@@ -154,7 +154,7 @@ to the database directly from Knot.x and inject the data into an HTML template.<
 <h2 id="data-and-page-template">Data and page template</h2>
 <p>In this example, we create a page that lists information about books and authors retrieved from a database.
 Page markup will look like following snippet:</p>
-<pre class="highlight"><code class="hljs xml"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<pre class="highlight"><code class="hljs xml"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"utf-8"</span>&gt;</span>
@@ -266,7 +266,7 @@ class provided by RXJava <em>Vert.x</em>.</p>
 
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleServiceAdapter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractVerticle</span> </span>{
 
-  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(ExampleServiceAdapter.class);
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(ExampleServiceAdapter<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 
   <span class="hljs-keyword">private</span> MessageConsumer&lt;JsonObject&gt; consumer;
 
@@ -288,7 +288,7 @@ class provided by RXJava <em>Vert.x</em>.</p>
     serviceBinder = <span class="hljs-keyword">new</span> ServiceBinder(getVertx());
     consumer = serviceBinder
         .setAddress(configuration.getAddress())
-        .register(AdapterProxy.class, <span class="hljs-keyword">new</span> ExampleServiceAdapterProxy());
+        .register(AdapterProxy<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">new</span> <span class="hljs-title">ExampleServiceAdapterProxy</span>())</span>;
   }
 
   <span class="hljs-meta">@Override</span>
@@ -358,7 +358,7 @@ We have it already created in <code>/src/main/java/io/knotx/tutorial/adapter/exa
 
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleServiceAdapterProxy</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractAdapterProxy</span> </span>{
 
-  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(ExampleServiceAdapterProxy.class);
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(ExampleServiceAdapterProxy<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 
   <span class="hljs-meta">@Override</span>
   <span class="hljs-function"><span class="hljs-keyword">protected</span> Single&lt;AdapterResponse&gt; <span class="hljs-title">processRequest</span><span class="hljs-params">(AdapterRequest adapterRequest)</span> </span>{
@@ -397,7 +397,7 @@ with the following configuration:</p>
 
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleServiceAdapter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractVerticle</span> </span>{
 
-  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(ExampleServiceAdapter.class);
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(ExampleServiceAdapter<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 
   <span class="hljs-keyword">private</span> MessageConsumer&lt;JsonObject&gt; consumer;
   <span class="hljs-keyword">private</span> ExampleServiceAdapterConfiguration configuration;
@@ -422,7 +422,7 @@ with the following configuration:</p>
     serviceBinder = <span class="hljs-keyword">new</span> ServiceBinder(getVertx());
     consumer = serviceBinder
         .setAddress(configuration.getAddress())
-        .register(AdapterProxy.class, <span class="hljs-keyword">new</span> ExampleServiceAdapterProxy(client));
+        .register(AdapterProxy<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">new</span> <span class="hljs-title">ExampleServiceAdapterProxy</span>(<span class="hljs-title">client</span>))</span>;
   }
 
   <span class="hljs-meta">@Override</span>
@@ -450,7 +450,7 @@ with the following configuration:</p>
 
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleServiceAdapterProxy</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractAdapterProxy</span> </span>{
 
-  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(ExampleServiceAdapterProxy.class);
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(ExampleServiceAdapterProxy<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 
   <span class="hljs-comment">//we will need JDBC Client here to perform DB queries</span>
   <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> JDBCClient client;
@@ -518,13 +518,13 @@ the Maven command: <code>mvn clean package</code>. The build should result with 
 being created in the <code>target</code> directory.</p>
 <h3 id="set-up-knot-x">Set up Knot.x</h3>
 <p>Create a folder where we will start <em>Knot.x</em> and the custom Adapter. It should contain the following files:</p>
-<pre class="highlight"><code class="hljs stylus">├── knotx-standalone<span class="hljs-selector-class">.json</span>  (e<span class="hljs-selector-class">.g</span>. download from Maven Central knotx-standalone-<span class="hljs-number">1.2</span>.<span class="hljs-number">0</span><span class="hljs-selector-class">.json</span>, maven archetype creates it <span class="hljs-keyword">for</span> us)
-├── logback<span class="hljs-selector-class">.xml</span> (e<span class="hljs-selector-class">.g</span>. download from Maven Central knotx-standalone-<span class="hljs-number">1.2</span>.<span class="hljs-number">0</span><span class="hljs-selector-class">.logback</span><span class="hljs-selector-class">.xml</span>, maven archetype creates it <span class="hljs-keyword">for</span> us)
-├── app
-│   ├── knotx-standalone-<span class="hljs-number">1.2</span>.<span class="hljs-number">0</span><span class="hljs-selector-class">.fat</span><span class="hljs-selector-class">.jar</span> (download from Maven Central)
-├── <span class="hljs-attribute">content</span>
-│   ├── local
-│       ├── books<span class="hljs-selector-class">.html</span> (Contains markup of <span class="hljs-selector-tag">a</span> page - see <span class="hljs-string">"Data and page template"</span> section)</code></pre><p>You may download <em>Knot.x</em> files from the Maven Central Repository</p>
+<pre class="highlight"><code class="hljs css">├── <span class="hljs-selector-tag">knotx-standalone</span><span class="hljs-selector-class">.json</span>  (<span class="hljs-selector-tag">e</span><span class="hljs-selector-class">.g</span>. <span class="hljs-selector-tag">download</span> <span class="hljs-selector-tag">from</span> <span class="hljs-selector-tag">Maven</span> <span class="hljs-selector-tag">Central</span> <span class="hljs-selector-tag">knotx-standalone-1</span><span class="hljs-selector-class">.2</span><span class="hljs-selector-class">.0</span><span class="hljs-selector-class">.json</span>, <span class="hljs-selector-tag">maven</span> <span class="hljs-selector-tag">archetype</span> <span class="hljs-selector-tag">creates</span> <span class="hljs-selector-tag">it</span> <span class="hljs-selector-tag">for</span> <span class="hljs-selector-tag">us</span>)
+├── <span class="hljs-selector-tag">logback</span><span class="hljs-selector-class">.xml</span> (<span class="hljs-selector-tag">e</span><span class="hljs-selector-class">.g</span>. <span class="hljs-selector-tag">download</span> <span class="hljs-selector-tag">from</span> <span class="hljs-selector-tag">Maven</span> <span class="hljs-selector-tag">Central</span> <span class="hljs-selector-tag">knotx-standalone-1</span><span class="hljs-selector-class">.2</span><span class="hljs-selector-class">.0</span><span class="hljs-selector-class">.logback</span><span class="hljs-selector-class">.xml</span>, <span class="hljs-selector-tag">maven</span> <span class="hljs-selector-tag">archetype</span> <span class="hljs-selector-tag">creates</span> <span class="hljs-selector-tag">it</span> <span class="hljs-selector-tag">for</span> <span class="hljs-selector-tag">us</span>)
+├── <span class="hljs-selector-tag">app</span>
+│   ├── <span class="hljs-selector-tag">knotx-standalone-1</span><span class="hljs-selector-class">.2</span><span class="hljs-selector-class">.0</span><span class="hljs-selector-class">.fat</span><span class="hljs-selector-class">.jar</span> (<span class="hljs-selector-tag">download</span> <span class="hljs-selector-tag">from</span> <span class="hljs-selector-tag">Maven</span> <span class="hljs-selector-tag">Central</span>)
+├── <span class="hljs-selector-tag">content</span>
+│   ├── <span class="hljs-selector-tag">local</span>
+│       ├── <span class="hljs-selector-tag">books</span><span class="hljs-selector-class">.html</span> (<span class="hljs-selector-tag">Contains</span> <span class="hljs-selector-tag">markup</span> <span class="hljs-selector-tag">of</span> <span class="hljs-selector-tag">a</span> <span class="hljs-selector-tag">page</span> <span class="hljs-selector-tag">-</span> <span class="hljs-selector-tag">see</span> "<span class="hljs-selector-tag">Data</span> <span class="hljs-selector-tag">and</span> <span class="hljs-selector-tag">page</span> <span class="hljs-selector-tag">template</span>" <span class="hljs-selector-tag">section</span>)</code></pre><p>You may download <em>Knot.x</em> files from the Maven Central Repository</p>
 <ol>
 <li><a href="https://oss.sonatype.org/content/groups/public/io/knotx/knotx-standalone/1.2.0/knotx-standalone-1.2.0.fat.jar">Knot.x standalone fat jar</a></li>
 <li><a href="https://oss.sonatype.org/content/groups/public/io/knotx/knotx-standalone/1.2.0/knotx-standalone-1.2.0.json">JSON configuration file</a></li>

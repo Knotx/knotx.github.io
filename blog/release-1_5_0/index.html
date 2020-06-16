@@ -176,11 +176,11 @@ Read more in the <em>Upgrade notes</em> section.</p>
  <span class="hljs-string">"actionAdapter=com.acme.adapter.action.http.HttpActionAdapterVerticle"</span></code></pre><p>to </p>
 <pre class="highlight"><code class="hljs 1c"> <span class="hljs-string">"forms=io.knotx.forms.core.FormsKnot"</span>
  <span class="hljs-string">"formsAdapter=com.acme.forms.adapter.http.FormsAdapterVerticle"</span></code></pre><p>and define forms in the <code>global</code> section</p>
-<pre class="highlight"><code class="hljs stylus">global {
- <span class="hljs-selector-tag">address</span> {
+<pre class="highlight"><code class="hljs routeros">global {
+<span class="hljs-built_in"> address </span>{
    forms {
-     knot = knotx<span class="hljs-selector-class">.knot</span><span class="hljs-selector-class">.forms</span>
-     example<span class="hljs-selector-class">.adapter</span> = knotx<span class="hljs-selector-class">.forms</span><span class="hljs-selector-class">.example</span><span class="hljs-selector-class">.adapter</span><span class="hljs-selector-class">.http</span>
+     knot = knotx.knot.forms
+     example.adapter = knotx.forms.example.adapter.http
    }
  }
 }</code></pre><p>Change included configuration name <code>actionKnot.conf</code> to <code>forms.conf</code></p>

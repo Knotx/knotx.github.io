@@ -212,7 +212,7 @@ You may see that Knot.x instance reloaded modules and <code>fileSystemRepo</code
     Deployed fileSystemRepo=java:io<span class="hljs-selector-class">.knotx</span><span class="hljs-selector-class">.repository</span><span class="hljs-selector-class">.fs</span><span class="hljs-selector-class">.FilesystemRepositoryConnectorVerticle</span> [<span class="hljs-number">0879</span>f874-<span class="hljs-number">1276</span>-<span class="hljs-number">44</span>b9-b746-<span class="hljs-number">585</span>ab19f7d25]</code></pre><p>Now, let&#39;s configure <code>fileSystemRepo</code> to read files from the local filesystem.</p>
 <p>Create <code>content</code> directory in <code>KNOTX_HOME</code> and put there following page template with Knot.x snippet (<code>&lt;script data-knotx-knots=&quot;databridge,te&quot;&gt;...</code>):</p>
 <p><em>books.html</em></p>
-<pre class="highlight"><code class="hljs xml"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<pre class="highlight"><code class="hljs xml"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"utf-8"</span>&gt;</span>
@@ -248,7 +248,7 @@ You may see that Knot.x instance reloaded modules and <code>fileSystemRepo</code
             <span class="hljs-tag">&lt;<span class="hljs-name">h4</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-title"</span>&gt;</span></span><span class="hljs-template-variable">{{volumeInfo.title}}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
             <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-text"</span>&gt;</span>
               </span><span class="hljs-template-tag">{{#<span class="hljs-name"><span class="hljs-builtin-name">each</span></span> volumeInfo.authors as |author|}}</span><span class="xml">
-                </span><span class="hljs-template-variable">{{author}}</span><span class="xml"></span><span class="hljs-template-tag">{{#<span class="hljs-name"><span class="hljs-builtin-name">unless</span></span> @last}}</span><span class="xml">, </span><span class="hljs-template-tag">{{/<span class="hljs-name"><span class="hljs-builtin-name">unless</span></span>}}</span><span class="xml">
+                </span><span class="hljs-template-variable">{{author}}</span><span class="hljs-template-tag">{{#<span class="hljs-name"><span class="hljs-builtin-name">unless</span></span> @last}}</span><span class="xml">, </span><span class="hljs-template-tag">{{/<span class="hljs-name"><span class="hljs-builtin-name">unless</span></span>}}</span><span class="xml">
               </span><span class="hljs-template-tag">{{/<span class="hljs-name"><span class="hljs-builtin-name">each</span></span>}}</span><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">br</span> /&gt;</span>
               Published: </span><span class="hljs-template-variable">{{volumeInfo.publishedDate}}</span><span class="xml">
             <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
