@@ -4,15 +4,15 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="When Vert.x &amp; RxJava meet - Knot.x: highly-efficient and scalable integration platform for modern websites">
-  <meta name="keywords" content="knotx, vertx, reactive, asynchronous, templating, java, polyglot, cms, conference">
-  <title>GeeCON 2017 talk - Knot.x Blog Post</title>
+  <meta name="description" content="We have just released a patch release Knot.x 2.2.1.">
+  <meta name="keywords" content="knotx, vertx, reactive, asynchronous, templating, java, polyglot, cms, release">
+  <title>Knot.x 2.2.1 released! - Knot.x Blog Post</title>
 
-  <meta property="og:title" content="GeeCON 2017 talk - Knot.x Blog Post"/>
+  <meta property="og:title" content="Knot.x 2.2.1 released! - Knot.x Blog Post"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:url" content="https://knotx.io/blog/geecon-2017/"/>
+  <meta property="og:url" content="https://knotx.io/blog/release-2_2_1/"/>
   <meta property="og:site_name" content="Knot.x Website"/>
-  <meta property="og:description" content="When Vert.x &amp; RxJava meet - Knot.x: highly-efficient and scalable integration platform for modern websites"/>
+  <meta property="og:description" content="We have just released a patch release Knot.x 2.2.1."/>
   <meta property="og:image" content="https://knotx.io/img/logo-240x240.png"/>
 
   <link rel="apple-touch-icon" sizes="57x57" href="/img/favicons/apple-icon-57x57.png">
@@ -93,7 +93,7 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-12">
-        <h1>GeeCON 2017 talk</h1>
+        <h1>Knot.x 2.2.1 released!</h1>
       </div>
     </div>    
   </div>
@@ -106,39 +106,63 @@
         <article>
           <header class="meta">
   
-    <a class="meta-item" href="https://github.com/tomaszmichalak">Tomasz Michalak</a>
-  
   <time class="meta-item date"
-        datetime="2017-05-22">May 22nd, 2017
+        datetime="2020-06-26">June 26th, 2020
   </time>
 
   <div class="meta-item">
+    
+      <a class="meta-item" href="https://github.com/Knotx/knotx/releases/tag/2.2.1">2.2.1</a>
     
   </div>
 </header>
 
           <section class="post">
-            <div style="float: left; padding-right: 20px">
-![Geecon Logo](/img/blog/geecon-2017/geecon-logo.jpg)
-</div>
-
-<p><a href="https://2017.geecon.org/">GeeCON</a> in Cracow, the biggest JVM conference in Poland (next to Devoxx) is now history. According to the GeeCON official website this edition gathered more than 1200 participants from all over the world with about 80+ sessions and 75+ world class speakers like Josh Long and Geertjan Wielenga.</p>
-<p>Most of this year&#39;s content can be summarized with a single word: reactive. Frameworks like Akka, Vert.x or Spring Reactor are becoming more and more typical in modern applications. It was a great honor for us to present how these technologies can make large web platforms easier to scale, maintain and develop. Using the example of Knot.x, we explained how we can write highly efficient, modular applications powered by Vert.x and RxJava.</p>
-<div style="float:left;width:100%;text-align:center">
-<iframe src="//www.slideshare.net/slideshow/embed_code/key/E8risyTNdqPrmi" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
-</div>
-</br>
-
-<p>In accordance with good GeeCON practices we ended the talk with a live demo. Struggling with Murphy&#39;s law, we showed how easy it is to scale and extend Vert.x based applications.</p>
-<p>We are looking forward to the next edition which takes place later this year in Prague. In the meantime you can find us at Devoxx in Cracow at the end of June!</p>
+            <h1 id="knot-x-2-2-1">Knot.x 2.2.1</h1>
+<p>We are extremely pleased to announce that the Knot.x version 2.2.1 has been released.</p>
+<h2 id="release-notes">Release Notes</h2>
+<h3 id="knot-x-gradle-plugins">Knot.x Gradle Plugins</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-gradle-plugins/pull/35">PR-35</a> Add support for running tests for each composite-build modules tests (see  <a href="https://github.com/Knotx/knotx-stack/issues/57">Knotx/knotx-stack#57</a>) and renamed <code>publish-all-composite</code> to <code>composite-build-support</code></li>
+</ul>
+<h3 id="knot-x-dependencies">Knot.x Dependencies</h3>
+<p>No important changes in this version.</p>
+<h3 id="knot-x-commons">Knot.x Commons</h3>
+<p>No important changes in this version.</p>
+<h3 id="knot-x-launcher">Knot.x Launcher</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-launcher/pull/38">PR-38</a> - Use try-with-resources statement ensures that resource is close (see also <a href="https://github.com/vert-x3/vertx-config/pull/115">https://github.com/vert-x3/vertx-config/pull/115</a>)</li>
+</ul>
+<h3 id="knot-x-junit5">Knot.x Junit5</h3>
+<p>No important changes in this version.</p>
+<h3 id="knot-x-server-http">Knot.x Server Http</h3>
+<p>No important changes in this version.</p>
+<h3 id="knot-x-repository-connector">Knot.x Repository Connector</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-repository-connector/pull/6">PR-6</a> - Fix multiple value in request query parameters.</li>
+</ul>
+<h3 id="knot-x-fragments">Knot.x Fragments</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-stack/pull/165">PR-165</a> - Knotx/knotx-fragments#161 enable passing status code from handlers to end user</li>
+</ul>
+<h3 id="knot-x-template-engine">Knot.x Template Engine</h3>
+<p>No important changes in this version.</p>
+<h3 id="knot-x-stack">Knot.x Stack</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-stack/pull/114">PR-114</a> - Knotx/knotx-fragments#161 enable passing status code from handlers to end user</li>
+</ul>
+<h3 id="knot-x-docker">Knot.x Docker</h3>
+<p>No important changes in this version.</p>
+<h3 id="knot-x-starter-kit">Knot.x Starter Kit</h3>
+<p>No important changes in this version.</p>
 
           </section>
         </article>
         <div id="disqus_thread"></div>
         <script>
         var disqus_config = function () {
-        this.page.url = "https://knotx.io/blog/geecon-2017/";
-        this.page.identifier = "e5ce520243bdde1a816779593f4335cf";
+        this.page.url = "https://knotx.io/blog/release-2_2_1/";
+        this.page.identifier = "b404b8fc1a5af08cd37a337a4213e123";
         };
         (function() { // DON'T EDIT BELOW THIS LINE
         var d = document, s = d.createElement('script');
