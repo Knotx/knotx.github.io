@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="We have just released a minor release Knot.x 2.3.0.">
+  <meta name="keywords" content="knotx, vertx, reactive, asynchronous, templating, java, polyglot, cms, release">
+  <title>Knot.x 2.3.0 released! - Knot.x Blog Post</title>
+
+  <meta property="og:title" content="Knot.x 2.3.0 released! - Knot.x Blog Post"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="https://knotx.io/blog/release-2_3_0/"/>
+  <meta property="og:site_name" content="Knot.x Website"/>
+  <meta property="og:description" content="We have just released a minor release Knot.x 2.3.0."/>
+  <meta property="og:image" content="https://knotx.io/img/logo-240x240.png"/>
+
+  <link rel="apple-touch-icon" sizes="57x57" href="/img/favicons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/img/favicons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/img/favicons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/img/favicons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/img/favicons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/img/favicons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/img/favicons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/favicons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicons/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/img/favicons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicons/favicon-16x16.png">
+  <link rel="manifest" href="/img/favicons/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/img/favicons/ms-icon-144x144.png">
+  <meta name="theme-color" content="#9f136c">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Montserrat:200,300,400,500,700|Ubuntu:300,400,500,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link  rel="stylesheet" href="/styles/bootstrap.css" /><link  rel="stylesheet" href="/styles/github.css" /><link  rel="stylesheet" href="/styles/knotx.css" />
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+  <body >
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-92165781-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    <!-- Header -->
+<header class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/img/logo-knotx.png" class="navbar-brand-logo" alt="Knot.x Logo"/>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        
+        <li><a href="/download/">Download</a></li>
+        
+        <li><a href="/tutorials/">Tutorials</a></li>
+        
+        <li><a href="https://github.com/Knotx/knotx/issues">Issues</a></li>
+        
+        <li><a href="/documentation/">Documentation</a></li>
+        
+        <li><a href="/community/">Community</a></li>
+        
+        <li><a href="/blog/">Blog</a></li>
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</header>
+
+    <!-- Content Header -->
+<div class="content-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>Knot.x 2.3.0 released!</h1>
+      </div>
+    </div>    
+  </div>
+  
+</div>
+
+<div class="container flex blog">
+    <div class="row">
+      <div class="col-sm-12">
+        <article>
+          <header class="meta">
+  
+  <time class="meta-item date"
+        datetime="2020-10-28">October 28th, 2020
+  </time>
+
+  <div class="meta-item">
+    
+      <a class="meta-item" href="https://github.com/Knotx/knotx/releases/tag/2.3.0">2.3.0</a>
+    
+  </div>
+</header>
+
+          <section class="post">
+            <h1 id="knot-x-2-3-0">Knot.x 2.3.0</h1>
+<p>We are extremely pleased to announce that the Knot.x version 2.3.0 has been released.</p>
+<h2 id="new-features">New Features</h2>
+<h3 id="action-copy-payload-key">Action: Copy Payload Key</h3>
+<p>Copy Payload Key Action copies data inside Fragment&#39;s payload. Its configuration looks like:</p>
+<pre class="highlight"><code class="hljs ruby">factory = copy-payload-key
+config {
+  from = <span class="hljs-string">"some.possibly.nested.origin._result"</span>
+  to = <span class="hljs-string">"destination.possibly.nested"</span>
+}</code></pre>
+<p>If no data is present in payload under <code>from</code> key, the action has no effect on <code>Fragment</code>.</p>
+<h3 id="improving-debuggable-fragments">Improving Debuggable Fragments</h3>
+<p>There are couple of new things:</p>
+<ul>
+<li>Nested actions are exposed in operation metadata.</li>
+<li>Task processing log is extended with error details as well as fragrment results errors provides detailed error information. Example:</li>
+</ul>
+<pre class="highlight"><code class="hljs json">  {
+    <span class="hljs-attr">"fragment"</span>: { },
+    <span class="hljs-attr">"transition"</span>: <span class="hljs-string">"_error"</span>,
+    <span class="hljs-attr">"log"</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">"error"</span>: {
+      <span class="hljs-attr">"code"</span>: <span class="hljs-string">"_GENERAL_EXCEPTION"</span>,
+      <span class="hljs-attr">"exceptions"</span>: [
+        {
+          <span class="hljs-attr">"className"</span>: <span class="hljs-string">"java.lang.IllegalArgumentException"</span>,
+          <span class="hljs-attr">"stacktrace"</span>: [
+            <span class="hljs-string">"io.knotx.fragments.api.FragmentResultTest.expectExceptionDetails(FragmentResultTest.java:78)"</span>,
+          ]
+        }
+      ]
+    }
+  }</code></pre>
+<h2 id="release-notes">Release Notes</h2>
+<h3 id="knot-x-gradle-plugins">Knot.x Gradle Plugins</h3>
+<p>No important changes in this version.</p>
+<h3 id="knot-x-dependencies">Knot.x Dependencies</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-dependencies/pull/55">PR-55</a> - Upgrade to Vert.x <code>3.9.4</code>.</li>
+</ul>
+<h3 id="knot-x-commons">Knot.x Commons</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-commons/pull/37">PR-37</a> Updates in <code>JsonObjectUtil</code>.</li>
+<li><a href="https://github.com/Knotx/knotx-commons/pull/35">PR-35</a> Introduce Cache and CacheFactory interfaces and in-memory implementation - moved from <code>knotx-fragments</code> <a href="https://github.com/Knotx/knotx-fragments/issues/192">192</a></li>
+</ul>
+<h3 id="knot-x-launcher">Knot.x Launcher</h3>
+<p>No important changes in this version.</p>
+<h3 id="knot-x-junit5">Knot.x Junit5</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-junit5/pull/62">PR-62</a> - Fixes <code>RequestUtil</code> failure verification: assertion error not propagated.</li>
+</ul>
+<h3 id="knot-x-server-http">Knot.x Server Http</h3>
+<p>No important changes in this version.</p>
+<h3 id="knot-x-repository-connector">Knot.x Repository Connector</h3>
+<p>No important changes in this version.</p>
+<h3 id="knot-x-fragments">Knot.x Fragments</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/203">PR-203</a> - Fixing <a href="https://github.com/Knotx/knotx-fragments/issues/197">#197</a>: Invoke actions via ActionInvoker.</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/201">PR-201</a> - Prevent StackOverflowException when evaluating fragment as HTML attributes.</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/198">PR-198</a> - Introduce <code>CopyPayloadKeyActionFactory</code> to enable coping inside Fragment&#39;s payload.</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/196">PR-196</a> - Rename <code>doActionLogs</code>  in <a href="https://github.com/Knotx/knotx-fragments/tree/master/action">Actions</a>&#39; log to <code>invocations</code>.</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/195">PR-195</a> - Simplifie <code>ActionProvider</code>&#39;s constructor.</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/194">PR-194</a> - Generalize <code>InMemoryCacheAction</code> to support different <code>Cache</code> implementations. Provides test refactoring.</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/188">PR-188</a> - Expose nested doActions&#39; (possibly chained) configuration in <code>OperationMetadata</code>.</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/187">PR-187</a> - Provide <code>SingleFragmentOperation</code> to simplify implementation of RXfied actions.</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/186">PR-186</a> - Provide <code>FutureFragmentOperation</code> and <code>SyncFragmentOperation</code> to simplify implementation of asynchronous and synchronous actions.</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/181">PR-181</a> - Introduce an error log to <code>FragmentResult</code> for handling failures. All <code>FragmentResult</code>constructors are deprecated now.</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/172">PR-174</a> - Add node processing errors to the <a href="https://github.com/Knotx/knotx-fragments/blob/master/task/handler/log/api/docs/asciidoc/dataobjects.adoc#graphnoderesponselog">graph node response log</a>.</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/172">PR-172</a> - Add a task node processing exception to event log. Remove unused &#39;TIMEOUT&#39; node status. Update node unit tests.</li>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/170">PR-170</a> - Upgrade to Vert.x <code>3.9.1</code>, replace deprecated <code>setHandler</code> with <code>onComplete</code>.</li>
+</ul>
+<h3 id="knot-x-template-engine">Knot.x Template Engine</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-template-engine/pull/47">PR-47</a> - Upgrade to Vert.x <code>3.9.1</code>, replace deprecated <code>setHandler</code> with <code>onComplete</code>.</li>
+</ul>
+<h3 id="knot-x-stack">Knot.x Stack</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-stack/pull/118">PR-118</a> - Upgrade to Vert.x <code>3.9.1</code> - removed <code>netty-tcnative</code> as TLS ALPN support has been back-ported to JDK 8.</li>
+</ul>
+<h3 id="knot-x-docker">Knot.x Docker</h3>
+<p>No important changes in this version.</p>
+<h3 id="knot-x-starter-kit">Knot.x Starter Kit</h3>
+<p>No important changes in this version.</p>
+<h2 id="upgrade-notes">Upgrade notes</h2>
+<h3 id="knot-x-dependencies">Knot.x Dependencies</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-dependencies/pull/55">PR-55</a> - Upgrade to Vert.x <code>3.9.4</code>.<ul>
+<li>An Open API improvement (see <a href="https://github.com/vert-x3/vertx-web/pull/1708">https://github.com/vert-x3/vertx-web/pull/1708</a>) in Vert.x 3.9.4 adds more restrictive validation rules:  See <a href="https://github.com/Knotx/knotx-server-http/pull/68">knotx-server/#68</a> for more details.</li>
+</ul>
+</li>
+</ul>
+<h3 id="knot-x-commons-affecting-knot-x-fragments-">Knot.x commons (affecting Knot.x fragments)</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-commons/pull/37">PR-37</a> Updates in <code>JsonObjectUtil</code>.<ul>
+<li>The contract for <code>JsonObjectUtil.getString()</code> changes: the function no longer returns null if some intermediate key is not present, but returns an empty JsonObject instead. It does not break backward compatibility.</li>
+</ul>
+</li>
+</ul>
+<h3 id="knot-x-fragments">Knot.x Fragments</h3>
+<ul>
+<li><p><a href="https://github.com/Knotx/knotx-fragments/pull/203">PR-203</a> - Fixing <a href="https://github.com/Knotx/knotx-fragments/issues/197">#197</a>: Invoke actions via ActionInvoker.</p>
+<ul>
+<li>It is advised to switch from direct action calling to using ActionInvoker utility class.</li>
+<li>This ensures that the execution will not halt for some of the known issues in Vert.x and Knot.x implementations.</li>
+</ul>
+</li>
+<li><p><a href="https://github.com/Knotx/knotx-fragments/pull/172">PR-172</a> - Add a task node processing exception to event log. Remove unused &#39;TIMEOUT&#39; node status. Update node unit tests.</p>
+<ul>
+<li>Move <code>io.knotx.fragments.task.engine.exception.NodeFatalException</code> (from Task Engine module) with <code>io.knotx.fragments.task.api.NodeFatalException</code> (to Task API module). When a node throws an exception, the task engine handles it and responds with <code>io.reactivex.exceptions.CompositeException</code> containing both <code>NodeFatalException</code> and <code>io.knotx.fragments.task.engine.TaskFatalException</code>.</li>
+<li>Remove &#39;TIMEOUT&#39; from <code>NodeStatus</code>. Task engine does not support any time restriction on nodes. It is node responsibility to add such &quot;behaviours&quot;. See <a href="https://github.com/Knotx/knotx-fragments/tree/master/action/library">Actions</a> for more details.</li>
+</ul>
+</li>
+</ul>
+<h3 id="knot-x-stack">Knot.x Stack</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-template-engine/pull/118">PR-118</a> - Upgrade to Vert.x <code>3.9.1</code> - removed <code>netty-tcnative</code> as TLS ALPN support has been back-ported to JDK 8.<ul>
+<li>TLS ALPN support has been back-ported to JDK 8 recently and Vert.x has been upgraded to support it which means now you can have HTTP/2 on JDK 8 out of the box. <code>netty-tcnative</code> was removed from stack dependencies. If your Knot.x image does not base on newer version of JDK 8, you may need to add <code>io.netty:netty-tcnative-boringssl-static</code> to the classpath in order to use HTTP/2. See <a href="https://github.com/eclipse-vertx/vert.x/issues/3391">https://github.com/eclipse-vertx/vert.x/issues/3391</a> for details.</li>
+</ul>
+</li>
+</ul>
+
+          </section>
+        </article>
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_config = function () {
+        this.page.url = "https://knotx.io/blog/release-2_3_0/";
+        this.page.identifier = "05ee13dcf8cec7336fa8504b7c9bf917";
+        };
+        (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = '//knotx-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+    </div>
+</div>
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+         <p>Knot.x is <a href="https://github.com/Knotx/knotx">open source</a> and is licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0 License</a>.</p>
+      </div>
+      <div class="col-sm-5 col-sm-offset-1 text-right">
+        <p>Knot.x is brought to you with the support of <img src="/img/Cognifide_WT_Logo.png" alt="Cognifide"/></p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script defer="defer"  src="/scripts/vendor/jquery.min.js"></script><script defer="defer"  src="/scripts/vendor/bootstrap.min.js"></script><script defer="defer"  src="/scripts/vendor/highlight.pack.js"></script><script defer="defer"  src="/scripts/knotx.js"></script><script defer="defer"  src="/scripts/vendor/jquery.qtip.min.js"></script><script defer="defer"  src="/scripts/hovermap.js"></script>
+
+<script id="dsq-count-scr" src="//knotx-io.disqus.com/count.js" async></script>
+
+
+  </body>
+</html>
