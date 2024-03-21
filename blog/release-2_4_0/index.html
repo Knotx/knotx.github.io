@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="We have just released a minor release Knot.x 2.4.0.">
+  <meta name="keywords" content="knotx, vertx, reactive, asynchronous, templating, java, polyglot, cms, release">
+  <title>Knot.x 2.4.0 released! - Knot.x Blog Post</title>
+
+  <meta property="og:title" content="Knot.x 2.4.0 released! - Knot.x Blog Post"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="https://knotx.io/blog/release-2_4_0/"/>
+  <meta property="og:site_name" content="Knot.x Website"/>
+  <meta property="og:description" content="We have just released a minor release Knot.x 2.4.0."/>
+  <meta property="og:image" content="https://knotx.io/img/logo-240x240.png"/>
+
+  <link rel="apple-touch-icon" sizes="57x57" href="/img/favicons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/img/favicons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/img/favicons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/img/favicons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/img/favicons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/img/favicons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/img/favicons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/favicons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/img/favicons/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/img/favicons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicons/favicon-16x16.png">
+  <link rel="manifest" href="/img/favicons/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/img/favicons/ms-icon-144x144.png">
+  <meta name="theme-color" content="#9f136c">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Montserrat:200,300,400,500,700|Ubuntu:300,400,500,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link  rel="stylesheet" href="/styles/bootstrap.css" /><link  rel="stylesheet" href="/styles/github.css" /><link  rel="stylesheet" href="/styles/knotx.css" />
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+  <body >
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-92165781-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    <!-- Header -->
+<header class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/img/logo-knotx.png" class="navbar-brand-logo" alt="Knot.x Logo"/>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        
+        <li><a href="/download/">Download</a></li>
+        
+        <li><a href="/tutorials/">Tutorials</a></li>
+        
+        <li><a href="https://github.com/Knotx/knotx/issues">Issues</a></li>
+        
+        <li><a href="/documentation/">Documentation</a></li>
+        
+        <li><a href="/community/">Community</a></li>
+        
+        <li><a href="/blog/">Blog</a></li>
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</header>
+
+    <!-- Content Header -->
+<div class="content-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h1>Knot.x 2.4.0 released!</h1>
+      </div>
+    </div>    
+  </div>
+  
+</div>
+
+<div class="container flex blog">
+    <div class="row">
+      <div class="col-sm-12">
+        <article>
+          <header class="meta">
+  
+  <time class="meta-item date"
+        datetime="2024-03-16">March 16th, 2024
+  </time>
+
+  <div class="meta-item">
+    
+      <a class="meta-item" href="https://github.com/Knotx/knotx/releases/tag/2.4.0">2.4.0</a>
+    
+  </div>
+</header>
+
+          <section class="post">
+            <h1 id="knot-x-2-4-0">Knot.x 2.4.0</h1>
+<p>We are extremely pleased to announce that the Knot.x version 2.4.0 has been released.</p>
+<h2 id="changes">Changes</h2>
+<h3 id="jdk-11-support">JDK 11 support</h3>
+<p>All modules within Knot.x were updated from JDK <code>8</code> (<code>AdoptOpenJDK</code>) to JDK 11 (<code>Temurin</code>).</p>
+<h3 id="fixing-vulnerabilities">Fixing vulnerabilities</h3>
+<p>This release addresses security concerns by resolving the following vulnerabilities:</p>
+<ul>
+<li><a href="https://mvnrepository.com/artifact/io.vertx/vertx-dependencies/3.9.8">io.vertx:vertx-dependencies:3.9.8</a> -&gt; <a href="https://mvnrepository.com/artifact/io.vertx/vertx-dependencies/3.9.16">io.vertx:vertx-dependencies:3.9.16</a></li>
+<li><a href="https://mvnrepository.com/artifact/commons-io/commons-io/2.5">commons-io:commons-io:2.5</a> -&gt; <a href="https://mvnrepository.com/artifact/commons-io/commons-io/2.15.1">commons-io:commons-io:2.15.1</a></li>
+<li><a href="https://mvnrepository.com/artifact/org.apache.commons/commons-collections4/4.2">org.apache.commons:commons-collections4:4.2</a> -&gt; <a href="https://mvnrepository.com/artifact/org.apache.commons/commons-collections4/4.4">org.apache.commons:commons-collections4:4.4</a></li>
+<li><a href="https://mvnrepository.com/artifact/com.google.guava/guava/30.1.1-jre">com.google.guava:guava:30.1.1-jre</a> -&gt; <a href="https://mvnrepository.com/artifact/com.google.guava/guava/33.0.0-jre">com.google.guava:guava:33.0.0-jre</a></li>
+<li><a href="https://mvnrepository.com/artifact/ch.qos.logback/logback-classic/1.2.3">ch.qos.logback:logback-classic:1.2.3</a> -&gt; <a href="https://mvnrepository.com/artifact/ch.qos.logback/logback-classic/1.4.14">ch.qos.logback:logback-classic:1.4.14</a></li>
+<li><a href="https://mvnrepository.com/artifact/com.github.tomakehurst/wiremock-jre8/2.30.1">com.github.tomakehurst:wiremock-jre8:2.30.1</a> -&gt; <a href="https://mvnrepository.com/artifact/org.wiremock/wiremock/3.3.1">org.wiremock:wiremock:3.3.1</a></li>
+<li><a href="https://mvnrepository.com/artifact/io.pebbletemplates/pebble/3.1.2">io.pebbletemplates:pebble:3.1.2</a> -&gt; <a href="https://mvnrepository.com/artifact/io.pebbletemplates/pebble/3.2.2">io.pebbletemplates:pebble:3.2.2</a></li>
+</ul>
+<h2 id="release-notes">Release Notes</h2>
+<h3 id="knot-x-gradle-plugins">Knot.x Gradle Plugins</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-gradle-plugins/pull/50">PR-50</a> Upgrade JDK from 8 to 11, upgrade Gradle to 7.6.3</li>
+</ul>
+<h3 id="knot-x-dependencies">Knot.x Dependencies</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-dependencies/pull/71">PR-71</a> <strong>[security]</strong> Upgrade to Vert.x <code>3.9.16</code>, fixing outdated dependencies vulnerabilities</li>
+</ul>
+<h3 id="knot-x-commons">Knot.x Commons</h3>
+<p>No important changes in this version.</p>
+<h3 id="knot-x-launcher">Knot.x Launcher</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-launcher/pull/51">PR-51</a> - Upgrade Gradle to 7.6.3</li>
+</ul>
+<h3 id="knot-x-junit5">Knot.x Junit5</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-junit5/pull/78">PR-78</a> Upgrade Gradle to 7.6.3, upgrade wiremock dependency.</li>
+</ul>
+<h3 id="knot-x-server-http">Knot.x Server Http</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-server-http/pull/78">PR-78</a> Upgrade Gradle to 7.6.3, Rest-Assured</li>
+</ul>
+<h3 id="knot-x-repository-connector">Knot.x Repository Connector</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-repository-connector/pull/41">PR</a> Upgrade Gradle to 7.6.3, Wiremock.</li>
+</ul>
+<h3 id="knot-x-fragments">Knot.x Fragments</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-fragments/pull/223">PR-223</a> Upgrade Gradle to 7.6.3, Wiremock</li>
+</ul>
+<h3 id="knot-x-template-engine">Knot.x Template Engine</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-template-engine/pull/59">PR-59</a> Upgrade Gradle to 7.6.3, Handlebars to 4.3.1, Pebble Templates to 3.2.2</li>
+</ul>
+<h3 id="knot-x-stack">Knot.x Stack</h3>
+<p>No important changes in this version.</p>
+<h3 id="knot-x-docker">Knot.x Docker</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-docker/pull/30">PR-30</a> Upgrade Docker images to JDK 11, upgrade Gradle to 7.6.3</li>
+</ul>
+<h3 id="knot-x-starter-kit">Knot.x Starter Kit</h3>
+<ul>
+<li><a href="https://github.com/Knotx/knotx-starter-kit/pull/53">PR-53</a> Upgrade to JDK 11, upgrade Gradle to 7.6.3</li>
+</ul>
+<h2 id="upgrade-notes">Upgrade notes</h2>
+<p>Configure JDK 11 in your Gradle project:</p>
+<pre class="highlight"><code class="hljs mipsasm"><span class="hljs-keyword">java </span>{
+    toolchain {
+        languageVersion<span class="hljs-meta">.set</span>(<span class="hljs-keyword">JavaLanguageVersion.of(11))
+</span>        vendor<span class="hljs-meta">.set</span>(<span class="hljs-keyword">JvmVendorSpec.ADOPTIUM)
+</span>    }
+}</code></pre>
+          </section>
+        </article>
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_config = function () {
+        this.page.url = "https://knotx.io/blog/release-2_4_0/";
+        this.page.identifier = "53c3f786640859ba1b41d6cb03fba16b";
+        };
+        (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = '//knotx-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </div>
+    </div>
+</div>
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 text-center">
+         <p>Knot.x is <a href="https://github.com/Knotx/knotx">open source</a> licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0 License</a> and maintained by <a href="https://handsonarchitects.com/">handsonarchitects.com</a>.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script defer="defer"  src="/scripts/vendor/jquery.min.js"></script><script defer="defer"  src="/scripts/vendor/bootstrap.min.js"></script><script defer="defer"  src="/scripts/vendor/highlight.pack.js"></script><script defer="defer"  src="/scripts/knotx.js"></script><script defer="defer"  src="/scripts/vendor/jquery.qtip.min.js"></script><script defer="defer"  src="/scripts/hovermap.js"></script>
+
+<script id="dsq-count-scr" src="//knotx-io.disqus.com/count.js" async></script>
+
+
+  </body>
+</html>
